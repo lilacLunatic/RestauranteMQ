@@ -6,6 +6,7 @@
 
 package model;
 public class Ingrediente {
+    private Long id;
     private int quantidadeEstoque;
     private String nome;
     private Unidade unidade;

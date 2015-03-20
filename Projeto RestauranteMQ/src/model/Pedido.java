@@ -9,6 +9,7 @@ package model;
 import java.util.Calendar;
 
 public class Pedido {
+    private Long id;
     private Calendar dataEHora;
     private String observações;
     private String endereco;

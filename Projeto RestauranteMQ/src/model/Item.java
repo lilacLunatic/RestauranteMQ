@@ -6,6 +6,7 @@
 
 package model;
 public abstract class Item {
+    protected Long id;
     protected double preco;
     protected String nome;
     protected String categoria;

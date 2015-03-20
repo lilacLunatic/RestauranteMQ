@@ -11,6 +11,7 @@ package model;
  * @author Aluno
  */
 public abstract class Usuário {
+    protected Long id;
     protected String nome;
     protected String cpf;
     protected String endereco;

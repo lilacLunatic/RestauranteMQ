@@ -7,6 +7,7 @@
 package model;
 
 public class Mesa {
+    private Long id;
     private int numero ;
     private int quantidadeDeLugares;
 

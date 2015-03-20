@@ -13,7 +13,8 @@ public class Reserva {
     private Calendar dataEHora;
     private List<Mesa> mesas;
     private Cliente cliente;
-
+    private Long id;
+    
     public Calendar getDataEHora() {
         return dataEHora;
     }
