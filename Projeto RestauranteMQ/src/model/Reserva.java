@@ -10,6 +10,14 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Reserva {
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
     private Calendar dataEHora;
     private List<Mesa> mesas;
     private Cliente cliente;
