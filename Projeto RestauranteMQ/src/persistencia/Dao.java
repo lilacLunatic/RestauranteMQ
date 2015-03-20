@@ -3,13 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package persistencia;
+
+import java.util.List;
 
 /**
  *
  * @author Aluno
+ * @param <T>
+ * @param <PK>
  */
-public abstract class Dao {
-    
+public interface Dao<T, PK> {
+
+    void save(T entity);
+
+    void delete(T entity);
+
+    List<T> listAll();
 }
