@@ -4,8 +4,12 @@
  * and open the template in the editor.
  */
 
-package model;
+package persistencia;
 
-public enum Unidade {
-    QUILOGRAMA, GRAMA, LITRO, MILILITRO, ADMENSIONAL, METRO, CENTIMETRO;
+/**
+ *
+ * @author Aluno
+ */
+public abstract class Dao {
+    
 }
