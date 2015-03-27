@@ -14,8 +14,9 @@ public class ClienteDAO implements Dao<Cliente, Long> {
     @Override
     public void save(Cliente entity) {
 
+        ConexaoPostgreSQL conn = null;
         try {
-            ConexaoPostgreSQL conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
             String sql = "insert into cliente (cpf, nome, endereco, telefone, login, senha)  "
                     + "values(?,?,?,?,?,?)";
@@ -35,6 +36,10 @@ public class ClienteDAO implements Dao<Cliente, Long> {
 
         } catch (Exception ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }  finally {
+            if (conn != null) {
+                conn.fechar();
+            }
         }
 
     }

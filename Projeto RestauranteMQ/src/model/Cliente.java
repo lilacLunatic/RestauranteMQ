@@ -2,7 +2,7 @@
 
 package model;
 
-public class Cliente extends Usuário{
+public class Cliente extends Usuario{
     
     
     
