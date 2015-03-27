@@ -48,7 +48,7 @@ public class ClienteDAO implements Dao<Cliente, Long>{
     
     @Override
     public void delete(Long id) {
-<<<<<<< HEAD
+
         
          try {
             ConexaoPostgreSQL conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
@@ -69,9 +69,7 @@ public class ClienteDAO implements Dao<Cliente, Long>{
         } catch (Exception ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         } 
-=======
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
->>>>>>> origin/master
+ 
     }
 
     @Override
@@ -109,7 +107,7 @@ public class ClienteDAO implements Dao<Cliente, Long>{
         } catch (Exception ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        return null;
+        return lista;
         
     }
     
