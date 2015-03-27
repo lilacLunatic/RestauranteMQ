@@ -24,8 +24,8 @@ SET default_with_oids = false;
 -- Name: Cliente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE "Cliente" (
-    "ID" integer NOT NULL,
+CREATE TABLE cliente (
+    ID integer NOT NULL,
     cpf character varying,
     nome character varying,
     endereco character varying,
@@ -35,7 +35,7 @@ CREATE TABLE "Cliente" (
 );
 
 
-ALTER TABLE public."Cliente" OWNER TO postgres;
+ALTER TABLE public.cliente OWNER TO postgres;
 
 --
 -- TOC entry 188 (class 1259 OID 43191)
@@ -58,7 +58,7 @@ ALTER TABLE public."Cliente_ID_seq" OWNER TO postgres;
 -- Name: Cliente_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Cliente_ID_seq" OWNED BY "Cliente"."ID";
+ALTER SEQUENCE "Cliente_ID_seq" OWNED BY cliente.ID;
 
 
 --
@@ -66,7 +66,7 @@ ALTER SEQUENCE "Cliente_ID_seq" OWNED BY "Cliente"."ID";
 -- Name: Funcionario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE "Funcionario" (
+CREATE TABLE funcionario (
     salario double precision,
     cpf character varying,
     nome character varying,
@@ -74,7 +74,7 @@ CREATE TABLE "Funcionario" (
     telefone character varying,
     data_de_demissao date,
     data_de_entrada date,
-    "ID" integer NOT NULL,
+    ID integer NOT NULL,
     login character varying,
     senha character varying,
     CONSTRAINT data_de_entrada_not_null CHECK ((data_de_entrada IS NOT NULL)),
@@ -82,7 +82,7 @@ CREATE TABLE "Funcionario" (
 );
 
 
-ALTER TABLE public."Funcionario" OWNER TO postgres;
+ALTER TABLE public.funcionario OWNER TO postgres;
 
 --
 -- TOC entry 190 (class 1259 OID 43206)
@@ -105,7 +105,7 @@ ALTER TABLE public."Funcionario_ID_seq" OWNER TO postgres;
 -- Name: Funcionario_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Funcionario_ID_seq" OWNED BY "Funcionario"."ID";
+ALTER SEQUENCE "Funcionario_ID_seq" OWNED BY funcionario.ID;
 
 
 --
@@ -113,15 +113,15 @@ ALTER SEQUENCE "Funcionario_ID_seq" OWNED BY "Funcionario"."ID";
 -- Name: Ingrediente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE "Ingrediente" (
-    "ID" integer NOT NULL,
-    "QuantidadeEstoque" integer,
+CREATE TABLE ingrediente (
+    ID integer NOT NULL,
+    quantidadeEstoque integer,
     nome character varying,
-    "Unidade" character varying
+    unidade character varying
 );
 
 
-ALTER TABLE public."Ingrediente" OWNER TO postgres;
+ALTER TABLE public.ingrediente OWNER TO postgres;
 
 --
 -- TOC entry 196 (class 1259 OID 43254)
@@ -144,7 +144,7 @@ ALTER TABLE public."Ingrediente_ID_seq" OWNER TO postgres;
 -- Name: Ingrediente_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Ingrediente_ID_seq" OWNED BY "Ingrediente"."ID";
+ALTER SEQUENCE "Ingrediente_ID_seq" OWNED BY ingrediente.ID;
 
 
 --
@@ -152,16 +152,16 @@ ALTER SEQUENCE "Ingrediente_ID_seq" OWNED BY "Ingrediente"."ID";
 -- Name: ItemDeMenu; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE "ItemDeMenu" (
-    "ID" integer NOT NULL,
-    "Nome" character varying,
-    "Preco" real,
+CREATE TABLE itemDeMenu (
+    ID integer NOT NULL,
+    nome character varying,
+    preco real,
     categoria character varying,
-    "QuantidadeEstoque" integer
+    quantidadeEstoque integer
 );
 
 
-ALTER TABLE public."ItemDeMenu" OWNER TO postgres;
+ALTER TABLE public.itemDeMenu OWNER TO postgres;
 
 --
 -- TOC entry 198 (class 1259 OID 43265)
@@ -184,7 +184,7 @@ ALTER TABLE public."ItemDeMenu_ID_seq" OWNER TO postgres;
 -- Name: ItemDeMenu_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "ItemDeMenu_ID_seq" OWNED BY "ItemDeMenu"."ID";
+ALTER SEQUENCE "ItemDeMenu_ID_seq" OWNED BY itemDeMenu.ID;
 
 
 --
@@ -192,15 +192,15 @@ ALTER SEQUENCE "ItemDeMenu_ID_seq" OWNED BY "ItemDeMenu"."ID";
 -- Name: Item_possui_Ingrediente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE "Item_possui_Ingrediente" (
-    "ID" integer NOT NULL,
-    "Quantidade" integer,
-    "Item" integer,
-    "Ingrediente" integer
+CREATE TABLE itemPossuiIngrediente (
+    ID integer NOT NULL,
+    quantidade integer,
+    item integer,
+    ingrediente integer
 );
 
 
-ALTER TABLE public."Item_possui_Ingrediente" OWNER TO postgres;
+ALTER TABLE public.itemPossuiIngrediente OWNER TO postgres;
 
 --
 -- TOC entry 202 (class 1259 OID 43287)
@@ -223,7 +223,7 @@ ALTER TABLE public."Item_possui_Ingrediente_ID_seq" OWNER TO postgres;
 -- Name: Item_possui_Ingrediente_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Item_possui_Ingrediente_ID_seq" OWNED BY "Item_possui_Ingrediente"."ID";
+ALTER SEQUENCE "Item_possui_Ingrediente_ID_seq" OWNED BY itemPossuiIngrediente.ID;
 
 
 --
@@ -231,14 +231,14 @@ ALTER SEQUENCE "Item_possui_Ingrediente_ID_seq" OWNED BY "Item_possui_Ingredient
 -- Name: Mesa; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE "Mesa" (
-    "ID" integer NOT NULL,
+CREATE TABLE mesa (
+    ID integer NOT NULL,
     numero integer,
     lugares integer
 );
 
 
-ALTER TABLE public."Mesa" OWNER TO postgres;
+ALTER TABLE public.mesa OWNER TO postgres;
 
 --
 -- TOC entry 192 (class 1259 OID 43223)
@@ -261,7 +261,7 @@ ALTER TABLE public."Mesa_ID_seq" OWNER TO postgres;
 -- Name: Mesa_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Mesa_ID_seq" OWNED BY "Mesa"."ID";
+ALTER SEQUENCE "Mesa_ID_seq" OWNED BY mesa.ID;
 
 
 --
@@ -269,16 +269,16 @@ ALTER SEQUENCE "Mesa_ID_seq" OWNED BY "Mesa"."ID";
 -- Name: Pedido; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE "Pedido" (
-    "Data" timestamp without time zone,
-    "Endereco" character varying,
-    "Observacoes" character varying,
-    "ID" integer NOT NULL,
-    "Cliente" integer
+CREATE TABLE pedido (
+    data timestamp without time zone,
+    endereco character varying,
+    observacoes character varying,
+    ID integer NOT NULL,
+    cliente integer
 );
 
 
-ALTER TABLE public."Pedido" OWNER TO postgres;
+ALTER TABLE public.pedido OWNER TO postgres;
 
 --
 -- TOC entry 200 (class 1259 OID 43276)
@@ -301,7 +301,7 @@ ALTER TABLE public."Pedido_ID_seq" OWNER TO postgres;
 -- Name: Pedido_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Pedido_ID_seq" OWNED BY "Pedido"."ID";
+ALTER SEQUENCE "Pedido_ID_seq" OWNED BY pedido.ID;
 
 
 --
@@ -309,14 +309,14 @@ ALTER SEQUENCE "Pedido_ID_seq" OWNED BY "Pedido"."ID";
 -- Name: Pedido_possui_item; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE "Pedido_possui_item" (
-    "ID" integer NOT NULL,
-    "Pedido" integer,
-    "Item" integer
+CREATE TABLE pedidoPossuiItem (
+    ID integer NOT NULL,
+    pedido integer,
+    item integer
 );
 
 
-ALTER TABLE public."Pedido_possui_item" OWNER TO postgres;
+ALTER TABLE public.pedidoPossuiItem OWNER TO postgres;
 
 --
 -- TOC entry 204 (class 1259 OID 43305)
@@ -339,7 +339,7 @@ ALTER TABLE public."Pedido_possui_item_ID_seq" OWNER TO postgres;
 -- Name: Pedido_possui_item_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Pedido_possui_item_ID_seq" OWNED BY "Pedido_possui_item"."ID";
+ALTER SEQUENCE "Pedido_possui_item_ID_seq" OWNED BY pedidoPossuiItem.ID;
 
 
 --
@@ -348,7 +348,7 @@ ALTER SEQUENCE "Pedido_possui_item_ID_seq" OWNED BY "Pedido_possui_item"."ID";
 --
 
 CREATE TABLE reserva (
-    "ID" integer NOT NULL,
+    ID integer NOT NULL,
     reserva_cliente_fk integer,
     reserva_mesa_fk integer,
     data timestamp without time zone
@@ -378,7 +378,7 @@ ALTER TABLE public."reserva_ID_seq" OWNER TO postgres;
 -- Name: reserva_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "reserva_ID_seq" OWNED BY reserva."ID";
+ALTER SEQUENCE "reserva_ID_seq" OWNED BY reserva.ID;
 
 
 --
@@ -386,7 +386,7 @@ ALTER SEQUENCE "reserva_ID_seq" OWNED BY reserva."ID";
 -- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Cliente" ALTER COLUMN "ID" SET DEFAULT nextval('"Cliente_ID_seq"'::regclass);
+ALTER TABLE ONLY cliente ALTER COLUMN ID SET DEFAULT nextval('"Cliente_ID_seq"'::regclass);
 
 
 --
@@ -394,7 +394,7 @@ ALTER TABLE ONLY "Cliente" ALTER COLUMN "ID" SET DEFAULT nextval('"Cliente_ID_se
 -- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Funcionario" ALTER COLUMN "ID" SET DEFAULT nextval('"Funcionario_ID_seq"'::regclass);
+ALTER TABLE ONLY funcionario ALTER COLUMN ID SET DEFAULT nextval('"Funcionario_ID_seq"'::regclass);
 
 
 --
@@ -402,7 +402,7 @@ ALTER TABLE ONLY "Funcionario" ALTER COLUMN "ID" SET DEFAULT nextval('"Funcionar
 -- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Ingrediente" ALTER COLUMN "ID" SET DEFAULT nextval('"Ingrediente_ID_seq"'::regclass);
+ALTER TABLE ONLY ingrediente ALTER COLUMN ID SET DEFAULT nextval('"Ingrediente_ID_seq"'::regclass);
 
 
 --
@@ -410,7 +410,7 @@ ALTER TABLE ONLY "Ingrediente" ALTER COLUMN "ID" SET DEFAULT nextval('"Ingredien
 -- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "ItemDeMenu" ALTER COLUMN "ID" SET DEFAULT nextval('"ItemDeMenu_ID_seq"'::regclass);
+ALTER TABLE ONLY itemDeMenu ALTER COLUMN ID SET DEFAULT nextval('"ItemDeMenu_ID_seq"'::regclass);
 
 
 --
@@ -418,7 +418,7 @@ ALTER TABLE ONLY "ItemDeMenu" ALTER COLUMN "ID" SET DEFAULT nextval('"ItemDeMenu
 -- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Item_possui_Ingrediente" ALTER COLUMN "ID" SET DEFAULT nextval('"Item_possui_Ingrediente_ID_seq"'::regclass);
+ALTER TABLE ONLY itemPossuiIngrediente ALTER COLUMN ID SET DEFAULT nextval('"Item_possui_Ingrediente_ID_seq"'::regclass);
 
 
 --
@@ -426,7 +426,7 @@ ALTER TABLE ONLY "Item_possui_Ingrediente" ALTER COLUMN "ID" SET DEFAULT nextval
 -- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Mesa" ALTER COLUMN "ID" SET DEFAULT nextval('"Mesa_ID_seq"'::regclass);
+ALTER TABLE ONLY mesa ALTER COLUMN ID SET DEFAULT nextval('"Mesa_ID_seq"'::regclass);
 
 
 --
@@ -434,7 +434,7 @@ ALTER TABLE ONLY "Mesa" ALTER COLUMN "ID" SET DEFAULT nextval('"Mesa_ID_seq"'::r
 -- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Pedido" ALTER COLUMN "ID" SET DEFAULT nextval('"Pedido_ID_seq"'::regclass);
+ALTER TABLE ONLY pedido ALTER COLUMN ID SET DEFAULT nextval('"Pedido_ID_seq"'::regclass);
 
 
 --
@@ -442,7 +442,7 @@ ALTER TABLE ONLY "Pedido" ALTER COLUMN "ID" SET DEFAULT nextval('"Pedido_ID_seq"
 -- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Pedido_possui_item" ALTER COLUMN "ID" SET DEFAULT nextval('"Pedido_possui_item_ID_seq"'::regclass);
+ALTER TABLE ONLY pedidoPossuiItem ALTER COLUMN ID SET DEFAULT nextval('"Pedido_possui_item_ID_seq"'::regclass);
 
 
 --
@@ -450,7 +450,7 @@ ALTER TABLE ONLY "Pedido_possui_item" ALTER COLUMN "ID" SET DEFAULT nextval('"Pe
 -- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY reserva ALTER COLUMN "ID" SET DEFAULT nextval('"reserva_ID_seq"'::regclass);
+ALTER TABLE ONLY reserva ALTER COLUMN ID SET DEFAULT nextval('"reserva_ID_seq"'::regclass);
 
 
 --
@@ -458,8 +458,8 @@ ALTER TABLE ONLY reserva ALTER COLUMN "ID" SET DEFAULT nextval('"reserva_ID_seq"
 -- Dependencies: 189
 -- Data for Name: Cliente; Type: TABLE DATA; Schema: public; Owner: postgres
 --
-
-COPY "Cliente" ("ID", cpf, nome, endereco, telefone, login, senha) FROM stdin;
+/*
+COPY cliente (ID, cpf, nome, endereco, telefone, login, senha) FROM stdin;
 
 
 
@@ -478,7 +478,7 @@ SELECT pg_catalog.setval('"Cliente_ID_seq"', 1, false);
 -- Data for Name: Funcionario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY "Funcionario" (salario, cpf, nome, endereco, telefone, data_de_demissao, data_de_entrada, "ID", login, senha) FROM stdin;
+COPY funcionario (salario, cpf, nome, endereco, telefone, data_de_demissao, data_de_entrada, ID, login, senha) FROM stdin;
 
 
 
@@ -497,7 +497,7 @@ SELECT pg_catalog.setval('"Funcionario_ID_seq"', 1, false);
 -- Data for Name: Ingrediente; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY "Ingrediente" ("ID", "QuantidadeEstoque", nome, "Unidade") FROM stdin;
+COPY ingrediente (ID, quantidadeEstoque, nome, unidade) FROM stdin;
 
 
 
@@ -516,7 +516,7 @@ SELECT pg_catalog.setval('"Ingrediente_ID_seq"', 1, false);
 -- Data for Name: ItemDeMenu; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY "ItemDeMenu" ("ID", "Nome", "Preco", categoria, "QuantidadeEstoque") FROM stdin;
+COPY itemDeMenu (ID, nome, preco, categoria, quantidadeEstoque) FROM stdin;
 
 
 
@@ -535,7 +535,7 @@ SELECT pg_catalog.setval('"ItemDeMenu_ID_seq"', 1, false);
 -- Data for Name: Item_possui_Ingrediente; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY "Item_possui_Ingrediente" ("ID", "Quantidade", "Item", "Ingrediente") FROM stdin;
+COPY itemPossuiIngrediente (ID, quantidade, item, ingrediente) FROM stdin;
 
 
 
@@ -554,7 +554,7 @@ SELECT pg_catalog.setval('"Item_possui_Ingrediente_ID_seq"', 1, false);
 -- Data for Name: Mesa; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY "Mesa" ("ID", numero, lugares) FROM stdin;
+COPY mesa (ID, numero, lugares) FROM stdin;
 
 
 
@@ -573,7 +573,7 @@ SELECT pg_catalog.setval('"Mesa_ID_seq"', 1, false);
 -- Data for Name: Pedido; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY "Pedido" ("Data", "Endereco", "Observacoes", "ID", "Cliente") FROM stdin;
+COPY pedido (data, endereco, observacoes, ID, cliente) FROM stdin;
 
 
 
@@ -592,7 +592,7 @@ SELECT pg_catalog.setval('"Pedido_ID_seq"', 1, false);
 -- Data for Name: Pedido_possui_item; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY "Pedido_possui_item" ("ID", "Pedido", "Item") FROM stdin;
+COPY pedidoPossuiItem (ID, pedido, item) FROM stdin;
 \.
 
 
@@ -610,8 +610,8 @@ SELECT pg_catalog.setval('"Pedido_possui_item_ID_seq"', 1, false);
 -- Dependencies: 195
 -- Data for Name: reserva; Type: TABLE DATA; Schema: public; Owner: postgres
 --
-/*
-COPY reserva ("ID", reserva_cliente_fk, reserva_mesa_fk, data) FROM stdin;
+
+COPY reserva (ID, reserva_cliente_fk, reserva_mesa_fk, data) FROM stdin;
 \.
 
 
@@ -629,8 +629,8 @@ SELECT pg_catalog.setval('"reserva_ID_seq"', 1, false);
 -- Name: Item_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "ItemDeMenu"
-    ADD CONSTRAINT "Item_pk" PRIMARY KEY ("ID");
+ALTER TABLE ONLY itemDeMenu
+    ADD CONSTRAINT "Item_pk" PRIMARY KEY (ID);
 
 
 --
@@ -638,8 +638,8 @@ ALTER TABLE ONLY "ItemDeMenu"
 -- Name: Item_possui_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Item_possui_Ingrediente"
-    ADD CONSTRAINT "Item_possui_pk" PRIMARY KEY ("ID");
+ALTER TABLE ONLY itemPossuiIngrediente
+    ADD CONSTRAINT "Item_possui_pk" PRIMARY KEY (ID);
 
 
 --
@@ -647,8 +647,8 @@ ALTER TABLE ONLY "Item_possui_Ingrediente"
 -- Name: Pedido_possui_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Pedido_possui_item"
-    ADD CONSTRAINT "Pedido_possui_pk" PRIMARY KEY ("ID");
+ALTER TABLE ONLY pedidoPossuiItem
+    ADD CONSTRAINT "Pedido_possui_pk" PRIMARY KEY (ID);
 
 
 --
@@ -656,7 +656,7 @@ ALTER TABLE ONLY "Pedido_possui_item"
 -- Name: cliente_login_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Cliente"
+ALTER TABLE ONLY cliente
     ADD CONSTRAINT cliente_login_unique UNIQUE (login);
 
 
@@ -665,7 +665,7 @@ ALTER TABLE ONLY "Cliente"
 -- Name: cpf_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Cliente"
+ALTER TABLE ONLY cliente
     ADD CONSTRAINT cpf_unique UNIQUE (cpf);
 
 
@@ -674,7 +674,7 @@ ALTER TABLE ONLY "Cliente"
 -- Name: funcionario_cpf_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Funcionario"
+ALTER TABLE ONLY funcionario
     ADD CONSTRAINT funcionario_cpf_unique UNIQUE (cpf);
 
 
@@ -683,7 +683,7 @@ ALTER TABLE ONLY "Funcionario"
 -- Name: funcionario_login_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Funcionario"
+ALTER TABLE ONLY funcionario
     ADD CONSTRAINT funcionario_login_unique UNIQUE (login);
 
 
@@ -692,8 +692,8 @@ ALTER TABLE ONLY "Funcionario"
 -- Name: funcionario_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Funcionario"
-    ADD CONSTRAINT funcionario_pk PRIMARY KEY ("ID");
+ALTER TABLE ONLY funcionario
+    ADD CONSTRAINT funcionario_pk PRIMARY KEY (ID);
 
 
 --
@@ -701,8 +701,8 @@ ALTER TABLE ONLY "Funcionario"
 -- Name: ingrediente_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Ingrediente"
-    ADD CONSTRAINT ingrediente_pk PRIMARY KEY ("ID");
+ALTER TABLE ONLY ingrediente
+    ADD CONSTRAINT ingrediente_pk PRIMARY KEY (ID);
 
 
 --
@@ -710,8 +710,8 @@ ALTER TABLE ONLY "Ingrediente"
 -- Name: mesa_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Mesa"
-    ADD CONSTRAINT mesa_pk PRIMARY KEY ("ID");
+ALTER TABLE ONLY mesa
+    ADD CONSTRAINT mesa_pk PRIMARY KEY (ID);
 
 
 --
@@ -728,7 +728,7 @@ ALTER TABLE ONLY reserva
 -- Name: numero_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Mesa"
+ALTER TABLE ONLY mesa
     ADD CONSTRAINT numero_unique UNIQUE (numero);
 
 
@@ -737,8 +737,8 @@ ALTER TABLE ONLY "Mesa"
 -- Name: pedido_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Pedido"
-    ADD CONSTRAINT pedido_pk PRIMARY KEY ("ID");
+ALTER TABLE ONLY pedido
+    ADD CONSTRAINT pedido_pk PRIMARY KEY (ID);
 
 
 --
@@ -746,8 +746,8 @@ ALTER TABLE ONLY "Pedido"
 -- Name: pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY "Cliente"
-    ADD CONSTRAINT pk PRIMARY KEY ("ID");
+ALTER TABLE ONLY cliente
+    ADD CONSTRAINT pk PRIMARY KEY (ID);
 
 
 --
@@ -756,7 +756,7 @@ ALTER TABLE ONLY "Cliente"
 --
 
 ALTER TABLE ONLY reserva
-    ADD CONSTRAINT reserva_pk PRIMARY KEY ("ID");
+    ADD CONSTRAINT reserva_pk PRIMARY KEY (ID);
 
 
 --
@@ -764,8 +764,8 @@ ALTER TABLE ONLY reserva
 -- Name: Cliente_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Pedido"
-    ADD CONSTRAINT "Cliente_fk" FOREIGN KEY ("Cliente") REFERENCES "Cliente"("ID");
+ALTER TABLE ONLY pedido
+    ADD CONSTRAINT "Cliente_fk" FOREIGN KEY (cliente) REFERENCES cliente(ID);
 
 
 --
@@ -773,8 +773,8 @@ ALTER TABLE ONLY "Pedido"
 -- Name: Ingrediente_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Item_possui_Ingrediente"
-    ADD CONSTRAINT "Ingrediente_fk" FOREIGN KEY ("Ingrediente") REFERENCES "Ingrediente"("ID");
+ALTER TABLE ONLY itemPossuiIngrediente
+    ADD CONSTRAINT "Ingrediente_fk" FOREIGN KEY (ingrediente) REFERENCES ingrediente(ID);
 
 
 --
@@ -782,8 +782,8 @@ ALTER TABLE ONLY "Item_possui_Ingrediente"
 -- Name: Item_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Item_possui_Ingrediente"
-    ADD CONSTRAINT "Item_fk" FOREIGN KEY ("Item") REFERENCES "ItemDeMenu"("ID");
+ALTER TABLE ONLY itemPossuiIngrediente
+    ADD CONSTRAINT "Item_fk" FOREIGN KEY (item) REFERENCES itemDeMenu(ID);
 
 
 --
@@ -791,8 +791,8 @@ ALTER TABLE ONLY "Item_possui_Ingrediente"
 -- Name: Item_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Pedido_possui_item"
-    ADD CONSTRAINT "Item_fk" FOREIGN KEY ("Item") REFERENCES "ItemDeMenu"("ID");
+ALTER TABLE ONLY pedidoPossuiItem
+    ADD CONSTRAINT "Item_fk" FOREIGN KEY (item) REFERENCES itemDeMenu(ID);
 
 
 --
@@ -800,8 +800,8 @@ ALTER TABLE ONLY "Pedido_possui_item"
 -- Name: Pedido_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY "Pedido_possui_item"
-    ADD CONSTRAINT "Pedido_fk" FOREIGN KEY ("Pedido") REFERENCES "Pedido"("ID");
+ALTER TABLE ONLY pedidoPossuiItem
+    ADD CONSTRAINT "Pedido_fk" FOREIGN KEY (pedido) REFERENCES pedido(ID);
 
 
 --
@@ -810,7 +810,7 @@ ALTER TABLE ONLY "Pedido_possui_item"
 --
 
 ALTER TABLE ONLY reserva
-    ADD CONSTRAINT reserva_cliente_fk FOREIGN KEY (reserva_cliente_fk) REFERENCES "Cliente"("ID");
+    ADD CONSTRAINT reserva_cliente_fk FOREIGN KEY (reserva_cliente_fk) REFERENCES cliente(ID);
 
 
 --
@@ -819,7 +819,7 @@ ALTER TABLE ONLY reserva
 --
 
 ALTER TABLE ONLY reserva
-    ADD CONSTRAINT reserva_mesa_fk FOREIGN KEY (reserva_mesa_fk) REFERENCES "Mesa"("ID");
+    ADD CONSTRAINT reserva_mesa_fk FOREIGN KEY (reserva_mesa_fk) REFERENCES mesa(ID);
 
 
 --
