@@ -6,7 +6,7 @@ public class ConexaoPostgreSQL extends Conexao {
     public static final String HOST = "localhost";
     public static final String USER = "postgres";
     public static final String PASSWORD = "postgres";
-    public static final String DATABASE = "superheroi";
+    public static final String DATABASE = "postgres";
 
     static {
         try {
@@ -24,9 +24,9 @@ public class ConexaoPostgreSQL extends Conexao {
     public ConexaoPostgreSQL(String host, String user, String password, String database) throws Exception {
         super(host, user, password, database);
         if ((host != null) && (host.length() > 0)) {
-            con = DriverManager.getConnection("jdbc:postgresql://" + host + "/" + database, this.user, this.password);
+            con = DriverManager.getConnection("jdbc:postgresql://" + host + "/" + database, user, password);
         } else {
-            con = DriverManager.getConnection("jdbc:postgresql:" + database, this.user, this.password);
+            con = DriverManager.getConnection("jdbc:postgresql:" + database, user, password);
         }
     }
 

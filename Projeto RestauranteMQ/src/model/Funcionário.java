@@ -16,6 +16,7 @@ public class Funcionário extends Usuário{
     private double salario;
     private Calendar dataDeEntrada;
     private Calendar dataDeDemissao;
+    
 
     public double getSalario() {
         return salario;
