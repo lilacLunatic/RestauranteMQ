@@ -17,7 +17,7 @@ public interface Dao<T, PK> {
 
     void save(T entity);
 
-    void delete(T entity);
+    void delete(PK id);
 
     List<T> listAll();
 }

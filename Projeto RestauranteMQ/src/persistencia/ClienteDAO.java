@@ -3,23 +3,23 @@
 package persistencia;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cliente;
 
-public class ClienteDAO implements Dao<Cliente, Integer>{
+public class ClienteDAO implements Dao<Cliente, Long>{
 
     @Override
     public void save(Cliente entity) {
-        
 
-        
         try {
             ConexaoPostgreSQL conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
             
-            String sql = "insert into Cliente(cpf, nome, endereco, telefone, login, senha)  "+
+            String sql = "insert into cliente (cpf, nome, endereco, telefone, login, senha)  "+
                          "values(?,?,?,?,?,?)";
             
             
@@ -31,7 +31,7 @@ public class ClienteDAO implements Dao<Cliente, Integer>{
                 ps.setString(5, entity.getLogin());
                 ps.setString(6, entity.getSenha());
                 
-                ps.executeQuery();
+                ps.execute();
                 
                 conn.fechar();
             }
@@ -45,14 +45,68 @@ public class ClienteDAO implements Dao<Cliente, Integer>{
         
     }
 
+    
     @Override
-    public void delete(Cliente entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void delete(Long id) {
+        
+         try {
+            ConexaoPostgreSQL conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+            
+            String sql = "delete from cliente where cliente.id = "+id;
+            
+            
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                
+                
+                ps.execute();
+                
+                conn.fechar();
+            }
+            
+            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
     @Override
     public List<Cliente> listAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        List<Cliente> lista = new ArrayList<>();
+        
+         try {
+            ConexaoPostgreSQL conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+            
+            String sql = "select * from cliente";
+            
+            
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                
+                ResultSet rs = ps.executeQuery();
+                
+                while(rs.next()){
+                    Cliente c = new Cliente();
+                    
+                    c.setId(rs.getLong("id"));
+                    c.setCpf(rs.getString("cpf"));
+                    c.setEndereco(rs.getString("endereco"));
+                    c.setTelefone( rs.getString("telefone"));
+                    c.setLogin( rs.getString("login"));
+                    c.setSenha( rs.getString("senha"));
+                    c.setNome( rs.getString("nome"));
+                    lista.add(c);
+                }      
+                conn.fechar();
+            }
+            
+            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return null;
+        
     }
     
 }

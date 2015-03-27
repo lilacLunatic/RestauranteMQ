@@ -2,6 +2,7 @@
 
 package main;
 
+import java.util.List;
 import model.Cliente;
 import persistencia.ClienteDAO;
 
@@ -20,6 +21,9 @@ public class Main {
         
         ClienteDAO cd = new ClienteDAO();
         cd.save(c);
+        
+        List<Cliente> lista = cd.listAll();
+        
         
     }
     
