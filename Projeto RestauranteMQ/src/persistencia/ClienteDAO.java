@@ -42,14 +42,12 @@ public class ClienteDAO implements Dao<Cliente, Long> {
     @Override
     public void delete(Long id) {
 
-
         ConexaoPostgreSQL conn = null;
-         try {
+        try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
-            
+
             String sql = "delete from cliente where cliente.id = ?";
-            
-            
+
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
                 ps.setLong(1, id);
                 ps.execute();
@@ -60,29 +58,22 @@ public class ClienteDAO implements Dao<Cliente, Long> {
         } catch (Exception ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
 
-        }finally{
-             conn.fechar();
-         } 
- 
-
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
         }
 
-
-    
+    }
 
     @Override
     public List<Cliente> listAll() {
 
         List<Cliente> lista = new ArrayList<>();
 
-        
-        
         ConexaoPostgreSQL conn = null;
-         try {
+        try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
-            
-
-
 
             String sql = "select * from cliente";
 
@@ -102,28 +93,22 @@ public class ClienteDAO implements Dao<Cliente, Long> {
                     c.setNome(rs.getString("nome"));
                     lista.add(c);
 
-                }      
-                
-
                 }
-                conn.fechar();
 
-            
+            }
+            conn.fechar();
 
         } catch (Exception ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
 
-        }finally{
-             conn.fechar();
-         } 
-         
-         
-            return lista;
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
         }
 
-        
-
-    
+        return lista;
+    }
 
     public Cliente getByLogin(String login) {
         try {
@@ -145,7 +130,7 @@ public class ClienteDAO implements Dao<Cliente, Long> {
                     c.setLogin(rs.getString("login"));
                     c.setSenha(rs.getString("senha"));
                     c.setNome(rs.getString("nome"));
-                    
+
                     return c;
 
                 } else {
@@ -163,50 +148,44 @@ public class ClienteDAO implements Dao<Cliente, Long> {
 
     }
 
-
     @Override
     public Cliente getById(Long pk) {
-         Cliente c = new Cliente();
-         ConexaoPostgreSQL conn = null;
-         try {
+        Cliente c = new Cliente();
+        ConexaoPostgreSQL conn = null;
+        try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
-            
+
             String sql = "select * from cliente where cliente.id = ?";
-            
-            
+
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
-                
+
                 ps.setLong(1, pk);
-                
+
                 ResultSet rs = ps.executeQuery();
                 rs.next();
-                
-                    c = new Cliente();
-                    
-                    c.setId(rs.getLong("id"));
-                    c.setCpf(rs.getString("cpf"));
-                    c.setEndereco(rs.getString("endereco"));
-                    c.setTelefone( rs.getString("telefone"));
-                    c.setLogin( rs.getString("login"));
-                    c.setSenha( rs.getString("senha"));
-                    c.setNome( rs.getString("nome"));
-                    
-                    
-                
+
+                c = new Cliente();
+
+                c.setId(rs.getLong("id"));
+                c.setCpf(rs.getString("cpf"));
+                c.setEndereco(rs.getString("endereco"));
+                c.setTelefone(rs.getString("telefone"));
+                c.setLogin(rs.getString("login"));
+                c.setSenha(rs.getString("senha"));
+                c.setNome(rs.getString("nome"));
+
             }
-            
-            
-            
+
         } catch (Exception ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-             conn.fechar();
-         }
-        
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+
         return c;
-        
+
     }
-    
-    
 
 }
