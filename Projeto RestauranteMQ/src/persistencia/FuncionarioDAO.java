@@ -100,7 +100,8 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
                     Calendar entrada = null;
                     entrada.setTime(rs.getDate("data_de_entrada"));
                     c.setSalario(rs.getDouble("salario"));
-                    c.setDataDeDemissao(null);
+                    c.setDataDeDemissao(demissao);
+                    c.setDataDeEntrada(entrada);
                     c.setId(rs.getLong("id"));
                     c.setCpf(rs.getString("cpf"));
                     c.setEndereco(rs.getString("endereco"));
@@ -132,7 +133,95 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
 
     @Override
     public Funcionario getById(Long pk) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Funcionario c = new Funcionario();
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "select * from funcionario where funcionario.id = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+
+                ps.setLong(1, pk);
+
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    Calendar demissao = null;
+                    demissao.setTime(rs.getDate("data_de_demissao"));
+                    Calendar entrada = null;
+                    entrada.setTime(rs.getDate("data_de_entrada"));
+                    c.setSalario(rs.getDouble("salario"));
+                    c.setDataDeDemissao(demissao);
+                    c.setDataDeEntrada(entrada);
+                    c.setId(rs.getLong("id"));
+                    c.setCpf(rs.getString("cpf"));
+                    c.setEndereco(rs.getString("endereco"));
+                    c.setTelefone(rs.getString("telefone"));
+                    c.setLogin(rs.getString("login"));
+                    c.setSenha(rs.getString("senha"));
+                    c.setNome(rs.getString("nome"));
+                    
+                } else {
+                    throw new Exception("Não há funcionario com o id " + pk);
+                }
+
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+
+        return c;
+
     }
     
+    public Funcionario getByLogin(String login) {
+        try {
+            ConexaoPostgreSQL conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "select * from funcionario where login = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                ps.setString(1, login);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    Funcionario c = new Funcionario();
+                    
+                    Calendar demissao = null;
+                    demissao.setTime(rs.getDate("data_de_demissao"));
+                    Calendar entrada = null;
+                    entrada.setTime(rs.getDate("data_de_entrada"));
+                    c.setSalario(rs.getDouble("salario"));
+                    c.setDataDeDemissao(demissao);
+                    c.setDataDeEntrada(entrada);
+                    c.setId(rs.getLong("id"));
+                    c.setCpf(rs.getString("cpf"));
+                    c.setEndereco(rs.getString("endereco"));
+                    c.setTelefone(rs.getString("telefone"));
+                    c.setLogin(rs.getString("login"));
+                    c.setSenha(rs.getString("senha"));
+                    c.setNome(rs.getString("nome"));
+                    
+
+                    return c;
+
+                } else {
+                    throw new Exception("Não há cliente com o login " + login);
+                }
+
+            } finally {
+                conn.fechar();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+    }
 }
