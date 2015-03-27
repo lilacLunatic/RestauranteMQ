@@ -20,4 +20,7 @@ public interface Dao<T, PK> {
     void delete(PK id);
 
     List<T> listAll();
+    
+    T getById(PK pk);
+
 }
