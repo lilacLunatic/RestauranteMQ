@@ -167,17 +167,21 @@ public class ClienteDAO implements Dao<Cliente, Long> {
                 ps.setLong(1, pk);
 
                 ResultSet rs = ps.executeQuery();
-                rs.next();
+                if(rs.next()){
 
                 c = new Cliente();
 
-                c.setId(rs.getLong("id"));
-                c.setCpf(rs.getString("cpf"));
-                c.setEndereco(rs.getString("endereco"));
-                c.setTelefone(rs.getString("telefone"));
-                c.setLogin(rs.getString("login"));
-                c.setSenha(rs.getString("senha"));
-                c.setNome(rs.getString("nome"));
+                    c.setId(rs.getLong("id"));
+                    c.setCpf(rs.getString("cpf"));
+                    c.setEndereco(rs.getString("endereco"));
+                    c.setTelefone(rs.getString("telefone"));
+                    c.setLogin(rs.getString("login"));
+                    c.setSenha(rs.getString("senha"));
+                    c.setNome(rs.getString("nome"));
+                    
+                } else {
+                    throw new Exception("Não há cliente com o id " + pk);
+                }
 
             }
 

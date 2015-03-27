@@ -16,7 +16,7 @@ public class Main {
         
         ClienteDAO cd = new ClienteDAO();
         
-        c = cd.getById(new Long(4));
+        c = cd.getById(new Long(1));
         
         System.out.println("Nome = "+c.getNome() + "  ID = "+c.getId());
         
