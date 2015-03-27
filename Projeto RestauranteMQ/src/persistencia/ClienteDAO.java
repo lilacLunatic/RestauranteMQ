@@ -42,7 +42,7 @@ public class ClienteDAO implements Dao<Cliente, Long> {
     @Override
     public void delete(Long id) {
 
-<<<<<<< HEAD
+
         ConexaoPostgreSQL conn = null;
          try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
@@ -52,16 +52,6 @@ public class ClienteDAO implements Dao<Cliente, Long> {
             
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
                 ps.setLong(1, id);
-                
-=======
-        try {
-            ConexaoPostgreSQL conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
-
-            String sql = "delete from cliente where cliente.id = " + id;
-
-            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
-
->>>>>>> origin/master
                 ps.execute();
 
                 conn.fechar();
@@ -69,34 +59,31 @@ public class ClienteDAO implements Dao<Cliente, Long> {
 
         } catch (Exception ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-<<<<<<< HEAD
+
         }finally{
              conn.fechar();
          } 
  
-=======
+
         }
 
->>>>>>> origin/master
-    }
+
+    
 
     @Override
     public List<Cliente> listAll() {
 
         List<Cliente> lista = new ArrayList<>();
-<<<<<<< HEAD
+
         
         
         ConexaoPostgreSQL conn = null;
          try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
             
-=======
 
-        try {
-            ConexaoPostgreSQL conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
->>>>>>> origin/master
+
             String sql = "select * from cliente";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
@@ -114,29 +101,29 @@ public class ClienteDAO implements Dao<Cliente, Long> {
                     c.setSenha(rs.getString("senha"));
                     c.setNome(rs.getString("nome"));
                     lista.add(c);
-<<<<<<< HEAD
+
                 }      
                 
-=======
+
                 }
                 conn.fechar();
->>>>>>> origin/master
-            }
+
+            
 
         } catch (Exception ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-<<<<<<< HEAD
+
         }finally{
              conn.fechar();
          } 
          
          
-=======
+            return lista;
         }
->>>>>>> origin/master
-        return lista;
 
-    }
+        
+
+    
 
     public Cliente getByLogin(String login) {
         try {
@@ -175,7 +162,7 @@ public class ClienteDAO implements Dao<Cliente, Long> {
         }
 
     }
-<<<<<<< HEAD
+
 
     @Override
     public Cliente getById(Long pk) {
@@ -221,6 +208,5 @@ public class ClienteDAO implements Dao<Cliente, Long> {
     }
     
     
-=======
->>>>>>> origin/master
+
 }
