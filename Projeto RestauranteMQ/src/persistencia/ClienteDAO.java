@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cliente;
 
-public class ClienteDAO implements Dao<Cliente, Integer>{
+public class ClienteDAO implements Dao<Cliente, Long>{
 
     @Override
     public void save(Cliente entity) {
@@ -31,7 +31,7 @@ public class ClienteDAO implements Dao<Cliente, Integer>{
                 ps.setString(5, entity.getLogin());
                 ps.setString(6, entity.getSenha());
                 
-                ps.executeQuery();
+                ps.execute();
                 
                 conn.fechar();
             }
@@ -46,7 +46,7 @@ public class ClienteDAO implements Dao<Cliente, Integer>{
     }
 
     @Override
-    public void delete(Cliente entity) {
+    public void delete(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
