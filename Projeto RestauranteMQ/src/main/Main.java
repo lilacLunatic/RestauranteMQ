@@ -12,18 +12,13 @@ public class Main {
         //System.out.println("Hello, world!");
         
         Cliente c = new Cliente();
-        c.setCpf("something");
-        c.setTelefone("something");
-        c.setNome("something");
-        c.setSenha("something");
-        c.setLogin("something");
-        c.setEndereco("something");
+        
         
         ClienteDAO cd = new ClienteDAO();
-        cd.save(c);
         
-        List<Cliente> lista = cd.listAll();
+        c = cd.getById(new Long(4));
         
+        System.out.println("Nome = "+c.getNome() + "  ID = "+c.getId());
         
     }
     
