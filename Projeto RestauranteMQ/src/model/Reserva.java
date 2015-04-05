@@ -19,7 +19,7 @@ public class Reserva {
         return id;
     }
     private Calendar dataEHora;
-    private List<Mesa> mesas;
+    private Mesa mesa;
     private Cliente cliente;
     private Long id;
     
@@ -31,12 +31,12 @@ public class Reserva {
         this.dataEHora = dataEHora;
     }
 
-    public List<Mesa> getMesas() {
-        return mesas;
+    public Mesa getMesa() {
+        return mesa;
     }
 
-    public void setMesas(List<Mesa> mesas) {
-        this.mesas = mesas;
+    public void setMesas(Mesa mesa) {
+        this.mesa = mesa;
     }
 
     public Cliente getCliente() {
