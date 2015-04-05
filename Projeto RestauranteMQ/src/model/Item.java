@@ -44,5 +44,5 @@ public abstract class Item {
     }
     
     
-    public abstract boolean isDisponivel();
+    public abstract int getQuantidadeEstoque();
 }
