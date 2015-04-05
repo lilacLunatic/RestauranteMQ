@@ -207,7 +207,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
                     c.setLogin(rs.getString("login"));
                     c.setSenha(rs.getString("senha"));
                     c.setNome(rs.getString("nome"));
-                    
+                    c.setAdministrador(rs.getBoolean("administrador"));
 
                     return c;
 
