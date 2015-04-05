@@ -4,14 +4,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cliente;
 import model.Funcionario;
+import model.Mesa;
+import model.Reserva;
+import persistencia.MesaDAO;
+import persistencia.ReservaDAO;
 
 public class Main {
-
+    private final static MesaDAO MESA_DAO = new MesaDAO();
+    private final static ReservaDAO RESERVA_DAO = new ReservaDAO();
     private final static Scanner scanner = new Scanner(System.in);
 
     static {
@@ -127,19 +133,47 @@ public class Main {
     }
 
     private static void clienteReserva(Cliente cliente) {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatData = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         
-        System.out.println("Escolha a data que deseja reservar (dd/mm/aaaa)");
+        System.out.println("Escolha a data e a hora que deseja reservar (dd/mm/aaaa HH:mm)");
+        System.out.println("Escolher horário múltiplo de 30 minutos ");
         String dataString = scanner.nextLine();
-        
+        Calendar dataEHora = Calendar.getInstance();
         try {
-            Calendar data = Calendar.getInstance();
-            data.setTime(format.parse(dataString));
+            dataEHora.setTime(formatData.parse(dataString));
         } catch (ParseException ex) {
             System.out.println("formato de data invalido");
             return;
         }
-        //TODO: terminar método
+        
+        System.out.println("Escolha o numero de lugares que voce deseja");
+        int lugares;
+        try {
+            lugares = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Erro");
+            return;
+        }
+        List<Mesa> mesasDisponiveis = RESERVA_DAO.checkDisponibilidade(dataEHora, lugares);
+        if (mesasDisponiveis.isEmpty()){
+            System.out.println("nao ha mesa disponivel no horario desejado "
+                    + "com o numero de lugares desejado");
+            return;
+        }
+        Mesa mesa = mesasDisponiveis.get(0);
+        Reserva reserva = new Reserva();
+        reserva.setMesa(mesa);
+        reserva.setDataEHora(dataEHora);
+        
+        try {
+            RESERVA_DAO.save(reserva);
+        } catch (Exception e) {
+            System.out.println("Erro ao registrar reserva: " + e.getMessage());
+            return;
+        }
+        System.out.println("Sua reserva foi feita com sucesso\n"
+                + "Sua mesa eh a numero " + mesa.getNumero() + ","
+                + " reservada para " + dataString);
     }
 
     private static void mostraCardapio() {
