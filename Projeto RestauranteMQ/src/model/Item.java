@@ -5,7 +5,7 @@
  */
 
 package model;
-public abstract class Item {
+public abstract class Item implements Comparable<Item>{
     protected Long id;
     protected double preco;
     protected String nome;
@@ -45,4 +45,9 @@ public abstract class Item {
     
     
     public abstract boolean isDisponivel();
+
+    @Override
+    public int compareTo(Item o) {
+        return this.categoria.compareTo(o.categoria);
+    }
 }
