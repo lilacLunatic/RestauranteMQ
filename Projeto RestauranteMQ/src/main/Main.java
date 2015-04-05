@@ -7,10 +7,12 @@ import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import model.Cliente;
 import model.Funcionario;
 import model.Item;
 import model.Mesa;
+import model.Pedido;
 import model.Reserva;
 import persistencia.ItemPreparavelDAO;
 import persistencia.ItemProntoDAO;
@@ -24,7 +26,7 @@ public class Main {
     private final static Scanner scanner = new Scanner(System.in);
 
     static {
-        //scanner.useDelimiter(System.lineSeparator());
+        scanner.useDelimiter(Pattern.compile("\n|\r\n"));
     }
     private final static int SAIR = 0;
     private final static int CADASTRO_CLIENTE = 1;
@@ -33,6 +35,7 @@ public class Main {
     private final static int VER_CARDAPIO = 4;
 
     public static void main(String[] args) {
+        
         System.out.println("BEM VINDO AO RESTAURANTEMQ\n");
 
         int opcao;
@@ -131,7 +134,16 @@ public class Main {
     }
 
     private static void clientePedido(Cliente cliente) {
-
+        List<Item> itens = mostraCardapio();
+        System.out.println("Digite o numero de um item para adicionar a seu pedido,"
+                + " digite 0 quando terminar:");
+        int opcao;
+        Pedido pedido = new Pedido();
+        pedido.setCliente(cliente);
+        
+        while((opcao = scanner.nextInt()) != 0){
+            
+        }
     }
 
     private static void clienteReserva(Cliente cliente) {
@@ -178,17 +190,21 @@ public class Main {
                 + " reservada para " + dataString);
     }
 
-    private static void mostraCardapio() {
+    private static List<Item> mostraCardapio() {
         List<Item> itens = new ArrayList<>();
         itens.addAll(itemPreparavelDAO.listAll());
         itens.addAll(itemProntoDAO.listAll());
         itens.sort(null);
         System.out.println("CARDAPIO");
-        System.out.println("CATEGORIA        |        NOME");
-        System.out.println("------------------------------");
-        for (Item item : itens) {
-            System.out.println(item.getCategoria() + " | " + item.getNome());
+        System.out.println("Nº | CATEGORIA        |        NOME");
+        System.out.println("-----------------------------------");
+        for (int i = 1; i <= itens.size(); i++) {
+            Item item = itens.get(i - 1);
+            System.out.println(i + " | " + item.getCategoria() + " | " 
+                    + item.getNome());
         }
+        
+        return itens;
     }
     private static final ItemProntoDAO itemProntoDAO = new ItemProntoDAO();
     private static final ItemPreparavelDAO itemPreparavelDAO = new ItemPreparavelDAO();
