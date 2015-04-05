@@ -14,7 +14,6 @@ public class ItemPronto extends Item{
     
     private int quantidadeEstoque;
 
-    @Override
     public int getQuantidadeEstoque() {
         return quantidadeEstoque;
     }
@@ -26,6 +25,9 @@ public class ItemPronto extends Item{
     
     
 
-    
+    @Override
+    public boolean isDisponivel() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

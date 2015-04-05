@@ -23,14 +23,12 @@ public class ItemPreparavel extends Item{
     public void setReceita(Map<Ingrediente, Integer> receita) {
         this.receita = receita;
     }
+    
+    
 
     @Override
-    public int getQuantidadeEstoque() {
+    public boolean isDisponivel() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-
-   
     
 }
