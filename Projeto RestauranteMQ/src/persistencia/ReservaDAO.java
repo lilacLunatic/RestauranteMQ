@@ -24,7 +24,30 @@ public class ReservaDAO implements Dao<Reserva, Long>{
 
     @Override
     public void save(Reserva entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "insert into reserva (data, reserva_cliente, reserva_mesa)  "
+                    + "values(?,?,?)";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                ps.setDate(1, new java.sql.Date(entity.getDataEHora().getTimeInMillis()));
+                ps.setLong(2, entity.getCliente().getId());
+                ps.setLong(3, entity.getMesa().getId());
+                
+
+                ps.execute();
+
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }  finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
     }
 
     @Override
