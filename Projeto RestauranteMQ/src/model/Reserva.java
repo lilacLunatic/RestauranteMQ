@@ -35,7 +35,7 @@ public class Reserva {
         return mesa;
     }
 
-    public void setMesas(Mesa mesa) {
+    public void setMesa(Mesa mesa) {
         this.mesa = mesa;
     }
 
