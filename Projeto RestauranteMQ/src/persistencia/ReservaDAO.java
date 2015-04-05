@@ -56,7 +56,7 @@ public class ReservaDAO implements Dao<Reserva, Long>{
                     ClienteDAO clienteDao = new ClienteDAO();
                     c.setCliente(clienteDao.getById(rs.getLong("reserva_cliente")));
                     MesaDAO mesaDao = new MesaDAO();
-                    c.setMesas(mesaDao.getById(rs.getLong("reserva_mesa")));
+                    c.setMesa(mesaDao.getById(rs.getLong("reserva_mesa")));
                     lista.add(c);
 
                 }
@@ -101,7 +101,7 @@ public class ReservaDAO implements Dao<Reserva, Long>{
                     ClienteDAO clienteDao = new ClienteDAO();
                     c.setCliente(clienteDao.getById(rs.getLong("reserva_cliente")));
                     MesaDAO mesaDao = new MesaDAO();
-                    c.setMesas(mesaDao.getById(rs.getLong("reserva_mesa")));
+                    c.setMesa(mesaDao.getById(rs.getLong("reserva_mesa")));
                     
                 } else {
                     throw new Exception("Não há reserva com o id " + pk);
