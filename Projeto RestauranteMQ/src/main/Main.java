@@ -73,7 +73,6 @@ public class Main {
         Cliente cliente = new Cliente();
         boolean login = cliente.login(username, senha);
         if (login) {
-            System.out.println("Bem vindo, " + cliente.getNome() + "!");
             menuCliente(cliente);
         } else {
             System.out.println("Nome de usuario e/ou senha incorretos");
@@ -81,8 +80,29 @@ public class Main {
     }
 
     private static void menuCliente(Cliente cliente) {
-        //TODO: implementar    
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final int CLIENTE_PEDIDO = 1;
+        final int CLIENTE_RESERVA = 2;
+        final int CLIENTE_LOGOUT = 0;
+        int opcao;
+        
+        System.out.println("Bem vindo, " + cliente.getNome() + "!\n");
+        
+        do {            
+            System.out.println("Escolha sua opção:");
+            System.out.println(CLIENTE_PEDIDO + " - Cadastrar cliente");
+            System.out.println(CLIENTE_RESERVA + " - Login como cliente");
+            System.out.println(CLIENTE_LOGOUT + " - Sair");
+            
+            opcao = scanner.nextInt();
+            switch(opcao){
+                case CLIENTE_PEDIDO:
+                    break;
+                case CLIENTE_RESERVA:
+                    break;
+                    
+                default:
+            }
+        } while (opcao != CLIENTE_LOGOUT);
     }
 
     private static void menuFuncionario(Funcionario funcionario) {
