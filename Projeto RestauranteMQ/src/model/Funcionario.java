@@ -16,7 +16,15 @@ public class Funcionario extends Usuario{
     private double salario;
     private Calendar dataDeEntrada;
     private Calendar dataDeDemissao;
-    
+    private boolean administrador;
+
+    public boolean isAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(boolean administrador) {
+        this.administrador = administrador;
+    }
 
     public double getSalario() {
         return salario;
