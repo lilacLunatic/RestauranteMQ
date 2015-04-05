@@ -182,6 +182,7 @@ public class Main {
         List<Item> itens = new ArrayList<>();
         itens.addAll(itemPreparavelDAO.listAll());
         itens.addAll(itemProntoDAO.listAll());
+        itens.sort(null);
         System.out.println("CARDAPIO");
         System.out.println("CATEGORIA        |        NOME");
         System.out.println("------------------------------");
