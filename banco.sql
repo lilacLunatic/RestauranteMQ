@@ -2,9 +2,9 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.3.2
--- Dumped by pg_dump version 9.3.2
--- Started on 2015-03-27 14:50:16
+-- Dumped from database version 9.3.5
+-- Dumped by pg_dump version 9.3.1
+-- Started on 2015-04-05 09:00:39
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -13,19 +13,98 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
-SET search_path = public, pg_catalog;
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
 
 --
--- TOC entry 189 (class 1259 OID 43193)
--- Name: Cliente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 2063 (class 1262 OID 12029)
+-- Name: postgres; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+--CREATE DATABASE postgres WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Portuguese_Brazil.1252' LC_CTYPE = 'Portuguese_Brazil.1252';
+
+
+ALTER DATABASE postgres OWNER TO postgres;
+
+--\connect postgres
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 2064 (class 1262 OID 12029)
+-- Dependencies: 2063
+-- Name: postgres; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE postgres IS 'default administrative connection database';
+
+
+--
+-- TOC entry 6 (class 2615 OID 2200)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+--CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- TOC entry 2065 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
+--
+-- TOC entry 191 (class 3079 OID 11750)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2067 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- TOC entry 190 (class 3079 OID 16384)
+-- Name: adminpack; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS adminpack WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2068 (class 0 OID 0)
+-- Dependencies: 190
+-- Name: EXTENSION adminpack; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION adminpack IS 'administrative functions for PostgreSQL';
+
+
+SET search_path = public, pg_catalog;
+
+
+--
+-- TOC entry 172 (class 1259 OID 32783)
+-- Name: cliente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE cliente (
-    ID integer NOT NULL,
+    id integer NOT NULL,
     cpf character varying,
     nome character varying,
     endereco character varying,
@@ -38,7 +117,7 @@ CREATE TABLE cliente (
 ALTER TABLE public.cliente OWNER TO postgres;
 
 --
--- TOC entry 188 (class 1259 OID 43191)
+-- TOC entry 173 (class 1259 OID 32789)
 -- Name: Cliente_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -53,17 +132,17 @@ CREATE SEQUENCE "Cliente_ID_seq"
 ALTER TABLE public."Cliente_ID_seq" OWNER TO postgres;
 
 --
--- TOC entry 2101 (class 0 OID 0)
--- Dependencies: 188
+-- TOC entry 2069 (class 0 OID 0)
+-- Dependencies: 173
 -- Name: Cliente_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Cliente_ID_seq" OWNED BY cliente.ID;
+ALTER SEQUENCE "Cliente_ID_seq" OWNED BY cliente.id;
 
 
 --
--- TOC entry 191 (class 1259 OID 43208)
--- Name: Funcionario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 174 (class 1259 OID 32791)
+-- Name: funcionario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE funcionario (
@@ -74,9 +153,10 @@ CREATE TABLE funcionario (
     telefone character varying,
     data_de_demissao date,
     data_de_entrada date,
-    ID integer NOT NULL,
+    id integer NOT NULL,
     login character varying,
     senha character varying,
+    administrador boolean DEFAULT false NOT NULL,
     CONSTRAINT data_de_entrada_not_null CHECK ((data_de_entrada IS NOT NULL)),
     CONSTRAINT entrada_antes_de_demissao CHECK (((data_de_demissao IS NULL) OR (data_de_entrada <= data_de_demissao)))
 );
@@ -85,7 +165,7 @@ CREATE TABLE funcionario (
 ALTER TABLE public.funcionario OWNER TO postgres;
 
 --
--- TOC entry 190 (class 1259 OID 43206)
+-- TOC entry 175 (class 1259 OID 32799)
 -- Name: Funcionario_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -100,22 +180,22 @@ CREATE SEQUENCE "Funcionario_ID_seq"
 ALTER TABLE public."Funcionario_ID_seq" OWNER TO postgres;
 
 --
--- TOC entry 2102 (class 0 OID 0)
--- Dependencies: 190
+-- TOC entry 2070 (class 0 OID 0)
+-- Dependencies: 175
 -- Name: Funcionario_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Funcionario_ID_seq" OWNED BY funcionario.ID;
+ALTER SEQUENCE "Funcionario_ID_seq" OWNED BY funcionario.id;
 
 
 --
--- TOC entry 197 (class 1259 OID 43256)
--- Name: Ingrediente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 176 (class 1259 OID 32801)
+-- Name: ingrediente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE ingrediente (
-    ID integer NOT NULL,
-    quantidadeEstoque integer,
+    id integer NOT NULL,
+    quantidadeestoque integer,
     nome character varying,
     unidade character varying
 );
@@ -124,7 +204,7 @@ CREATE TABLE ingrediente (
 ALTER TABLE public.ingrediente OWNER TO postgres;
 
 --
--- TOC entry 196 (class 1259 OID 43254)
+-- TOC entry 177 (class 1259 OID 32807)
 -- Name: Ingrediente_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -139,32 +219,32 @@ CREATE SEQUENCE "Ingrediente_ID_seq"
 ALTER TABLE public."Ingrediente_ID_seq" OWNER TO postgres;
 
 --
--- TOC entry 2103 (class 0 OID 0)
--- Dependencies: 196
+-- TOC entry 2071 (class 0 OID 0)
+-- Dependencies: 177
 -- Name: Ingrediente_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Ingrediente_ID_seq" OWNED BY ingrediente.ID;
+ALTER SEQUENCE "Ingrediente_ID_seq" OWNED BY ingrediente.id;
 
 
 --
--- TOC entry 199 (class 1259 OID 43267)
--- Name: ItemDeMenu; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 178 (class 1259 OID 32809)
+-- Name: itemdemenu; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE itemDeMenu (
-    ID integer NOT NULL,
+CREATE TABLE itemdemenu (
+    id integer NOT NULL,
     nome character varying,
     preco real,
     categoria character varying,
-    quantidadeEstoque integer
+    quantidadeestoque integer
 );
 
 
-ALTER TABLE public.itemDeMenu OWNER TO postgres;
+ALTER TABLE public.itemdemenu OWNER TO postgres;
 
 --
--- TOC entry 198 (class 1259 OID 43265)
+-- TOC entry 179 (class 1259 OID 32815)
 -- Name: ItemDeMenu_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -179,31 +259,31 @@ CREATE SEQUENCE "ItemDeMenu_ID_seq"
 ALTER TABLE public."ItemDeMenu_ID_seq" OWNER TO postgres;
 
 --
--- TOC entry 2104 (class 0 OID 0)
--- Dependencies: 198
+-- TOC entry 2072 (class 0 OID 0)
+-- Dependencies: 179
 -- Name: ItemDeMenu_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "ItemDeMenu_ID_seq" OWNED BY itemDeMenu.ID;
+ALTER SEQUENCE "ItemDeMenu_ID_seq" OWNED BY itemdemenu.id;
 
 
 --
--- TOC entry 203 (class 1259 OID 43289)
--- Name: Item_possui_Ingrediente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 180 (class 1259 OID 32817)
+-- Name: itempossuiingrediente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE itemPossuiIngrediente (
-    ID integer NOT NULL,
+CREATE TABLE itempossuiingrediente (
+    id integer NOT NULL,
     quantidade integer,
     item integer,
     ingrediente integer
 );
 
 
-ALTER TABLE public.itemPossuiIngrediente OWNER TO postgres;
+ALTER TABLE public.itempossuiingrediente OWNER TO postgres;
 
 --
--- TOC entry 202 (class 1259 OID 43287)
+-- TOC entry 181 (class 1259 OID 32820)
 -- Name: Item_possui_Ingrediente_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -218,21 +298,21 @@ CREATE SEQUENCE "Item_possui_Ingrediente_ID_seq"
 ALTER TABLE public."Item_possui_Ingrediente_ID_seq" OWNER TO postgres;
 
 --
--- TOC entry 2105 (class 0 OID 0)
--- Dependencies: 202
+-- TOC entry 2073 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: Item_possui_Ingrediente_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Item_possui_Ingrediente_ID_seq" OWNED BY itemPossuiIngrediente.ID;
+ALTER SEQUENCE "Item_possui_Ingrediente_ID_seq" OWNED BY itempossuiingrediente.id;
 
 
 --
--- TOC entry 193 (class 1259 OID 43225)
--- Name: Mesa; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 182 (class 1259 OID 32822)
+-- Name: mesa; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE mesa (
-    ID integer NOT NULL,
+    id integer NOT NULL,
     numero integer,
     lugares integer
 );
@@ -241,7 +321,7 @@ CREATE TABLE mesa (
 ALTER TABLE public.mesa OWNER TO postgres;
 
 --
--- TOC entry 192 (class 1259 OID 43223)
+-- TOC entry 183 (class 1259 OID 32825)
 -- Name: Mesa_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -256,24 +336,24 @@ CREATE SEQUENCE "Mesa_ID_seq"
 ALTER TABLE public."Mesa_ID_seq" OWNER TO postgres;
 
 --
--- TOC entry 2106 (class 0 OID 0)
--- Dependencies: 192
+-- TOC entry 2074 (class 0 OID 0)
+-- Dependencies: 183
 -- Name: Mesa_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Mesa_ID_seq" OWNED BY mesa.ID;
+ALTER SEQUENCE "Mesa_ID_seq" OWNED BY mesa.id;
 
 
 --
--- TOC entry 201 (class 1259 OID 43278)
--- Name: Pedido; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 184 (class 1259 OID 32827)
+-- Name: pedido; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE pedido (
     data timestamp without time zone,
     endereco character varying,
     observacoes character varying,
-    ID integer NOT NULL,
+    id integer NOT NULL,
     cliente integer
 );
 
@@ -281,7 +361,7 @@ CREATE TABLE pedido (
 ALTER TABLE public.pedido OWNER TO postgres;
 
 --
--- TOC entry 200 (class 1259 OID 43276)
+-- TOC entry 185 (class 1259 OID 32833)
 -- Name: Pedido_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -296,30 +376,30 @@ CREATE SEQUENCE "Pedido_ID_seq"
 ALTER TABLE public."Pedido_ID_seq" OWNER TO postgres;
 
 --
--- TOC entry 2107 (class 0 OID 0)
--- Dependencies: 200
+-- TOC entry 2075 (class 0 OID 0)
+-- Dependencies: 185
 -- Name: Pedido_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Pedido_ID_seq" OWNED BY pedido.ID;
+ALTER SEQUENCE "Pedido_ID_seq" OWNED BY pedido.id;
 
 
 --
--- TOC entry 205 (class 1259 OID 43307)
--- Name: Pedido_possui_item; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 186 (class 1259 OID 32835)
+-- Name: pedidopossuiitem; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE pedidoPossuiItem (
-    ID integer NOT NULL,
+CREATE TABLE pedidopossuiitem (
+    id integer NOT NULL,
     pedido integer,
     item integer
 );
 
 
-ALTER TABLE public.pedidoPossuiItem OWNER TO postgres;
+ALTER TABLE public.pedidopossuiitem OWNER TO postgres;
 
 --
--- TOC entry 204 (class 1259 OID 43305)
+-- TOC entry 187 (class 1259 OID 32838)
 -- Name: Pedido_possui_item_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -334,21 +414,21 @@ CREATE SEQUENCE "Pedido_possui_item_ID_seq"
 ALTER TABLE public."Pedido_possui_item_ID_seq" OWNER TO postgres;
 
 --
--- TOC entry 2108 (class 0 OID 0)
--- Dependencies: 204
+-- TOC entry 2076 (class 0 OID 0)
+-- Dependencies: 187
 -- Name: Pedido_possui_item_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "Pedido_possui_item_ID_seq" OWNED BY pedidoPossuiItem.ID;
+ALTER SEQUENCE "Pedido_possui_item_ID_seq" OWNED BY pedidopossuiitem.id;
 
 
 --
--- TOC entry 195 (class 1259 OID 43235)
+-- TOC entry 188 (class 1259 OID 32840)
 -- Name: reserva; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE reserva (
-    ID integer NOT NULL,
+    id integer NOT NULL,
     reserva_cliente_fk integer,
     reserva_mesa_fk integer,
     data timestamp without time zone
@@ -358,7 +438,7 @@ CREATE TABLE reserva (
 ALTER TABLE public.reserva OWNER TO postgres;
 
 --
--- TOC entry 194 (class 1259 OID 43233)
+-- TOC entry 189 (class 1259 OID 32843)
 -- Name: reserva_ID_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -373,99 +453,89 @@ CREATE SEQUENCE "reserva_ID_seq"
 ALTER TABLE public."reserva_ID_seq" OWNER TO postgres;
 
 --
--- TOC entry 2109 (class 0 OID 0)
--- Dependencies: 194
+-- TOC entry 2077 (class 0 OID 0)
+-- Dependencies: 189
 -- Name: reserva_ID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE "reserva_ID_seq" OWNED BY reserva.ID;
+ALTER SEQUENCE "reserva_ID_seq" OWNED BY reserva.id;
 
 
 --
--- TOC entry 1922 (class 2604 OID 43196)
--- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1885 (class 2604 OID 32845)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY cliente ALTER COLUMN ID SET DEFAULT nextval('"Cliente_ID_seq"'::regclass);
-
-
---
--- TOC entry 1923 (class 2604 OID 43211)
--- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY funcionario ALTER COLUMN ID SET DEFAULT nextval('"Funcionario_ID_seq"'::regclass);
+ALTER TABLE ONLY cliente ALTER COLUMN id SET DEFAULT nextval('"Cliente_ID_seq"'::regclass);
 
 
 --
--- TOC entry 1928 (class 2604 OID 43259)
--- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1886 (class 2604 OID 32846)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY ingrediente ALTER COLUMN ID SET DEFAULT nextval('"Ingrediente_ID_seq"'::regclass);
-
-
---
--- TOC entry 1929 (class 2604 OID 43270)
--- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY itemDeMenu ALTER COLUMN ID SET DEFAULT nextval('"ItemDeMenu_ID_seq"'::regclass);
+ALTER TABLE ONLY funcionario ALTER COLUMN id SET DEFAULT nextval('"Funcionario_ID_seq"'::regclass);
 
 
 --
--- TOC entry 1931 (class 2604 OID 43292)
--- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1890 (class 2604 OID 32847)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY itemPossuiIngrediente ALTER COLUMN ID SET DEFAULT nextval('"Item_possui_Ingrediente_ID_seq"'::regclass);
-
-
---
--- TOC entry 1926 (class 2604 OID 43228)
--- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY mesa ALTER COLUMN ID SET DEFAULT nextval('"Mesa_ID_seq"'::regclass);
+ALTER TABLE ONLY ingrediente ALTER COLUMN id SET DEFAULT nextval('"Ingrediente_ID_seq"'::regclass);
 
 
 --
--- TOC entry 1930 (class 2604 OID 43281)
--- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1891 (class 2604 OID 32848)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY pedido ALTER COLUMN ID SET DEFAULT nextval('"Pedido_ID_seq"'::regclass);
-
-
---
--- TOC entry 1932 (class 2604 OID 43310)
--- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY pedidoPossuiItem ALTER COLUMN ID SET DEFAULT nextval('"Pedido_possui_item_ID_seq"'::regclass);
+ALTER TABLE ONLY itemdemenu ALTER COLUMN id SET DEFAULT nextval('"ItemDeMenu_ID_seq"'::regclass);
 
 
 --
--- TOC entry 1927 (class 2604 OID 43238)
--- Name: ID; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 1892 (class 2604 OID 32849)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY reserva ALTER COLUMN ID SET DEFAULT nextval('"reserva_ID_seq"'::regclass);
-
-
---
--- TOC entry 2078 (class 0 OID 43193)
--- Dependencies: 189
--- Data for Name: Cliente; Type: TABLE DATA; Schema: public; Owner: postgres
---
-/*
-COPY cliente (ID, cpf, nome, endereco, telefone, login, senha) FROM stdin;
-
+ALTER TABLE ONLY itempossuiingrediente ALTER COLUMN id SET DEFAULT nextval('"Item_possui_Ingrediente_ID_seq"'::regclass);
 
 
 --
--- TOC entry 2110 (class 0 OID 0)
--- Dependencies: 188
+-- TOC entry 1893 (class 2604 OID 32850)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY mesa ALTER COLUMN id SET DEFAULT nextval('"Mesa_ID_seq"'::regclass);
+
+
+--
+-- TOC entry 1894 (class 2604 OID 32851)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pedido ALTER COLUMN id SET DEFAULT nextval('"Pedido_ID_seq"'::regclass);
+
+
+--
+-- TOC entry 1895 (class 2604 OID 32852)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pedidopossuiitem ALTER COLUMN id SET DEFAULT nextval('"Pedido_possui_item_ID_seq"'::regclass);
+
+
+--
+-- TOC entry 1896 (class 2604 OID 32853)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY reserva ALTER COLUMN id SET DEFAULT nextval('"reserva_ID_seq"'::regclass);
+
+
+--
+-- TOC entry 2078 (class 0 OID 0)
+-- Dependencies: 173
 -- Name: Cliente_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -473,18 +543,8 @@ SELECT pg_catalog.setval('"Cliente_ID_seq"', 1, false);
 
 
 --
--- TOC entry 2080 (class 0 OID 43208)
--- Dependencies: 191
--- Data for Name: Funcionario; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY funcionario (salario, cpf, nome, endereco, telefone, data_de_demissao, data_de_entrada, ID, login, senha) FROM stdin;
-
-
-
---
--- TOC entry 2111 (class 0 OID 0)
--- Dependencies: 190
+-- TOC entry 2079 (class 0 OID 0)
+-- Dependencies: 175
 -- Name: Funcionario_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -492,18 +552,8 @@ SELECT pg_catalog.setval('"Funcionario_ID_seq"', 1, false);
 
 
 --
--- TOC entry 2086 (class 0 OID 43256)
--- Dependencies: 197
--- Data for Name: Ingrediente; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY ingrediente (ID, quantidadeEstoque, nome, unidade) FROM stdin;
-
-
-
---
--- TOC entry 2112 (class 0 OID 0)
--- Dependencies: 196
+-- TOC entry 2080 (class 0 OID 0)
+-- Dependencies: 177
 -- Name: Ingrediente_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -511,18 +561,8 @@ SELECT pg_catalog.setval('"Ingrediente_ID_seq"', 1, false);
 
 
 --
--- TOC entry 2088 (class 0 OID 43267)
--- Dependencies: 199
--- Data for Name: ItemDeMenu; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY itemDeMenu (ID, nome, preco, categoria, quantidadeEstoque) FROM stdin;
-
-
-
---
--- TOC entry 2113 (class 0 OID 0)
--- Dependencies: 198
+-- TOC entry 2081 (class 0 OID 0)
+-- Dependencies: 179
 -- Name: ItemDeMenu_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -530,18 +570,8 @@ SELECT pg_catalog.setval('"ItemDeMenu_ID_seq"', 1, false);
 
 
 --
--- TOC entry 2092 (class 0 OID 43289)
--- Dependencies: 203
--- Data for Name: Item_possui_Ingrediente; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY itemPossuiIngrediente (ID, quantidade, item, ingrediente) FROM stdin;
-
-
-
---
--- TOC entry 2114 (class 0 OID 0)
--- Dependencies: 202
+-- TOC entry 2082 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: Item_possui_Ingrediente_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -549,18 +579,8 @@ SELECT pg_catalog.setval('"Item_possui_Ingrediente_ID_seq"', 1, false);
 
 
 --
--- TOC entry 2082 (class 0 OID 43225)
--- Dependencies: 193
--- Data for Name: Mesa; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY mesa (ID, numero, lugares) FROM stdin;
-
-
-
---
--- TOC entry 2115 (class 0 OID 0)
--- Dependencies: 192
+-- TOC entry 2083 (class 0 OID 0)
+-- Dependencies: 183
 -- Name: Mesa_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -568,18 +588,8 @@ SELECT pg_catalog.setval('"Mesa_ID_seq"', 1, false);
 
 
 --
--- TOC entry 2090 (class 0 OID 43278)
--- Dependencies: 201
--- Data for Name: Pedido; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY pedido (data, endereco, observacoes, ID, cliente) FROM stdin;
-
-
-
---
--- TOC entry 2116 (class 0 OID 0)
--- Dependencies: 200
+-- TOC entry 2084 (class 0 OID 0)
+-- Dependencies: 185
 -- Name: Pedido_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -587,18 +597,8 @@ SELECT pg_catalog.setval('"Pedido_ID_seq"', 1, false);
 
 
 --
--- TOC entry 2094 (class 0 OID 43307)
--- Dependencies: 205
--- Data for Name: Pedido_possui_item; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY pedidoPossuiItem (ID, pedido, item) FROM stdin;
-\.
-
-
---
--- TOC entry 2117 (class 0 OID 0)
--- Dependencies: 204
+-- TOC entry 2085 (class 0 OID 0)
+-- Dependencies: 187
 -- Name: Pedido_possui_item_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -606,53 +606,115 @@ SELECT pg_catalog.setval('"Pedido_possui_item_ID_seq"', 1, false);
 
 
 --
--- TOC entry 2084 (class 0 OID 43235)
--- Dependencies: 195
+-- TOC entry 2041 (class 0 OID 32783)
+-- Dependencies: 172
+-- Data for Name: cliente; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2043 (class 0 OID 32791)
+-- Dependencies: 174
+-- Data for Name: funcionario; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2045 (class 0 OID 32801)
+-- Dependencies: 176
+-- Data for Name: ingrediente; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2047 (class 0 OID 32809)
+-- Dependencies: 178
+-- Data for Name: itemdemenu; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2049 (class 0 OID 32817)
+-- Dependencies: 180
+-- Data for Name: itempossuiingrediente; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2051 (class 0 OID 32822)
+-- Dependencies: 182
+-- Data for Name: mesa; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2053 (class 0 OID 32827)
+-- Dependencies: 184
+-- Data for Name: pedido; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2055 (class 0 OID 32835)
+-- Dependencies: 186
+-- Data for Name: pedidopossuiitem; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2057 (class 0 OID 32840)
+-- Dependencies: 188
 -- Data for Name: reserva; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY reserva (ID, reserva_cliente_fk, reserva_mesa_fk, data) FROM stdin;
-\.
 
 
 --
--- TOC entry 2118 (class 0 OID 0)
--- Dependencies: 194
+-- TOC entry 2086 (class 0 OID 0)
+-- Dependencies: 189
 -- Name: reserva_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('"reserva_ID_seq"', 1, false);
 
-*/
+
 --
--- TOC entry 1956 (class 2606 OID 43275)
+-- TOC entry 1912 (class 2606 OID 32855)
 -- Name: Item_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY itemDeMenu
-    ADD CONSTRAINT "Item_pk" PRIMARY KEY (ID);
+ALTER TABLE ONLY itemdemenu
+    ADD CONSTRAINT "Item_pk" PRIMARY KEY (id);
 
 
 --
--- TOC entry 1960 (class 2606 OID 43294)
+-- TOC entry 1914 (class 2606 OID 32857)
 -- Name: Item_possui_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY itemPossuiIngrediente
-    ADD CONSTRAINT "Item_possui_pk" PRIMARY KEY (ID);
+ALTER TABLE ONLY itempossuiingrediente
+    ADD CONSTRAINT "Item_possui_pk" PRIMARY KEY (id);
 
 
 --
--- TOC entry 1962 (class 2606 OID 43312)
+-- TOC entry 1922 (class 2606 OID 32859)
 -- Name: Pedido_possui_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY pedidoPossuiItem
-    ADD CONSTRAINT "Pedido_possui_pk" PRIMARY KEY (ID);
+ALTER TABLE ONLY pedidopossuiitem
+    ADD CONSTRAINT "Pedido_possui_pk" PRIMARY KEY (id);
 
 
 --
--- TOC entry 1934 (class 2606 OID 43203)
+-- TOC entry 1898 (class 2606 OID 32861)
 -- Name: cliente_login_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -661,7 +723,7 @@ ALTER TABLE ONLY cliente
 
 
 --
--- TOC entry 1936 (class 2606 OID 43205)
+-- TOC entry 1900 (class 2606 OID 32863)
 -- Name: cpf_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -670,7 +732,7 @@ ALTER TABLE ONLY cliente
 
 
 --
--- TOC entry 1940 (class 2606 OID 43220)
+-- TOC entry 1904 (class 2606 OID 32865)
 -- Name: funcionario_cpf_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -679,7 +741,7 @@ ALTER TABLE ONLY funcionario
 
 
 --
--- TOC entry 1942 (class 2606 OID 43222)
+-- TOC entry 1906 (class 2606 OID 32867)
 -- Name: funcionario_login_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -688,34 +750,34 @@ ALTER TABLE ONLY funcionario
 
 
 --
--- TOC entry 1944 (class 2606 OID 43218)
+-- TOC entry 1908 (class 2606 OID 32869)
 -- Name: funcionario_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY funcionario
-    ADD CONSTRAINT funcionario_pk PRIMARY KEY (ID);
+    ADD CONSTRAINT funcionario_pk PRIMARY KEY (id);
 
 
 --
--- TOC entry 1954 (class 2606 OID 43264)
+-- TOC entry 1910 (class 2606 OID 32871)
 -- Name: ingrediente_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY ingrediente
-    ADD CONSTRAINT ingrediente_pk PRIMARY KEY (ID);
+    ADD CONSTRAINT ingrediente_pk PRIMARY KEY (id);
 
 
 --
--- TOC entry 1946 (class 2606 OID 43230)
+-- TOC entry 1916 (class 2606 OID 32873)
 -- Name: mesa_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY mesa
-    ADD CONSTRAINT mesa_pk PRIMARY KEY (ID);
+    ADD CONSTRAINT mesa_pk PRIMARY KEY (id);
 
 
 --
--- TOC entry 1950 (class 2606 OID 43242)
+-- TOC entry 1924 (class 2606 OID 32875)
 -- Name: no_duas_reservas_ao_mesmo_tempo_por_mesa; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -724,7 +786,7 @@ ALTER TABLE ONLY reserva
 
 
 --
--- TOC entry 1948 (class 2606 OID 43232)
+-- TOC entry 1918 (class 2606 OID 32877)
 -- Name: numero_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -733,98 +795,98 @@ ALTER TABLE ONLY mesa
 
 
 --
--- TOC entry 1958 (class 2606 OID 43286)
+-- TOC entry 1920 (class 2606 OID 32879)
 -- Name: pedido_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY pedido
-    ADD CONSTRAINT pedido_pk PRIMARY KEY (ID);
+    ADD CONSTRAINT pedido_pk PRIMARY KEY (id);
 
 
 --
--- TOC entry 1938 (class 2606 OID 43201)
+-- TOC entry 1902 (class 2606 OID 32881)
 -- Name: pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY cliente
-    ADD CONSTRAINT pk PRIMARY KEY (ID);
+    ADD CONSTRAINT pk PRIMARY KEY (id);
 
 
 --
--- TOC entry 1952 (class 2606 OID 43240)
+-- TOC entry 1926 (class 2606 OID 32883)
 -- Name: reserva_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY reserva
-    ADD CONSTRAINT reserva_pk PRIMARY KEY (ID);
+    ADD CONSTRAINT reserva_pk PRIMARY KEY (id);
 
 
 --
--- TOC entry 1965 (class 2606 OID 43323)
+-- TOC entry 1929 (class 2606 OID 32884)
 -- Name: Cliente_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY pedido
-    ADD CONSTRAINT "Cliente_fk" FOREIGN KEY (cliente) REFERENCES cliente(ID);
+    ADD CONSTRAINT "Cliente_fk" FOREIGN KEY (cliente) REFERENCES cliente(id);
 
 
 --
--- TOC entry 1966 (class 2606 OID 43295)
+-- TOC entry 1927 (class 2606 OID 32889)
 -- Name: Ingrediente_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY itemPossuiIngrediente
-    ADD CONSTRAINT "Ingrediente_fk" FOREIGN KEY (ingrediente) REFERENCES ingrediente(ID);
+ALTER TABLE ONLY itempossuiingrediente
+    ADD CONSTRAINT "Ingrediente_fk" FOREIGN KEY (ingrediente) REFERENCES ingrediente(id);
 
 
 --
--- TOC entry 1967 (class 2606 OID 43300)
+-- TOC entry 1928 (class 2606 OID 32894)
 -- Name: Item_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY itemPossuiIngrediente
-    ADD CONSTRAINT "Item_fk" FOREIGN KEY (item) REFERENCES itemDeMenu(ID);
+ALTER TABLE ONLY itempossuiingrediente
+    ADD CONSTRAINT "Item_fk" FOREIGN KEY (item) REFERENCES itemdemenu(id);
 
 
 --
--- TOC entry 1968 (class 2606 OID 43313)
+-- TOC entry 1930 (class 2606 OID 32899)
 -- Name: Item_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY pedidoPossuiItem
-    ADD CONSTRAINT "Item_fk" FOREIGN KEY (item) REFERENCES itemDeMenu(ID);
+ALTER TABLE ONLY pedidopossuiitem
+    ADD CONSTRAINT "Item_fk" FOREIGN KEY (item) REFERENCES itemdemenu(id);
 
 
 --
--- TOC entry 1969 (class 2606 OID 43318)
+-- TOC entry 1931 (class 2606 OID 32904)
 -- Name: Pedido_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY pedidoPossuiItem
-    ADD CONSTRAINT "Pedido_fk" FOREIGN KEY (pedido) REFERENCES pedido(ID);
+ALTER TABLE ONLY pedidopossuiitem
+    ADD CONSTRAINT "Pedido_fk" FOREIGN KEY (pedido) REFERENCES pedido(id);
 
 
 --
--- TOC entry 1963 (class 2606 OID 43243)
+-- TOC entry 1932 (class 2606 OID 32909)
 -- Name: reserva_cliente_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY reserva
-    ADD CONSTRAINT reserva_cliente_fk FOREIGN KEY (reserva_cliente_fk) REFERENCES cliente(ID);
+    ADD CONSTRAINT reserva_cliente_fk FOREIGN KEY (reserva_cliente_fk) REFERENCES cliente(id);
 
 
 --
--- TOC entry 1964 (class 2606 OID 43248)
+-- TOC entry 1933 (class 2606 OID 32914)
 -- Name: reserva_mesa_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY reserva
-    ADD CONSTRAINT reserva_mesa_fk FOREIGN KEY (reserva_mesa_fk) REFERENCES mesa(ID);
+    ADD CONSTRAINT reserva_mesa_fk FOREIGN KEY (reserva_mesa_fk) REFERENCES mesa(id);
 
 
 --
--- TOC entry 2100 (class 0 OID 0)
--- Dependencies: 5
+-- TOC entry 2066 (class 0 OID 0)
+-- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -834,7 +896,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2015-03-27 14:50:16
+-- Completed on 2015-04-05 09:00:39
 
 --
 -- PostgreSQL database dump complete
