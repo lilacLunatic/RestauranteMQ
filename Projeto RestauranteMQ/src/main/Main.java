@@ -1,7 +1,12 @@
 package main;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Cliente;
 import model.Funcionario;
 
@@ -16,6 +21,7 @@ public class Main {
     private final static int CADASTRO_CLIENTE = 1;
     private final static int LOGIN_CLIENTE = 2;
     private final static int LOGIN_FUNCIONARIO = 3;
+    private final static int VER_CARDAPIO = 4;
 
     public static void main(String[] args) {
         System.out.println("BEM VINDO AO RESTAURANTEMQ\n");
@@ -29,12 +35,13 @@ public class Main {
                     break;
                 case LOGIN_CLIENTE:
                     loginCliente();
-
                     break;
                 case LOGIN_FUNCIONARIO:
                     loginFuncionario();
                     break;
-
+                case VER_CARDAPIO:
+                    mostraCardapio();
+                    break;
                 default:
             }
         }
@@ -46,6 +53,7 @@ public class Main {
         System.out.println(CADASTRO_CLIENTE + " - Cadastrar cliente");
         System.out.println(LOGIN_CLIENTE + " - Login como cliente");
         System.out.println(LOGIN_FUNCIONARIO + " - Login como funcionario");
+        System.out.println(VER_CARDAPIO + " - Consultar cardapio");
         System.out.println(SAIR + " - Sair");
 
         try {
@@ -96,8 +104,10 @@ public class Main {
             opcao = scanner.nextInt();
             switch(opcao){
                 case CLIENTE_PEDIDO:
+                    clientePedido(cliente);
                     break;
                 case CLIENTE_RESERVA:
+                    clienteReserva(cliente);
                     break;
                     
                 default:
@@ -106,8 +116,34 @@ public class Main {
     }
 
     private static void menuFuncionario(Funcionario funcionario) {
-        //TODO: implementar    
+        //TODO: implementar menuFuncionario 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+    }
+
+    private static void clientePedido(Cliente cliente) {
+        //TODO: implementar clientePedido
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static void clienteReserva(Cliente cliente) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        
+        System.out.println("Escolha a data que deseja reservar (dd/mm/aaaa)");
+        String dataString = scanner.nextLine();
+        
+        try {
+            Calendar data = Calendar.getInstance();
+            data.setTime(format.parse(dataString));
+        } catch (ParseException ex) {
+            System.out.println("formato de data invalido");
+            return;
+        }
+        //TODO: terminar método
+    }
+
+    private static void mostraCardapio() {
+        //TODO: implementar mostraCardapio
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
