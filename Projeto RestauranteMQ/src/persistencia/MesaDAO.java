@@ -82,7 +82,7 @@ public class MesaDAO implements Dao<Mesa, Long>{
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "select * from cliente";
+            String sql = "select * from mesa";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
 
@@ -120,7 +120,7 @@ public class MesaDAO implements Dao<Mesa, Long>{
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "select * from cliente where cliente.id = ?";
+            String sql = "select * from mesa where id = ?";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
 
