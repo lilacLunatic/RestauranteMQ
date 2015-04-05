@@ -29,7 +29,28 @@ public class ReservaDAO implements Dao<Reserva, Long>{
 
     @Override
     public void delete(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "delete from reserva where id = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                ps.setLong(1, id);
+                ps.execute();
+
+                conn.fechar();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
     }
 
     @Override
