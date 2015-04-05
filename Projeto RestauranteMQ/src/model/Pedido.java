@@ -11,6 +11,20 @@ import java.util.Calendar;
 public class Pedido {
     private Long id;
     private Calendar dataEHora;
+    private String observações;
+    private String endereco;
+    private Cliente cliente;
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
+    
+
 
     public Long getId() {
         return id;
@@ -19,8 +33,6 @@ public class Pedido {
     public void setId(Long id) {
         this.id = id;
     }
-    private String observações;
-    private String endereco;
 
     public Calendar getDataEHora() {
         return dataEHora;
