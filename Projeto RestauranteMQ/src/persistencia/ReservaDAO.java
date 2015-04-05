@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Mesa;
+import model.Pedido;
 import model.Reserva;
 
 /**
@@ -38,7 +39,45 @@ public class ReservaDAO implements Dao<Reserva, Long>{
 
     @Override
     public Reserva getById(Long pk) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Reserva c = new Reserva();
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "select * from reserva where id = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+
+                ps.setLong(1, pk);
+
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+
+                c = new Reserva();
+
+                    c.setId(rs.getLong("id"));
+                    Calendar data = Calendar.getInstance(); 
+                    data.setTime(rs.getDate("data"));
+                    c.setDataEHora(data);
+                    ClienteDAO clienteDao = new ClienteDAO();
+                    c.setCliente(clienteDao.getById(rs.getLong("reserva_cliente")));
+                    MesaDAO mesaDao = new MesaDAO();
+                    c.setMesas(mesaDao.getById(rs.getLong("reserva_mesa")));
+                    
+                } else {
+                    throw new Exception("Não há reserva com o id " + pk);
+                }
+
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+        return c;
     }
     
     public List<Mesa> checkDisponibilidade(Calendar data, int numeroDeLugares) {
