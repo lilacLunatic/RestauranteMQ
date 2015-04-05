@@ -24,8 +24,8 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "insert into funcionario (salario, cpf, nome, endereco, telefone, data_de_demissao, data_de_entrada, login, senha)  "
-                    + "values(?,?,?,?,?,?,?,?,?)";
+            String sql = "insert into funcionario (salario, cpf, nome, endereco, telefone, data_de_demissao, data_de_entrada, login, senha, administrador)  "
+                    + "values(?,?,?,?,?,?,?,?,?,?)";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
                 ps.setDouble(1, entity.getSalario());
@@ -37,7 +37,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
                 ps.setDate(7, new java.sql.Date(entity.getDataDeEntrada().getTimeInMillis()));                
                 ps.setString(8, entity.getLogin());
                 ps.setString(9, entity.getSenha());
-
+                ps.setBoolean(10, entity.isAdministrador());
                 ps.execute();
 
             }
@@ -109,6 +109,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
                     c.setLogin(rs.getString("login"));
                     c.setSenha(rs.getString("senha"));
                     c.setNome(rs.getString("nome"));
+                    c.setAdministrador(rs.getBoolean("administrador"));
                     lista.add(c);
 
                 }
@@ -160,7 +161,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
                     c.setLogin(rs.getString("login"));
                     c.setSenha(rs.getString("senha"));
                     c.setNome(rs.getString("nome"));
-                    
+                    c.setAdministrador(rs.getBoolean("administrador"));
                 } else {
                     throw new Exception("Não há funcionario com o id " + pk);
                 }
