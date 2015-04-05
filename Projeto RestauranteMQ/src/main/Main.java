@@ -2,20 +2,23 @@ package main;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Cliente;
 import model.Funcionario;
+import model.Item;
 import model.Mesa;
 import model.Reserva;
+import persistencia.ItemPreparavelDAO;
+import persistencia.ItemProntoDAO;
 import persistencia.MesaDAO;
 import persistencia.ReservaDAO;
 
 public class Main {
+
     private final static MesaDAO MESA_DAO = new MesaDAO();
     private final static ReservaDAO RESERVA_DAO = new ReservaDAO();
     private final static Scanner scanner = new Scanner(System.in);
@@ -98,24 +101,24 @@ public class Main {
         final int CLIENTE_RESERVA = 2;
         final int CLIENTE_LOGOUT = 0;
         int opcao;
-        
+
         System.out.println("Bem vindo, " + cliente.getNome() + "!\n");
-        
-        do {            
+
+        do {
             System.out.println("Escolha sua opção:");
             System.out.println(CLIENTE_PEDIDO + " - Cadastrar cliente");
             System.out.println(CLIENTE_RESERVA + " - Login como cliente");
             System.out.println(CLIENTE_LOGOUT + " - Sair");
-            
+
             opcao = scanner.nextInt();
-            switch(opcao){
+            switch (opcao) {
                 case CLIENTE_PEDIDO:
                     clientePedido(cliente);
                     break;
                 case CLIENTE_RESERVA:
                     clienteReserva(cliente);
                     break;
-                    
+
                 default:
             }
         } while (opcao != CLIENTE_LOGOUT);
@@ -128,13 +131,12 @@ public class Main {
     }
 
     private static void clientePedido(Cliente cliente) {
-        //TODO: implementar clientePedido
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     private static void clienteReserva(Cliente cliente) {
         SimpleDateFormat formatData = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        
+
         System.out.println("Escolha a data e a hora que deseja reservar (dd/mm/aaaa HH:mm)");
         System.out.println("Escolher horário múltiplo de 30 minutos ");
         String dataString = scanner.nextLine();
@@ -145,7 +147,7 @@ public class Main {
             System.out.println("formato de data invalido");
             return;
         }
-        
+
         System.out.println("Escolha o numero de lugares que voce deseja");
         int lugares;
         try {
@@ -155,7 +157,7 @@ public class Main {
             return;
         }
         List<Mesa> mesasDisponiveis = RESERVA_DAO.checkDisponibilidade(dataEHora, lugares);
-        if (mesasDisponiveis.isEmpty()){
+        if (mesasDisponiveis.isEmpty()) {
             System.out.println("nao ha mesa disponivel no horario desejado "
                     + "com o numero de lugares desejado");
             return;
@@ -164,7 +166,7 @@ public class Main {
         Reserva reserva = new Reserva();
         reserva.setMesa(mesa);
         reserva.setDataEHora(dataEHora);
-        
+
         try {
             RESERVA_DAO.save(reserva);
         } catch (Exception e) {
@@ -177,7 +179,16 @@ public class Main {
     }
 
     private static void mostraCardapio() {
-        //TODO: implementar mostraCardapio
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Item> itens = new ArrayList<>();
+        itens.addAll(itemPreparavelDAO.listAll());
+        itens.addAll(itemProntoDAO.listAll());
+        System.out.println("CARDAPIO");
+        System.out.println("CATEGORIA        |        NOME");
+        System.out.println("------------------------------");
+        for (Item item : itens) {
+            System.out.println(item.getCategoria() + " | " + item.getNome());
+        }
     }
+    private static final ItemProntoDAO itemProntoDAO = new ItemProntoDAO();
+    private static final ItemPreparavelDAO itemPreparavelDAO = new ItemPreparavelDAO();
 }
