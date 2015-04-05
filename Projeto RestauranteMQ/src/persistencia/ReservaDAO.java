@@ -34,7 +34,46 @@ public class ReservaDAO implements Dao<Reserva, Long>{
 
     @Override
     public List<Reserva> listAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Reserva> lista = new ArrayList<>();
+
+        ConexaoPostgreSQL conn = null;
+        try {
+            
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "select * from reserva";
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    Reserva c = new Reserva();
+
+                    c.setId(rs.getLong("id"));
+                    Calendar data = Calendar.getInstance(); 
+                    data.setTime(rs.getDate("data"));
+                    c.setDataEHora(data);
+                    ClienteDAO clienteDao = new ClienteDAO();
+                    c.setCliente(clienteDao.getById(rs.getLong("reserva_cliente")));
+                    MesaDAO mesaDao = new MesaDAO();
+                    c.setMesas(mesaDao.getById(rs.getLong("reserva_mesa")));
+                    lista.add(c);
+
+                }
+
+            }
+            conn.fechar();
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+
+        return lista;
     }
 
     @Override
