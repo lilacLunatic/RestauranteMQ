@@ -10,25 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Item;
-import model.Mesa;
+import model.ItemPreparavel;
+import model.ItemPronto;
 
-public class ItemDAO implements Dao<Item, Long>{
+/**
+ *
+ * @author Thiago
+ */
+public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
 
     @Override
-    public void save(Item entity) {
+    public void save(ItemPreparavel entity) {
         ConexaoPostgreSQL conn = null;
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
             String sql = "insert into itemdemenu (nome, preco, categoria, quantidadeestoque)  "
-                    + "values(?,?,?,?)";
+                    + "values(?,?,?)";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
                 ps.setString(1, entity.getNome());
                 ps.setDouble(2, entity.getPreco());
                 ps.setString(3, entity.getCategoria());
-                ps.setInt(4, entity.getQuantidadeEstoque());
+                
                 
                
                 ps.execute();
@@ -47,7 +51,6 @@ public class ItemDAO implements Dao<Item, Long>{
 
     @Override
     public void delete(Long id) {
-       
         ConexaoPostgreSQL conn = null;
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
@@ -72,25 +75,25 @@ public class ItemDAO implements Dao<Item, Long>{
     }
 
     @Override
-    public List<Item> listAll() {
-        List<Item> lista = new ArrayList<>();
+    public List<ItemPreparavel> listAll() {
+        List<ItemPreparavel> lista = new ArrayList<>();
 
         ConexaoPostgreSQL conn = null;
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "select * from mesa";
+            String sql = "select * from itemdemenu";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
 
                 ResultSet rs = ps.executeQuery();
 
                 while (rs.next()) {
-                    Item c = null;
+                    ItemPreparavel c = new ItemPreparavel();
                     c.setId(rs.getLong("id"));
                     c.setNome(rs.getString("nome"));
                     c.setPreco(rs.getDouble("preco"));
-                    c.setCategoria(rs.getString("categoria"));
+                    c.setCategoria(rs.getString("categoria"));           
                     lista.add(c);
 
                 }
@@ -111,8 +114,40 @@ public class ItemDAO implements Dao<Item, Long>{
     }
 
     @Override
-    public Item getById(Long pk) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ItemPreparavel getById(Long pk) {
+        ItemPreparavel c = new ItemPreparavel();
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "select * from itemdemenu where id = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+
+                ps.setLong(1, pk);
+
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    c.setId(rs.getLong("id"));
+                    c.setNome(rs.getString("nome"));
+                    c.setPreco(rs.getDouble("preco"));
+                    c.setCategoria(rs.getString("categoria"));
+                    
+                    
+                } else {
+                    throw new Exception("Não há item com o id " + pk);
+                }
+
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+        return c;
     }
     
 }
