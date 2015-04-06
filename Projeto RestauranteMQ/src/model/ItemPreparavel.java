@@ -28,6 +28,7 @@ public class ItemPreparavel extends Item{
 
     @Override
     public boolean isDisponivel() {
+        //TODO: implementar
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
