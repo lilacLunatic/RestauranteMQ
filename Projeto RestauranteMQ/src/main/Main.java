@@ -77,10 +77,12 @@ public class Main {
 
     private static void cadastroCliente() {
         System.out.println("CADASTRO DE CLIENTE\n");
+        //TODO: cadastro de cliente
     }
 
     private static void loginFuncionario() {
         System.out.println("LOGIN DE FUNCIONARIO\n");
+        //TODO: login de funcionario
     }
 
     private static void loginCliente() {
