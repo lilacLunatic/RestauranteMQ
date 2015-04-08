@@ -6,7 +6,9 @@
 
 package model;
 
+import java.util.List;
 import java.util.Map;
+import persistencia.IngredienteDAO;
 
 /**
  *
@@ -28,8 +30,13 @@ public class ItemPreparavel extends Item{
 
     @Override
     public boolean isDisponivel() {
-        //TODO: implementar
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Ingrediente ingrediente : receita.keySet()){
+            if (ingrediente.getQuantidadeEstoque() < receita.get(ingrediente)){
+                return false;
+            }
+        }
+        
+        return true;
     }
     
 }
