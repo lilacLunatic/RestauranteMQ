@@ -7,6 +7,7 @@
 package model;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class Pedido {
     private Long id;
@@ -14,6 +15,15 @@ public class Pedido {
     private String observações;
     private String endereco;
     private Cliente cliente;
+    private List<Item> itens;
+
+    public List<Item> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<Item> itens) {
+        this.itens = itens;
+    }
 
     public Cliente getCliente() {
         return cliente;
