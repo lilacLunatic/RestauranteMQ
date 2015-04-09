@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import model.Cliente;
@@ -104,8 +105,6 @@ public class Main {
         cliente.setSenha(scanner.nextLine());
 
         CLIENTE_DAO.save(cliente);
-
-        //TODO: cadastro de cliente
     }
 
     private static void loginFuncionario() {
@@ -155,6 +154,8 @@ public class Main {
     private static void menuCliente(Cliente cliente) {
         final int CLIENTE_PEDIDO = 1;
         final int CLIENTE_RESERVA = 2;
+        final int CLIENTE_CONSULTA_RESERVA = 3;
+        final int CLIENTE_CONSULTA_PEDIDO = 4;
         final int CLIENTE_LOGOUT = 0;
         int opcao;
 
@@ -173,6 +174,12 @@ public class Main {
                     break;
                 case CLIENTE_RESERVA:
                     clienteReserva(cliente);
+                    break;
+                case CLIENTE_CONSULTA_RESERVA:
+                    clienteConsultaReserva(cliente);
+                    break;
+                case CLIENTE_CONSULTA_PEDIDO:
+                    clienteConsultaPedido(cliente);
                     break;
 
                 default:
@@ -408,5 +415,35 @@ public class Main {
         funcionario.setAdministrador(false);
         funcionario.setDataDeEntrada(Calendar.getInstance());
         FUNCIONARIO_DAO.save(funcionario);
+    }
+
+    private static void clienteConsultaReserva(Cliente cliente) {
+        System.out.println("SUAS RESERVAS\n\n");
+        List<Reserva> todasReservas = RESERVA_DAO.listAll();
+        boolean possui = false;
+        for(Reserva reserva : todasReservas){
+            if(Objects.equals(reserva.getCliente().getId(), cliente.getId())){
+                possui = true;
+                Calendar dataCalendar = reserva.getDataEHora();
+                String data = new SimpleDateFormat("dd/MM/yyyy").format(dataCalendar.getTime());
+                String hora = new SimpleDateFormat("HH:mm").format(dataCalendar.getTime());
+                int mesa = reserva.getMesa().getNumero();
+                int lugares = reserva.getMesa().getQuantidadeDeLugares();
+                
+                System.out.println("Data: " + data);
+                System.out.println("Hora: " + hora);
+                System.out.println("Mesa: " + mesa);
+                System.out.println("Lugares: "  + lugares);
+            }
+        }
+        
+        if(!possui){
+            System.out.println("Nenhuma reserva pendente");
+        }
+    }
+
+    private static void clienteConsultaPedido(Cliente cliente) {
+        //TODO: implementar clienteConsultaPedido
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
