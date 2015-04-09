@@ -24,8 +24,10 @@ public class Main {
 
     private final static MesaDAO MESA_DAO = new MesaDAO();
     private final static ReservaDAO RESERVA_DAO = new ReservaDAO();
-    private final static Scanner scanner = new Scanner(System.in);
     private final static PedidoDAO PEDIDO_DAO = new PedidoDAO();
+    private static final ItemProntoDAO itemProntoDAO = new ItemProntoDAO();
+    private static final ItemPreparavelDAO itemPreparavelDAO = new ItemPreparavelDAO();
+    private final static Scanner scanner = new Scanner(System.in);
 
     static {
         scanner.useDelimiter(Pattern.compile("\n|\r\n"));
@@ -143,7 +145,35 @@ public class Main {
     }
 
     private static void menuFuncionario(Funcionario funcionario) {
-        //TODO: implementar menuFuncionario 
+        final int FUNCIONARIO_PEDIDO = 1;
+        final int FUNCIONARIO_RESERVA = 2;
+        final int FUNCIONARIO_CARDAPIO = 3;
+        final int FUNCIONARIO_LOGOUT = 0;
+        int opcao;
+
+        System.out.println("Bem vindo, " + funcionario.getNome() + "!\n");
+
+        do {
+            System.out.println("Escolha sua opção:");
+            System.out.println(FUNCIONARIO_PEDIDO + " - Fazer pedido");
+            System.out.println(FUNCIONARIO_RESERVA + " - Fazer reserva");
+            System.out.println(FUNCIONARIO_CARDAPIO + " - Mudar cardapio");
+            System.out.println(FUNCIONARIO_LOGOUT + " - Sair");
+
+            opcao = scanner.nextInt();
+            switch (opcao) {
+                case FUNCIONARIO_PEDIDO:
+                    funcionarioPedido();
+                    break;
+                case FUNCIONARIO_RESERVA:
+                    funcionarioReserva();
+                    break;
+                case FUNCIONARIO_CARDAPIO:
+                    menuCardapio();
+
+                default:
+            }
+        } while (opcao != FUNCIONARIO_LOGOUT);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
     }
@@ -213,6 +243,7 @@ public class Main {
         Reserva reserva = new Reserva();
         reserva.setMesa(mesa);
         reserva.setDataEHora(dataEHora);
+        reserva.setCliente(cliente);
 
         try {
             RESERVA_DAO.save(reserva);
@@ -240,6 +271,17 @@ public class Main {
         
         return itens;
     }
-    private static final ItemProntoDAO itemProntoDAO = new ItemProntoDAO();
-    private static final ItemPreparavelDAO itemPreparavelDAO = new ItemPreparavelDAO();
+    
+
+    private static void funcionarioReserva() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static void funcionarioPedido() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static void menuCardapio() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
