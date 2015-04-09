@@ -250,8 +250,10 @@ public class Main {
 
         for (int i = 0; i < itensDoPedido.size(); i++) {
             Item item = itens.get(itensDoPedido.get(i) - 1);
-            PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
-            //TODO: adicionar o metodo Item.deduzQuantidade
+            //PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
+            PEDIDO_DAO.adicionaItem(item.getId().intValue(), pedido.getId().intValue());
+            item.deduzQuantidade();
+            //TODO: salvar nova quantidade do item
         }
 
     }

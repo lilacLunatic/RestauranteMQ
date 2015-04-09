@@ -32,7 +32,6 @@ public class ItemPronto extends Item{
 
     @Override
     public void deduzQuantidade() {
-        //TODO: implementar deduzQuantidade
         if (isDisponivel())
             quantidadeEstoque--;
         else{
