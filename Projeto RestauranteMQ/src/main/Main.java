@@ -411,7 +411,7 @@ public class Main {
         funcionario.setLogin(scanner.nextLine());
         System.out.println("Digite uma senha:  ");
         funcionario.setSenha(scanner.nextLine());
-        
+
         funcionario.setAdministrador(false);
         funcionario.setDataDeEntrada(Calendar.getInstance());
         FUNCIONARIO_DAO.save(funcionario);
@@ -421,29 +421,49 @@ public class Main {
         System.out.println("SUAS RESERVAS\n\n");
         List<Reserva> todasReservas = RESERVA_DAO.listAll();
         boolean possui = false;
-        for(Reserva reserva : todasReservas){
-            if(Objects.equals(reserva.getCliente().getId(), cliente.getId())){
+        for (Reserva reserva : todasReservas) {
+            if (Objects.equals(reserva.getCliente().getId(), cliente.getId())) {
                 possui = true;
                 Calendar dataCalendar = reserva.getDataEHora();
                 String data = new SimpleDateFormat("dd/MM/yyyy").format(dataCalendar.getTime());
                 String hora = new SimpleDateFormat("HH:mm").format(dataCalendar.getTime());
                 int mesa = reserva.getMesa().getNumero();
                 int lugares = reserva.getMesa().getQuantidadeDeLugares();
-                
+
                 System.out.println("Data: " + data);
                 System.out.println("Hora: " + hora);
                 System.out.println("Mesa: " + mesa);
-                System.out.println("Lugares: "  + lugares);
+                System.out.println("Lugares: " + lugares);
             }
         }
-        
-        if(!possui){
-            System.out.println("Nenhuma reserva pendente");
+
+        if (!possui) {
+            System.out.println("Nenhuma reserva feita");
         }
     }
 
     private static void clienteConsultaPedido(Cliente cliente) {
-        //TODO: implementar clienteConsultaPedido
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("SEUS PEDIDOS\n\n");
+        List<Pedido> todosPedidos = PEDIDO_DAO.listAll();
+        boolean possui = false;
+        for (Pedido pedido : todosPedidos) {
+            if (Objects.equals(pedido.getCliente().getId(), cliente.getId())) {
+                possui = true;
+                Calendar dataCalendar = pedido.getDataEHora();
+                String data = new SimpleDateFormat("dd/MM/yyyy").format(dataCalendar.getTime());
+                String hora = new SimpleDateFormat("HH:mm").format(dataCalendar.getTime());
+                List<Item> itens = pedido.getItens();
+
+                System.out.println("Data: " + data);
+                System.out.println("Hora: " + hora);
+                for(Item item : itens){
+                    System.out.println("Item: " + item.getNome());
+                }
+            }
+        }
+
+        if (!possui) {
+            System.out.println("Nenhum pedido feito");
+        }
     }
 }
