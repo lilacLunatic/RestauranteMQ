@@ -229,7 +229,7 @@ public class Main {
         pedido.setEndereco(cliente.getEndereco());
         pedido.setDataEHora(Calendar.getInstance());
         System.out.println("Observações:  ");
-        String observacao = scanner.nextLine();
+        String observacao = scanner.next();
         pedido.setObservações(observacao);
         PEDIDO_DAO.save(pedido);
 
@@ -263,7 +263,7 @@ public class Main {
 
         System.out.println("Escolha a data e a hora que deseja reservar (dd/mm/aaaa HH:mm)");
         System.out.println("Escolher horário múltiplo de 30 minutos ");
-        String dataString = scanner.nextLine();
+        String dataString = scanner.next();
         Calendar dataEHora = Calendar.getInstance();
         try {
             dataEHora.setTime(formatData.parse(dataString));
@@ -375,13 +375,13 @@ public class Main {
                 case TIPO_ITEM_PRONTO:
                     ItemPronto itemPronto = new ItemPronto();
                     System.out.println("Insira o nome do item: ");
-                    itemPronto.setNome(scanner.nextLine());
+                    itemPronto.setNome(scanner.next());
                     System.out.println("Insira o preco do item:");
                     itemPronto.setPreco(scanner.nextDouble());
                     System.out.println("Insira a qtd inicial do item:");
                     itemPronto.setQuantidadeEstoque(scanner.nextInt());
                     System.out.println("Insira a categoria");
-                    itemPronto.setCategoria(scanner.nextLine());
+                    itemPronto.setCategoria(scanner.next());
                     
                     ITEM_PRONTO_DAO.save(itemPronto);
                     System.out.println("Item salvo");
@@ -436,19 +436,19 @@ public class Main {
         System.out.println("CADASTRO DE FUNCIONARIO\n");
         Funcionario funcionario = new Funcionario();
         System.out.println("Digite o nome do funcionario:  ");
-        funcionario.setNome(scanner.nextLine());
+        funcionario.setNome(scanner.next());
         System.out.println("Digite o endereço: ");
-        funcionario.setEndereco(scanner.nextLine());
+        funcionario.setEndereco(scanner.next());
         System.out.println("Digite o cpf:  ");
-        funcionario.setCpf(scanner.nextLine());
+        funcionario.setCpf(scanner.next());
         System.out.println("Digite o telefone:  ");
-        funcionario.setTelefone(scanner.nextLine());
+        funcionario.setTelefone(scanner.next());
         System.out.println("Digite o salario em R$:  ");
         funcionario.setSalario(scanner.nextDouble());
         System.out.println("Digite um login:  ");
-        funcionario.setLogin(scanner.nextLine());
+        funcionario.setLogin(scanner.next());
         System.out.println("Digite uma senha:  ");
-        funcionario.setSenha(scanner.nextLine());
+        funcionario.setSenha(scanner.next());
 
         funcionario.setAdministrador(false);
         funcionario.setDataDeEntrada(Calendar.getInstance());
