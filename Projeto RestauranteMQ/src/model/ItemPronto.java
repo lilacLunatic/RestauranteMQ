@@ -32,11 +32,9 @@ public class ItemPronto extends Item{
 
     @Override
     public void deduzQuantidade() {
-        if (isDisponivel())
-            quantidadeEstoque--;
-        else{
-            throw new IllegalStateException("Item nao esta disponivel");
-        }
+        super.deduzQuantidade();
+        quantidadeEstoque--;
+        //Salvar no banco (?)
     }
     
 }

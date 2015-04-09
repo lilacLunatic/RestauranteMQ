@@ -50,6 +50,10 @@ public abstract class Item implements Comparable<Item>{
     public int compareTo(Item o) {
         return this.categoria.compareTo(o.categoria);
     }
-    
-    public abstract void deduzQuantidade();
+    //TODO: salvaz a quantidade deduzida deve ser feita dentro deste metodo(?)
+    public void deduzQuantidade(){
+        if (!isDisponivel()) {
+            throw new IllegalStateException("Item nao esta disponivel");
+        } 
+    }
 }

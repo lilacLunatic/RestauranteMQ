@@ -41,8 +41,13 @@ public class ItemPreparavel extends Item{
 
     @Override
     public void deduzQuantidade() {
-        //TODO: implementar deduzQuantidade
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super.deduzQuantidade();
+        for (Ingrediente ingrediente : receita.keySet()){
+            final int quantidadeEstoque = ingrediente.getQuantidadeEstoque();
+            final Integer quantidadeDeduzida = receita.get(ingrediente);
+            ingrediente.setQuantidadeEstoque
+                (quantidadeEstoque - quantidadeDeduzida);
+        }
     }
     
 }
