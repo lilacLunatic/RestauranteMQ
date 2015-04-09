@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Ingrediente;
 import model.ItemPreparavel;
 import model.ItemPronto;
 
@@ -27,7 +28,7 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "insert into itemdemenu (nome, preco, categoria, quantidadeestoque)  "
+            String sql = "insert into itemdemenu (nome, preco, categoria)  "
                     + "values(?,?,?)";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
@@ -150,6 +151,34 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
             }
         }
         return c;
+    }
+    
+    public void adicionarIngredientes(ItemPreparavel entity){
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "insert into itempossuiingrediente(quantidade, item, ingrediente) values (?,?,?)";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                for (Ingrediente ingrediente : entity.getReceita().keySet()){
+                    ps.setInt(1, entity.getReceita().get(ingrediente));
+                    ps.setInt(2, entity.getId().intValue());
+                    ps.setInt(3, ingrediente.getId().intValue());
+                    ps.execute();
+                } 
+
+                conn.fechar();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
     }
     
 }

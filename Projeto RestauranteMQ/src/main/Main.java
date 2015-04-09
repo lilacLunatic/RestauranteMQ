@@ -383,7 +383,7 @@ public class Main {
         switch (tipoItem) {
                 case TIPO_ITEM_PREPARAVEL:
                     //ItemPreparavel itemPreparavel = new ItemPreparavel();
-                    //TODO: implemetar adicionarItem() para preparavel
+                    
                     break;
                 case TIPO_ITEM_PRONTO:
                     ItemPronto itemPronto = new ItemPronto();
