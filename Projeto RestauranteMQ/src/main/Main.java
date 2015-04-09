@@ -75,7 +75,7 @@ public class Main {
         }
 
     }
-
+    //TODO: ver se nao faltam funcionalidades pro cliente ou pro funcionario
     private static int menuInicial() {
         System.out.println("Escolha sua opção:");
         System.out.println(CADASTRO_CLIENTE + " - Cadastrar cliente");
