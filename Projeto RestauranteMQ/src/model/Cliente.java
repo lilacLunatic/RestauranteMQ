@@ -2,6 +2,10 @@
 
 package model;
 
+import java.util.Objects;
+import main.SessaoLocal;
+import persistencia.ClienteDAO;
+
 public class Cliente extends Usuario{
     
     
@@ -9,13 +13,20 @@ public class Cliente extends Usuario{
     // TODO: implement inherited methods
     @Override
     public boolean isLogado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Objects.equals(SessaoLocal.getInstance().getUsuario().getId(), this.id);
     }
 
     @Override
     public boolean login(String username, String senha) {
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ClienteDAO clienteDAO = new ClienteDAO();
+        Cliente cliente = clienteDAO.getByLogin(username);
+        if (cliente.getSenha().equals(senha)){
+            SessaoLocal.getInstance().setUsuario(this);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     
