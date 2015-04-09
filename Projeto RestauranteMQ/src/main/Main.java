@@ -257,8 +257,8 @@ public class Main {
 
         for (int i = 0; i < itensDoPedido.size(); i++) {
             Item item = itens.get(itensDoPedido.get(i) - 1);
-            //PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
-            PEDIDO_DAO.adicionaItem(item.getId().intValue(), pedido.getId().intValue());
+            PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
+            //PEDIDO_DAO.adicionaItem(item.getId().intValue(), pedido.getId().intValue());
             item.deduzQuantidade();
             //TODO: salvar nova quantidade do item
         }
@@ -405,7 +405,7 @@ public class Main {
     }
 
     private static void removerItem() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Item> todosItens = mostraCardapio();
     }
 
     private static void menuAdmin(Funcionario funcionario) {
