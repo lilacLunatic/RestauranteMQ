@@ -11,7 +11,10 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 import model.Cliente;
 import model.Funcionario;
+import model.Ingrediente;
 import model.Item;
+import model.ItemPreparavel;
+import model.ItemPronto;
 import model.Mesa;
 import model.Pedido;
 import model.Reserva;
@@ -248,6 +251,7 @@ public class Main {
         for (int i = 0; i < itensDoPedido.size(); i++) {
             Item item = itens.get(itensDoPedido.get(i) - 1);
             PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
+            //TODO: adicionar o metodo Item.deduzQuantidade
         }
 
     }
@@ -350,7 +354,38 @@ public class Main {
     }
 
     private static void adicionarItem() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final int TIPO_ITEM_PREPARAVEL = 1;
+        final int TIPO_ITEM_PRONTO = 2;
+        final int TIPO_ITEM_SAIR = 0;
+
+        int tipoItem;
+        System.out.println("ESCOLHA O TIPO DE ITEM QUE DESEJA ADICIONAR:");
+        System.out.println(TIPO_ITEM_PREPARAVEL + " - Item preparavel");
+        System.out.println(TIPO_ITEM_PRONTO + " - Item pronto");
+        System.out.println(TIPO_ITEM_SAIR + " - Sair");
+        
+        tipoItem = scanner.nextInt();
+        switch (tipoItem) {
+                case TIPO_ITEM_PREPARAVEL:
+                    //ItemPreparavel itemPreparavel = new ItemPreparavel();
+                    break;
+                case TIPO_ITEM_PRONTO:
+                    ItemPronto itemPronto = new ItemPronto();
+                    System.out.println("Insira o nome do item: ");
+                    itemPronto.setNome(scanner.nextLine());
+                    System.out.println("Insira o preco do item:");
+                    itemPronto.setPreco(scanner.nextDouble());
+                    System.out.println("Insira a qtd inicial do item:");
+                    itemPronto.setQuantidadeEstoque(scanner.nextInt());
+                    System.out.println("Insira a categoria");
+                    itemPronto.setCategoria(scanner.nextLine());
+                    
+                    ITEM_PRONTO_DAO.save(itemPronto);
+                    System.out.println("Item salvo");
+                    break;
+                
+                default:
+            }
     }
 
     private static void removerItem() {
@@ -456,7 +491,7 @@ public class Main {
 
                 System.out.println("Data: " + data);
                 System.out.println("Hora: " + hora);
-                for(Item item : itens){
+                for (Item item : itens) {
                     System.out.println("Item: " + item.getNome());
                 }
             }

@@ -17,6 +17,9 @@ import model.ItemPronto;
  *
  * @author Thiago
  */
+//TODO: incluir ingrediente no DAO
+//TODO: Criar IngredienteDAO
+//TODO: talvez acabar com toda essa merda de ingrediente (???)
 public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
 
     @Override
