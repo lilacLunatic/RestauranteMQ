@@ -82,6 +82,7 @@ public class Main {
         System.out.println(LOGIN_CLIENTE + " - Login como cliente");
         System.out.println(LOGIN_FUNCIONARIO + " - Login como funcionario");
         System.out.println(VER_CARDAPIO + " - Consultar cardapio");
+        System.out.println(LOGIN_ADMINISTRADOR + " - Login como administrador");
         System.out.println(SAIR + " - Sair");
 
         try {
