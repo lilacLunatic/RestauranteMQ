@@ -174,8 +174,7 @@ public class Main {
                 default:
             }
         } while (opcao != FUNCIONARIO_LOGOUT);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+        
     }
 
     private static void clientePedido(Cliente cliente) {
@@ -191,7 +190,7 @@ public class Main {
         List<Item> itens = mostraCardapio();
         List<Integer> itensDoPedido = new ArrayList<>();
         
-        int opcao = 0;
+        int opcao;
         while(true){
             System.out.println("Digite o numero de um item para adicionar a seu pedido,"
                     + " digite 0 quando terminar:");
@@ -282,6 +281,38 @@ public class Main {
     }
 
     private static void menuCardapio() {
+        final int CARDAPIO_ADICIONA = 1;
+        final int CARDAPIO_REMOVE = 2;
+        final int CARDAPIO_SAIR = 0;
+        int opcao;
+
+        System.out.println("\n");
+
+        do {
+            System.out.println("Escolha sua opção:");
+            System.out.println(CARDAPIO_ADICIONA + " - Adicionar item");
+            System.out.println(CARDAPIO_REMOVE + " - Remover item");            
+            System.out.println(CARDAPIO_SAIR + " - Sair");
+
+            opcao = scanner.nextInt();
+            switch (opcao) {
+                case CARDAPIO_ADICIONA:
+                    adicionarItem();
+                    break;
+                case CARDAPIO_REMOVE:
+                    removerItem();
+                    break;               
+
+                default:
+            }
+        } while (opcao != CARDAPIO_SAIR);
+     }
+
+    private static void adicionarItem() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static void removerItem() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
