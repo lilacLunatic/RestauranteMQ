@@ -18,6 +18,7 @@ import model.ItemPronto;
 import model.Mesa;
 import model.Pedido;
 import model.Reserva;
+import model.Usuario;
 import persistencia.ClienteDAO;
 import persistencia.FuncionarioDAO;
 import persistencia.ItemPreparavelDAO;
@@ -48,8 +49,6 @@ public class Main {
     private final static int VER_CARDAPIO = 4;
 
     public static void main(String[] args) {
-
-        System.out.println("BEM VINDO AO RESTAURANTEMQ\n");
 
         int opcao;
 
@@ -226,7 +225,14 @@ public class Main {
     private static void clientePedido(Cliente cliente) {
         Pedido pedido = new Pedido();
         pedido.setCliente(cliente);
-        pedido.setEndereco(cliente.getEndereco());
+        System.out.println("Seu endereco (deixe em branco para usar o endereco da sua conta:)");
+        String endereco = scanner.next();
+        if("".equals(endereco)){
+            pedido.setEndereco(cliente.getEndereco());
+        }
+        else{
+            pedido.setEndereco(endereco);
+        }
         pedido.setDataEHora(Calendar.getInstance());
         System.out.println("Observações:  ");
         String observacao = scanner.next();
@@ -320,7 +326,10 @@ public class Main {
     }
 
     private static void funcionarioReserva() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Insira o nome de usuario do cliente: ");
+        String username = scanner.next();
+        Cliente cliente = CLIENTE_DAO.getByLogin(username);
+        clienteReserva(cliente);
     }
 
     private static void funcionarioPedido() {

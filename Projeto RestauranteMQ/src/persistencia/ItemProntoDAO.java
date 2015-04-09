@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package persistencia;
-
+//TODO: implementar um controle de estoque
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
