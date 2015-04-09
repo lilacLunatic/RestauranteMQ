@@ -14,6 +14,7 @@ import model.Item;
 import model.Mesa;
 import model.Pedido;
 import model.Reserva;
+import persistencia.ClienteDAO;
 import persistencia.ItemPreparavelDAO;
 import persistencia.ItemProntoDAO;
 import persistencia.MesaDAO;
@@ -25,8 +26,9 @@ public class Main {
     private final static MesaDAO MESA_DAO = new MesaDAO();
     private final static ReservaDAO RESERVA_DAO = new ReservaDAO();
     private final static PedidoDAO PEDIDO_DAO = new PedidoDAO();
-    private static final ItemProntoDAO itemProntoDAO = new ItemProntoDAO();
-    private static final ItemPreparavelDAO itemPreparavelDAO = new ItemPreparavelDAO();
+    private static final ItemProntoDAO ITEM_PRONTO_DAO = new ItemProntoDAO();
+    private static final ItemPreparavelDAO ITEM_PREPARAVEL_DAO = new ItemPreparavelDAO();
+    private static final ClienteDAO CLIENTE_DAO = new ClienteDAO();
     private final static Scanner scanner = new Scanner(System.in);
 
     static {
@@ -81,6 +83,22 @@ public class Main {
 
     private static void cadastroCliente() {
         System.out.println("CADASTRO DE CLIENTE\n");
+        Cliente cliente = new Cliente();
+        System.out.println("Digite seu nome:  ");
+        cliente.setNome(scanner.nextLine());
+        System.out.println("Digite seu endereço: ");
+        cliente.setEndereco(scanner.nextLine());
+        System.out.println("Digite seu cpf:  ");
+        cliente.setCpf(scanner.nextLine());
+        System.out.println("Digite seu telefone:  ");
+        cliente.setTelefone(scanner.nextLine());
+        System.out.println("Digite um login:  ");
+        cliente.setLogin(scanner.nextLine());
+        System.out.println("Digite uma senha:  ");
+        cliente.setSenha(scanner.nextLine());
+        
+        CLIENTE_DAO.save(cliente);
+        
         //TODO: cadastro de cliente
     }
 
@@ -257,8 +275,8 @@ public class Main {
 
     private static List<Item> mostraCardapio() {
         List<Item> itens = new ArrayList<>();
-        itens.addAll(itemPreparavelDAO.listAll());
-        itens.addAll(itemProntoDAO.listAll());
+        itens.addAll(ITEM_PREPARAVEL_DAO.listAll());
+        itens.addAll(ITEM_PRONTO_DAO.listAll());
         System.out.println("CARDAPIO");
         System.out.println("Nº | CATEGORIA        |        NOME");
         System.out.println("-----------------------------------");
