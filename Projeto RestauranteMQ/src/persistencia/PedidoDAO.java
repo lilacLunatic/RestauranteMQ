@@ -20,10 +20,7 @@ import model.Pedido;
  */
 public class PedidoDAO implements Dao<Pedido, Long>{
 
-    /*
-    TODO: !!!IMPORTANTAÇO!!! incluir os itens do pedido na tabela intermediaria
-    e busca-los nos metodos de query
-    */
+    
     
     @Override
     public void save(Pedido entity) {

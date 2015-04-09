@@ -113,8 +113,8 @@ public class Main {
 
         do {
             System.out.println("Escolha sua opção:");
-            System.out.println(CLIENTE_PEDIDO + " - Cadastrar cliente");
-            System.out.println(CLIENTE_RESERVA + " - Login como cliente");
+            System.out.println(CLIENTE_PEDIDO + " - Fazer pedido");
+            System.out.println(CLIENTE_RESERVA + " - Fazer reserva");
             System.out.println(CLIENTE_LOGOUT + " - Sair");
 
             opcao = scanner.nextInt();
@@ -163,7 +163,8 @@ public class Main {
         }
         
         for (int i = 0; i < itensDoPedido.size(); i++) {
-            PEDIDO_DAO.adicionaItem(itensDoPedido.get(i), PEDIDO_DAO.getLastPedido().getId().intValue());
+            Item item = itens.get(itensDoPedido.get(i) - 1);
+            PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
         }
         
         
