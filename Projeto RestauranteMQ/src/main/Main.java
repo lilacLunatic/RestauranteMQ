@@ -27,6 +27,7 @@ import persistencia.MesaDAO;
 import persistencia.PedidoDAO;
 import persistencia.ReservaDAO;
 
+//TODO: milhares de verificacoes de entrada e tratamento de erros
 public class Main {
 
     private final static MesaDAO MESA_DAO = new MesaDAO();
@@ -333,7 +334,10 @@ public class Main {
     }
 
     private static void funcionarioPedido() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Insira o nome de usuario do cliente: ");
+        String username = scanner.next();
+        Cliente cliente = CLIENTE_DAO.getByLogin(username);
+        clientePedido(cliente);
     }
 
     private static void menuCardapio() {
