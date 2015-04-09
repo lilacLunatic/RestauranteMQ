@@ -168,4 +168,67 @@ public class PedidoDAO implements Dao<Pedido, Long>{
         return c;
     }
     
+    public void adicionaItem(int item, int pedido){
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "insert into pedidopossuiitem(pedido, item) values(?,?)";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, pedido);
+                ps.setInt(2, item);
+                ps.execute();
+
+                conn.fechar();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+    }
+    
+    public Pedido getLastPedido(){
+        ConexaoPostgreSQL conn = null;
+        Pedido c = new Pedido();
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "select * from pedido " +
+                         "order by data desc limit 1";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){              
+
+                        c.setId(rs.getLong("id"));
+                        Calendar data = Calendar.getInstance(); 
+                        data.setTime(rs.getDate("data"));
+                        c.setDataEHora(data);
+                        c.setEndereco(rs.getString("endereco"));
+                        c.setObservações(rs.getString("observacoes"));
+                        ClienteDAO clienteDao = new ClienteDAO();
+                        c.setCliente(clienteDao.getById(rs.getLong("cliente")));
+                }
+
+                conn.fechar();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+        return c;
+        
+    }
+    
 }

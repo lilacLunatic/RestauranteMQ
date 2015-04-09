@@ -17,6 +17,7 @@ import model.Reserva;
 import persistencia.ItemPreparavelDAO;
 import persistencia.ItemProntoDAO;
 import persistencia.MesaDAO;
+import persistencia.PedidoDAO;
 import persistencia.ReservaDAO;
 
 public class Main {
@@ -24,6 +25,7 @@ public class Main {
     private final static MesaDAO MESA_DAO = new MesaDAO();
     private final static ReservaDAO RESERVA_DAO = new ReservaDAO();
     private final static Scanner scanner = new Scanner(System.in);
+    private final static PedidoDAO PEDIDO_DAO = new PedidoDAO();
 
     static {
         scanner.useDelimiter(Pattern.compile("\n|\r\n"));
@@ -136,16 +138,35 @@ public class Main {
     }
 
     private static void clientePedido(Cliente cliente) {
-        List<Item> itens = mostraCardapio();
-        System.out.println("Digite o numero de um item para adicionar a seu pedido,"
-                + " digite 0 quando terminar:");
-        int opcao;
         Pedido pedido = new Pedido();
         pedido.setCliente(cliente);
+        pedido.setEndereco(cliente.getEndereco());
+        pedido.setDataEHora(Calendar.getInstance());
+        System.out.println("Observações:  ");
+        String observacao = scanner.nextLine();
+        pedido.setObservações(observacao);
+        PEDIDO_DAO.save(pedido);
+     
+        List<Item> itens = mostraCardapio();
+        List<Integer> itensDoPedido = new ArrayList<>();
         
-        while((opcao = scanner.nextInt()) != 0){
-            
+        int opcao = 0;
+        while(true){
+            System.out.println("Digite o numero de um item para adicionar a seu pedido,"
+                    + " digite 0 quando terminar:");
+
+            if((opcao = scanner.nextInt()) == 0){
+                break;
+            }else{
+                itensDoPedido.add(opcao);
+            }            
         }
+        
+        for (int i = 0; i < itensDoPedido.size(); i++) {
+            PEDIDO_DAO.adicionaItem(itensDoPedido.get(i), PEDIDO_DAO.getLastPedido().getId().intValue());
+        }
+        
+        
     }
 
     private static void clienteReserva(Cliente cliente) {
@@ -196,7 +217,6 @@ public class Main {
         List<Item> itens = new ArrayList<>();
         itens.addAll(itemPreparavelDAO.listAll());
         itens.addAll(itemProntoDAO.listAll());
-        itens.sort(null);
         System.out.println("CARDAPIO");
         System.out.println("Nº | CATEGORIA        |        NOME");
         System.out.println("-----------------------------------");
