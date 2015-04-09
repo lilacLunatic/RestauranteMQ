@@ -6,6 +6,7 @@
 
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import persistencia.IngredienteDAO;
@@ -21,7 +22,7 @@ public class ItemPreparavel extends Item{
     public Map<Ingrediente, Integer> getReceita() {
         return receita;
     }
-
+    
     public void setReceita(Map<Ingrediente, Integer> receita) {
         this.receita = receita;
     }
