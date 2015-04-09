@@ -65,6 +65,15 @@ public class Funcionario extends Usuario {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         Funcionario funcionario = funcionarioDAO.getByLogin(username);
         if (funcionario.getSenha().equals(senha)) {
+            this.setId(funcionario.id);
+            this.setEndereco(funcionario.endereco);
+            this.setLogin(funcionario.login);
+            this.setNome(funcionario.nome);
+            this.setTelefone(funcionario.telefone);
+            this.setCpf(funcionario.cpf);
+            this.setDataDeEntrada(funcionario.dataDeEntrada);
+            this.setDataDeDemissao(funcionario.dataDeDemissao);
+            this.setSalario(funcionario.salario);
             SessaoLocal.getInstance().setUsuario(this);
             return true;
         } else {
