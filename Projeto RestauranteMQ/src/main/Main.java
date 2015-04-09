@@ -95,17 +95,17 @@ public class Main {
         System.out.println("CADASTRO DE CLIENTE\n");
         Cliente cliente = new Cliente();
         System.out.println("Digite seu nome:  ");
-        cliente.setNome(scanner.nextLine());
+        cliente.setNome(scanner.next());
         System.out.println("Digite seu endereço: ");
-        cliente.setEndereco(scanner.nextLine());
+        cliente.setEndereco(scanner.next());
         System.out.println("Digite seu cpf:  ");
-        cliente.setCpf(scanner.nextLine());
+        cliente.setCpf(scanner.next());
         System.out.println("Digite seu telefone:  ");
-        cliente.setTelefone(scanner.nextLine());
+        cliente.setTelefone(scanner.next());
         System.out.println("Digite um login:  ");
-        cliente.setLogin(scanner.nextLine());
+        cliente.setLogin(scanner.next());
         System.out.println("Digite uma senha:  ");
-        cliente.setSenha(scanner.nextLine());
+        cliente.setSenha(scanner.next());
 
         CLIENTE_DAO.save(cliente);
     }
