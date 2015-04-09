@@ -15,6 +15,7 @@ import model.Mesa;
 import model.Pedido;
 import model.Reserva;
 import persistencia.ClienteDAO;
+import persistencia.FuncionarioDAO;
 import persistencia.ItemPreparavelDAO;
 import persistencia.ItemProntoDAO;
 import persistencia.MesaDAO;
@@ -30,6 +31,7 @@ public class Main {
     private static final ItemPreparavelDAO ITEM_PREPARAVEL_DAO = new ItemPreparavelDAO();
     private static final ClienteDAO CLIENTE_DAO = new ClienteDAO();
     private final static Scanner scanner = new Scanner(System.in);
+    private final static FuncionarioDAO FUNCIONARIO_DAO = new FuncionarioDAO();
 
     static {
         scanner.useDelimiter(Pattern.compile("\n|\r\n"));
@@ -38,10 +40,11 @@ public class Main {
     private final static int CADASTRO_CLIENTE = 1;
     private final static int LOGIN_CLIENTE = 2;
     private final static int LOGIN_FUNCIONARIO = 3;
+    private final static int LOGIN_ADMINISTRADOR = 5;
     private final static int VER_CARDAPIO = 4;
 
     public static void main(String[] args) {
-        
+
         System.out.println("BEM VINDO AO RESTAURANTEMQ\n");
 
         int opcao;
@@ -56,6 +59,9 @@ public class Main {
                     break;
                 case LOGIN_FUNCIONARIO:
                     loginFuncionario();
+                    break;
+                case LOGIN_ADMINISTRADOR:
+                    loginFuncionario(true);
                     break;
                 case VER_CARDAPIO:
                     mostraCardapio();
@@ -96,13 +102,17 @@ public class Main {
         cliente.setLogin(scanner.nextLine());
         System.out.println("Digite uma senha:  ");
         cliente.setSenha(scanner.nextLine());
-        
+
         CLIENTE_DAO.save(cliente);
-        
+
         //TODO: cadastro de cliente
     }
 
     private static void loginFuncionario() {
+        loginFuncionario(false);
+    }
+
+    private static void loginFuncionario(boolean admin) {
         System.out.println("LOGIN DE FUNCIONARIO\n");
         System.out.print("Nome de usuario:");
         String username = scanner.next();
@@ -112,7 +122,15 @@ public class Main {
         Funcionario funcionario = new Funcionario();
         boolean login = funcionario.login(username, senha);
         if (login) {
-            menuFuncionario(funcionario);
+            if (!admin) {
+                menuFuncionario(funcionario);
+            } else {
+                if (funcionario.isAdministrador()) {
+                    menuAdmin(funcionario);
+                } else {
+                    System.out.println("Voce nao possui privilegios de administrador");
+                }
+            }
         } else {
             System.out.println("Nome de usuario e/ou senha incorretos");
         }
@@ -192,7 +210,7 @@ public class Main {
                 default:
             }
         } while (opcao != FUNCIONARIO_LOGOUT);
-        
+
     }
 
     private static void clientePedido(Cliente cliente) {
@@ -204,28 +222,27 @@ public class Main {
         String observacao = scanner.nextLine();
         pedido.setObservações(observacao);
         PEDIDO_DAO.save(pedido);
-     
+
         List<Item> itens = mostraCardapio();
         List<Integer> itensDoPedido = new ArrayList<>();
-        
+
         int opcao;
-        while(true){
+        while (true) {
             System.out.println("Digite o numero de um item para adicionar a seu pedido,"
                     + " digite 0 quando terminar:");
 
-            if((opcao = scanner.nextInt()) == 0){
+            if ((opcao = scanner.nextInt()) == 0) {
                 break;
-            }else{
+            } else {
                 itensDoPedido.add(opcao);
-            }            
+            }
         }
-        
+
         for (int i = 0; i < itensDoPedido.size(); i++) {
             Item item = itens.get(itensDoPedido.get(i) - 1);
             PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
         }
-        
-        
+
     }
 
     private static void clienteReserva(Cliente cliente) {
@@ -282,13 +299,12 @@ public class Main {
         System.out.println("-----------------------------------");
         for (int i = 1; i <= itens.size(); i++) {
             Item item = itens.get(i - 1);
-            System.out.println(i + " | " + item.getCategoria() + " | " 
+            System.out.println(i + " | " + item.getCategoria() + " | "
                     + item.getNome());
         }
-        
+
         return itens;
     }
-    
 
     private static void funcionarioReserva() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -309,7 +325,7 @@ public class Main {
         do {
             System.out.println("Escolha sua opção:");
             System.out.println(CARDAPIO_ADICIONA + " - Adicionar item");
-            System.out.println(CARDAPIO_REMOVE + " - Remover item");            
+            System.out.println(CARDAPIO_REMOVE + " - Remover item");
             System.out.println(CARDAPIO_SAIR + " - Sair");
 
             opcao = scanner.nextInt();
@@ -319,12 +335,12 @@ public class Main {
                     break;
                 case CARDAPIO_REMOVE:
                     removerItem();
-                    break;               
+                    break;
 
                 default:
             }
         } while (opcao != CARDAPIO_SAIR);
-     }
+    }
 
     private static void adicionarItem() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -332,5 +348,65 @@ public class Main {
 
     private static void removerItem() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static void menuAdmin(Funcionario funcionario) {
+        final int FUNCIONARIO_PEDIDO = 1;
+        final int FUNCIONARIO_RESERVA = 2;
+        final int FUNCIONARIO_CARDAPIO = 3;
+        final int ADMIN_CADASTRO = 4;
+        final int FUNCIONARIO_LOGOUT = 0;
+        int opcao;
+
+        System.out.println("Bem vindo, " + funcionario.getNome() + "!\n");
+
+        do {
+            System.out.println("Escolha sua opção:");
+            System.out.println(FUNCIONARIO_PEDIDO + " - Fazer pedido");
+            System.out.println(FUNCIONARIO_RESERVA + " - Fazer reserva");
+            System.out.println(FUNCIONARIO_CARDAPIO + " - Mudar cardapio");
+            System.out.println(ADMIN_CADASTRO + " - Cadastrar funcionario");
+            System.out.println(FUNCIONARIO_LOGOUT + " - Sair");
+
+            opcao = scanner.nextInt();
+            switch (opcao) {
+                case FUNCIONARIO_PEDIDO:
+                    funcionarioPedido();
+                    break;
+                case FUNCIONARIO_RESERVA:
+                    funcionarioReserva();
+                    break;
+                case FUNCIONARIO_CARDAPIO:
+                    menuCardapio();
+                    break;
+                case ADMIN_CADASTRO:
+                    menuCadastroFuncionario();
+                    break;
+                default:
+            }
+        } while (opcao != FUNCIONARIO_LOGOUT);
+    }
+
+    private static void menuCadastroFuncionario() {
+        System.out.println("CADASTRO DE FUNCIONARIO\n");
+        Funcionario funcionario = new Funcionario();
+        System.out.println("Digite o nome do funcionario:  ");
+        funcionario.setNome(scanner.nextLine());
+        System.out.println("Digite o endereço: ");
+        funcionario.setEndereco(scanner.nextLine());
+        System.out.println("Digite o cpf:  ");
+        funcionario.setCpf(scanner.nextLine());
+        System.out.println("Digite o telefone:  ");
+        funcionario.setTelefone(scanner.nextLine());
+        System.out.println("Digite o salario em R$:  ");
+        funcionario.setSalario(scanner.nextDouble());
+        System.out.println("Digite um login:  ");
+        funcionario.setLogin(scanner.nextLine());
+        System.out.println("Digite uma senha:  ");
+        funcionario.setSenha(scanner.nextLine());
+        
+        funcionario.setAdministrador(false);
+        funcionario.setDataDeEntrada(Calendar.getInstance());
+        FUNCIONARIO_DAO.save(funcionario);
     }
 }
