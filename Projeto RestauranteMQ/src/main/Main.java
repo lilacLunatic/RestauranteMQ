@@ -84,7 +84,18 @@ public class Main {
 
     private static void loginFuncionario() {
         System.out.println("LOGIN DE FUNCIONARIO\n");
-        //TODO: login de funcionario
+        System.out.print("Nome de usuario:");
+        String username = scanner.next();
+        System.out.print("Senha:");
+        String senha = scanner.next();
+
+        Funcionario funcionario = new Funcionario();
+        boolean login = funcionario.login(username, senha);
+        if (login) {
+            menuFuncionario(funcionario);
+        } else {
+            System.out.println("Nome de usuario e/ou senha incorretos");
+        }
     }
 
     private static void loginCliente() {
