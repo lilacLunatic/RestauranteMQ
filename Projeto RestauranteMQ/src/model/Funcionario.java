@@ -3,16 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.util.Calendar;
+import java.util.Objects;
+import main.SessaoLocal;
+import persistencia.ClienteDAO;
+import persistencia.FuncionarioDAO;
 
 /**
  *
  * @author Aluno
  */
-public class Funcionario extends Usuario{
+public class Funcionario extends Usuario {
+
     private double salario;
     private Calendar dataDeEntrada;
     private Calendar dataDeDemissao;
@@ -50,19 +54,22 @@ public class Funcionario extends Usuario{
         this.dataDeDemissao = dataDeDemissao;
     }
 
-    
     //TODO; implement inherited methods
-    
     @Override
     public boolean isLogado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Objects.equals(SessaoLocal.getInstance().getUsuario().getId(), this.id);
     }
 
     @Override
     public boolean login(String username, String senha) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        Funcionario funcionario = funcionarioDAO.getByLogin(username);
+        if (funcionario.getSenha().equals(senha)) {
+            SessaoLocal.getInstance().setUsuario(this);
+            return true;
+        } else {
+            return false;
+        }
     }
-    
-    
-    
+
 }
