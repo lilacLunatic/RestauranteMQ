@@ -10,7 +10,7 @@ public class Cliente extends Usuario{
     
     
     
-    // TODO: implement inherited methods
+    
     @Override
     public boolean isLogado() {
         return Objects.equals(SessaoLocal.getInstance().getUsuario().getId(), this.id);

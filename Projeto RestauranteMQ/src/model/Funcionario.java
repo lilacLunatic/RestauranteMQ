@@ -54,7 +54,7 @@ public class Funcionario extends Usuario {
         this.dataDeDemissao = dataDeDemissao;
     }
 
-    //TODO; implement inherited methods
+    
     @Override
     public boolean isLogado() {
         return Objects.equals(SessaoLocal.getInstance().getUsuario().getId(), this.id);
