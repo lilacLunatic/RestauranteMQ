@@ -50,4 +50,6 @@ public abstract class Item implements Comparable<Item>{
     public int compareTo(Item o) {
         return this.categoria.compareTo(o.categoria);
     }
+    
+    public abstract void deduzQuantidade();
 }

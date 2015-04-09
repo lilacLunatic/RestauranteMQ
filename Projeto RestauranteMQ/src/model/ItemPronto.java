@@ -27,7 +27,17 @@ public class ItemPronto extends Item{
 
     @Override
     public boolean isDisponivel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return quantidadeEstoque > 0;
+    }
+
+    @Override
+    public void deduzQuantidade() {
+        //TODO: implementar deduzQuantidade
+        if (isDisponivel())
+            quantidadeEstoque--;
+        else{
+            throw new IllegalStateException("Item nao esta disponivel");
+        }
     }
     
 }
