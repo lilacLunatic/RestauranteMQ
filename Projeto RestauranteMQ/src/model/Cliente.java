@@ -21,6 +21,13 @@ public class Cliente extends Usuario{
         ClienteDAO clienteDAO = new ClienteDAO();
         Cliente cliente = clienteDAO.getByLogin(username);
         if (cliente.getSenha().equals(senha)){
+            this.setId(cliente.id);
+            this.setEndereco(cliente.endereco);
+            this.setLogin(cliente.login);
+            this.setNome(cliente.nome);
+            this.setTelefone(cliente.telefone);
+            this.setCpf(cliente.cpf);
+            
             SessaoLocal.getInstance().setUsuario(this);
             return true;
         }
