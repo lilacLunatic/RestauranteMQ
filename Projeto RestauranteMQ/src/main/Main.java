@@ -406,6 +406,27 @@ public class Main {
 
     private static void removerItem() {
         List<Item> todosItens = mostraCardapio();
+        System.out.println("Digite o numero do item que deseja remover:");
+        int numeroItem = scanner.nextInt();
+        Item item = todosItens.get(numeroItem - 1);
+        System.out.println("Voce tem certeza de que deseja excluir o item " + item.getNome() + "?(S/N)");
+        String resposta = scanner.next();
+        if ("S".equals(resposta) || "s".equals(resposta)){
+            if (item instanceof ItemPreparavel){
+                ITEM_PREPARAVEL_DAO.delete(item.getId());
+                System.out.println("Item removido");
+            }
+            else if (item instanceof ItemPronto){
+                ITEM_PRONTO_DAO.delete(item.getId());
+                System.out.println("Item removido");
+            }
+            else {
+                System.out.println("Erro inesperado");
+            }
+        }
+        else{
+            System.out.println("Nenhuma remocao realizada");
+        }
     }
 
     private static void menuAdmin(Funcionario funcionario) {
