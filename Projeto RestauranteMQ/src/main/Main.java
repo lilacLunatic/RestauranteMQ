@@ -761,8 +761,16 @@ public class Main {
     }
 
     private static void removerIngrediente() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-      
+        List<Ingrediente> ingredientes = mostraIngredientes();
+        
+        System.out.println("Digite o numero do ingrediente para ser removido");
+        int numero = scanner.nextInt();
+        Ingrediente ingrediente = ingredientes.get(numero - 1);
+        
+        INGREDIENTE_DAO.delete(ingrediente.getId());
+        
+        
+        
     }
 
     private static void registrarMesa() {
