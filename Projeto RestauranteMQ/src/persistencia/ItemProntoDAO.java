@@ -77,9 +77,10 @@ public class ItemProntoDAO implements Dao<ItemPronto, Long>{
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "select * from itemdemenu";
+            String sql = "select * from itemdemenu where quantidadeestoque is not null";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                
 
                 ResultSet rs = ps.executeQuery();
 

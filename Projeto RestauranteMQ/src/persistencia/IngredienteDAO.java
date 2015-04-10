@@ -117,7 +117,7 @@ public class IngredienteDAO implements Dao<Ingrediente, Long> {
                 if(rs.next()){
                     ingrediente.setId(rs.getLong("ID"));
                     ingrediente.setNome(rs.getString("nome"));
-                    ingrediente.setQuantidadeEstoque(rs.getInt("quantiadeEstoque"));
+                    ingrediente.setQuantidadeEstoque(rs.getInt("quantidadeestoque"));
                     ingrediente.setUnidade(Unidade.valueOf(rs.getString("unidade")));
                 } else {
                     throw new Exception("Não há cliente com o id " + pk);

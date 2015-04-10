@@ -322,6 +322,7 @@ public class Main {
 
     private static List<Item> mostraCardapio() {
         List<Item> itens = new ArrayList<>();
+        itens.addAll(ITEM_PREPARAVEL_DAO.listAll());
         itens.addAll(ITEM_PRONTO_DAO.listAll());
         System.out.println("CARDAPIO");
         System.out.println("Nº | CATEGORIA        |        NOME");
