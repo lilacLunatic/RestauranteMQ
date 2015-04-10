@@ -174,6 +174,8 @@ public class Main {
             System.out.println("Escolha sua opção:");
             System.out.println(CLIENTE_PEDIDO + " - Fazer pedido");
             System.out.println(CLIENTE_RESERVA + " - Fazer reserva");
+            System.out.println(CLIENTE_CONSULTA_RESERVA + " - Consultar reservas");
+            System.out.println(CLIENTE_CONSULTA_PEDIDO + " - Consultar pedidos");
             System.out.println(CLIENTE_LOGOUT + " - Sair");
 
             opcao = scanner.nextInt();
