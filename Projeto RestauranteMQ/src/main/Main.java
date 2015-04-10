@@ -266,19 +266,6 @@ public class Main {
             PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
             //PEDIDO_DAO.adicionaItem(item.getId().intValue(), pedido.getId().intValue());
             item.deduzQuantidade();
-            String classe = String.valueOf(item.getClass());
-            
-            switch(classe){
-                case "class model.ItemPreparavel":{
-                    ITEM_PREPARAVEL_DAO.updateQuantidade((ItemPreparavel) item);
-                    break;
-                }
-                case "class model.ItemPronto":{
-                    ITEM_PRONTO_DAO.updateQuantidade((ItemPronto) item);
-                    break;
-                }
-            }                  
-            
         }
 
     }
