@@ -6,6 +6,8 @@
 
 package model;
 
+import persistencia.ItemProntoDAO;
+
 /**
  *
  * @author Aluno
@@ -34,7 +36,7 @@ public class ItemPronto extends Item{
     public void deduzQuantidade() {
         super.deduzQuantidade();
         quantidadeEstoque--;
-        //Salvar no banco (?)
+        new ItemProntoDAO().updateQuantidade(this);
     }
     
 }
