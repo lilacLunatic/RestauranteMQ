@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -820,8 +821,31 @@ public class Main {
     }
 
     private static void listarFuncionarios() {
-        //TODO: implementar listarFuncionarios
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Funcionario> todosFuncionarios = FUNCIONARIO_DAO.listAll();
+        todosFuncionarios.sort(new Comparator<Funcionario>() {
+
+            @Override
+            //Ordem alfabetica
+            public int compare(Funcionario o1, Funcionario o2) {
+                return o1.getNome().compareTo(o2.getNome());
+            }
+        });
+        System.out.println("LISTA DE FUNCIONARIOS\n");
+        System.out.println("CPF         |    NOME    |   USERNAME   | SALARIO | ENTRADA"
+                + "| DEMISSAO");
+        SimpleDateFormat formatData = new SimpleDateFormat("dd/MM/yyyy");
+        
+        for (Funcionario funcionario : todosFuncionarios) {
+            String entrada = funcionario.getDataDeEntrada() == null ? "" : 
+                    formatData.format(funcionario.getDataDeEntrada().getTime());
+            String demissao = funcionario.getDataDeDemissao()== null ? "" : 
+                    formatData.format(funcionario.getDataDeDemissao().getTime());
+            System.out.println
+            (funcionario.getCpf() + " | " + funcionario.getNome()
+                    + " | " + funcionario.getLogin() + "|" 
+                    + funcionario.getSalario() + " | "
+                    + entrada + " | " + demissao);
+        }
     }
 
     private static void demitirFuncionario() {
