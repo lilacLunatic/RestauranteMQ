@@ -196,5 +196,40 @@ public class ClienteDAO implements Dao<Cliente, Long> {
         return c;
 
     }
+    
+    public void updateNome(Cliente cliente){
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
+            String sql = "update cliente set nome = ? where id = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+
+                ps.setString(1, cliente.getNome());
+                ps.setLong(2, cliente.getId());
+                ps.execute();
+
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+    }
+    public void updateEndereco(Cliente cliente){
+        
+    }
+    public void updateTelefone(Cliente cliente){
+        
+    }
+    public void updateCpf(Cliente cliente){
+        
+    }
+    public void updateSenha(Cliente cliente){
+        
+    }
 }
