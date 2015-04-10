@@ -24,8 +24,8 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "insert into funcionario (salario, cpf, nome, endereco, telefone, data_de_demissao, data_de_entrada, login, senha, administrador)  "
-                    + "values(?,?,?,?,?,?,?,?,?,?)";
+            String sql = "insert into funcionario (salario, cpf, nome, endereco, telefone, data_de_entrada, login, senha, administrador)  "
+                    + "values(?,?,?,?,?,?,?,?,?)";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
                 ps.setDouble(1, entity.getSalario());
@@ -33,11 +33,10 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
                 ps.setString(3, entity.getNome());
                 ps.setString(4, entity.getEndereco());
                 ps.setString(5, entity.getTelefone());
-                ps.setDate(6, new java.sql.Date(entity.getDataDeDemissao().getTimeInMillis()));
-                ps.setDate(7, new java.sql.Date(entity.getDataDeEntrada().getTimeInMillis()));                
-                ps.setString(8, entity.getLogin());
-                ps.setString(9, entity.getSenha());
-                ps.setBoolean(10, entity.isAdministrador());
+                ps.setDate(6, new java.sql.Date(entity.getDataDeEntrada().getTimeInMillis()));                
+                ps.setString(7, entity.getLogin());
+                ps.setString(8, entity.getSenha());
+                ps.setBoolean(9, entity.isAdministrador());
                 ps.execute();
 
             }
@@ -192,11 +191,16 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
 
                 if (rs.next()) {
                     Funcionario c = new Funcionario();
-                    
                     Calendar demissao = null;
-                    demissao.setTime(rs.getDate("data_de_demissao"));
                     Calendar entrada = null;
-                    entrada.setTime(rs.getDate("data_de_entrada"));
+                    try{
+                       
+                        demissao.setTime(rs.getDate("data_de_demissao"));
+                        
+                        entrada.setTime(rs.getDate("data_de_entrada"));
+                    }catch(NullPointerException ex){
+                        
+                    }
                     c.setSalario(rs.getDouble("salario"));
                     c.setDataDeDemissao(demissao);
                     c.setDataDeEntrada(entrada);
@@ -223,6 +227,8 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+            
+        
 
     }
 }

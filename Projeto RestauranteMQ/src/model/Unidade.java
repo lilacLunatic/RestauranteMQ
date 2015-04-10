@@ -7,5 +7,17 @@
 package model;
 
 public enum Unidade {
+    /**
+     *
+     */
     QUILOGRAMA, GRAMA, LITRO, MILILITRO, ADMENSIONAL, METRO, CENTIMETRO;
+    
+    static public boolean isMember(String name) {
+       Unidade[] unidades = Unidade.values();
+       for (Unidade unidade : unidades)
+           if (unidade.toString().equals(name))
+               return true;
+       return false;
+       
+   }
 }

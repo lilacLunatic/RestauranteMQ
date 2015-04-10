@@ -83,7 +83,7 @@ public class IngredienteDAO implements Dao<Ingrediente, Long> {
                     Ingrediente i = new Ingrediente();
                     i.setId(rs.getLong("ID"));
                     i.setNome(rs.getString("nome"));
-                    i.setQuantidadeEstoque(rs.getInt("quantiadeEstoque"));
+                    i.setQuantidadeEstoque(rs.getInt("quantidadeestoque"));
                     i.setUnidade(Unidade.valueOf(rs.getString("unidade")));
                     result.add(i);
                 }

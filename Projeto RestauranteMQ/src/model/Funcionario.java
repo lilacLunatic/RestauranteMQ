@@ -8,7 +8,6 @@ package model;
 import java.util.Calendar;
 import java.util.Objects;
 import main.SessaoLocal;
-import persistencia.ClienteDAO;
 import persistencia.FuncionarioDAO;
 
 /**

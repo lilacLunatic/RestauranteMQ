@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Ingrediente;
 import model.ItemPreparavel;
-import model.ItemPronto;
 
 /**
  *
@@ -206,6 +205,40 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
                 conn.fechar();
             }
         }
+    }
+    
+    public ItemPreparavel getLastItem(){
+        ConexaoPostgreSQL conn = null;
+        ItemPreparavel item = new ItemPreparavel();
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "select * from itemdemenu " +
+                         "order by id desc limit 1";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){              
+                    item.setId(rs.getLong("id"));
+                    item.setNome(rs.getString("nome"));
+                    item.setPreco(rs.getDouble("preco"));
+                    item.setCategoria(rs.getString("categoria"));
+                       
+                }
+
+                conn.fechar();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+        return item;
+        
     }
     
 }

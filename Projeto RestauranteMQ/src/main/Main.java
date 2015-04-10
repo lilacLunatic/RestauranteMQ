@@ -20,7 +20,7 @@ import model.ItemPronto;
 import model.Mesa;
 import model.Pedido;
 import model.Reserva;
-import model.Usuario;
+import model.Unidade;
 import persistencia.ClienteDAO;
 import persistencia.FuncionarioDAO;
 import persistencia.IngredienteDAO;
@@ -66,7 +66,7 @@ public class Main {
                     loginCliente();
                     break;
                 case LOGIN_FUNCIONARIO:
-                    loginFuncionario();
+                    loginFuncionario(false);
                     break;
                 case LOGIN_ADMINISTRADOR:
                     loginFuncionario(true);
@@ -116,9 +116,7 @@ public class Main {
         CLIENTE_DAO.save(cliente);
     }
 
-    private static void loginFuncionario() {
-        loginFuncionario(false);
-    }
+    
 
     private static void loginFuncionario(boolean admin) {
         System.out.println("LOGIN DE FUNCIONARIO\n");
@@ -130,6 +128,7 @@ public class Main {
         Funcionario funcionario = new Funcionario();
         boolean login = funcionario.login(username, senha);
         if (login) {
+            funcionario = FUNCIONARIO_DAO.getByLogin(username);
             if (!admin) {
                 menuFuncionario(funcionario);
             } else {
@@ -352,8 +351,10 @@ public class Main {
     }
 
     private static void menuCardapio() {
-        final int CARDAPIO_ADICIONA = 1;
-        final int CARDAPIO_REMOVE = 2;
+        final int CARDAPIO_ADICIONA_ITEM = 1;
+        final int CARDAPIO_REMOVE_ITEM = 2;
+        final int CARDAPIO_ADICIONA_INGREDIENTE = 3;
+        final int CARDAPIO_REMOVE_INGREDIENTE = 4;
         final int CARDAPIO_SAIR = 0;
         int opcao;
 
@@ -361,17 +362,25 @@ public class Main {
 
         do {
             System.out.println("Escolha sua opção:");
-            System.out.println(CARDAPIO_ADICIONA + " - Adicionar item");
-            System.out.println(CARDAPIO_REMOVE + " - Remover item");
+            System.out.println(CARDAPIO_ADICIONA_ITEM + " - Adicionar item");
+            System.out.println(CARDAPIO_REMOVE_ITEM + " - Remover item");
+            System.out.println(CARDAPIO_ADICIONA_INGREDIENTE + " - Adiciona ingrediente");
+            System.out.println(CARDAPIO_REMOVE_INGREDIENTE + " - Remover ingrediente");
             System.out.println(CARDAPIO_SAIR + " - Sair");
 
             opcao = scanner.nextInt();
             switch (opcao) {
-                case CARDAPIO_ADICIONA:
+                case CARDAPIO_ADICIONA_ITEM:
                     adicionarItem();
                     break;
-                case CARDAPIO_REMOVE:
+                case CARDAPIO_REMOVE_ITEM:
                     removerItem();
+                    break;
+                case CARDAPIO_ADICIONA_INGREDIENTE:
+                    adicionarIngrediente();
+                    break;
+                case CARDAPIO_REMOVE_INGREDIENTE:
+                    removerIngrediente();
                     break;
 
                 default:
@@ -423,6 +432,9 @@ public class Main {
                 itemPreparavel.setPreco(scanner.nextDouble());
 
                 ITEM_PREPARAVEL_DAO.save(itemPreparavel);
+                ItemPreparavel itemComID = ITEM_PREPARAVEL_DAO.getLastItem();
+                itemComID.setReceita(receita);
+                ITEM_PREPARAVEL_DAO.adicionarIngredientes(itemComID);
                 System.out.println("Item salvo");
                 break;
             case TIPO_ITEM_PRONTO:
@@ -647,7 +659,7 @@ public class Main {
         final int ALTERAR_TELEFONE = 4;
         final int ALTERAR_CPF = 5;
         final int ALTERAR_SENHA = 6;
-        final int SAIR = 0;
+        final int SAIR_CONTA = 0;
         int opcao;
 
         do {
@@ -658,7 +670,7 @@ public class Main {
             System.out.println(ALTERAR_TELEFONE + " - Alterar telefone");
             System.out.println(ALTERAR_CPF + " - Alterar CPF");
             System.out.println(ALTERAR_SENHA + " - Alterar Senha");
-            System.out.println(SAIR + " - Sair");
+            System.out.println(SAIR_CONTA + " - Sair");
 
             opcao = scanner.nextInt();
             switch (opcao) {
@@ -723,5 +735,27 @@ public class Main {
         //TODO: implementar clienteAlteraSenha
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+    }
+
+    private static void adicionarIngrediente() {
+        Ingrediente ingrediente = new Ingrediente();
+        
+        System.out.println("Insira um nome para o ingrediente");
+        ingrediente.setNome(scanner.next());
+        String escolha;
+        
+        System.out.println("Insira a unidade do ingrediente (QUILOGRAMA, GRAMA, LITRO, MILILITRO, ADMENSIONAL, METRO ou CENTIMETRO ou 0 para sair)");
+        escolha = scanner.next(); 
+        Unidade unidade = Unidade.valueOf(escolha);
+        ingrediente.setUnidade(unidade);
+        
+        INGREDIENTE_DAO.save(ingrediente);
+      
+        
+    }
+
+    private static void removerIngrediente() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      
     }
 }

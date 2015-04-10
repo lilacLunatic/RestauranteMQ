@@ -7,12 +7,9 @@ package persistencia;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Funcionario;
-import model.Item;
 import model.ItemPronto;
 
 public class ItemProntoDAO implements Dao<ItemPronto, Long>{
@@ -23,7 +20,7 @@ public class ItemProntoDAO implements Dao<ItemPronto, Long>{
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "insert into itemdemenu (nome, preco, categoria, quantidaestoque)  "
+            String sql = "insert into itemdemenu (nome, preco, categoria, quantidadeestoque)  "
                     + "values(?,?,?,?)";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
