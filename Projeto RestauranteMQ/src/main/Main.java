@@ -599,7 +599,7 @@ public class Main {
 
         return ingredientes;
     }
-<<<<<<< HEAD
+
     private static List<ItemPronto> mostraItensProntos() {
         List<ItemPronto> itens = ITEM_PRONTO_DAO.listAll();
         System.out.println("ITENS PRONTOS");
@@ -638,8 +638,8 @@ public class Main {
         
         ITEM_PRONTO_DAO.reestoque(ITEM_PRONTO_DAO.getById(opcao), quantidade);
         
-=======
-
+    }
+    
     private static void clienteConta(Cliente cliente) {
         final int CONSULTAR_DADOS = 1;
         final int ALTERAR_NOME = 2;
@@ -722,6 +722,6 @@ public class Main {
     private static void clienteAlteraSenha(Cliente cliente) {
         //TODO: implementar clienteAlteraSenha
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
->>>>>>> origin/master
+
     }
 }
