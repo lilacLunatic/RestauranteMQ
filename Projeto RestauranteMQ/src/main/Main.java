@@ -31,6 +31,9 @@ import persistencia.PedidoDAO;
 import persistencia.ReservaDAO;
 
 //TODO: milhares de verificacoes de entrada e tratamento de erros
+//TODO: alterações na conta do cliente
+//TODO: verificaçoes
+//TODO: mais testes pra ver se o sistema continua rodando amanha.
 public class Main {
 
     private final static MesaDAO MESA_DAO = new MesaDAO();
