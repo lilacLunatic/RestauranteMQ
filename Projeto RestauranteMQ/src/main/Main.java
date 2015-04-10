@@ -465,6 +465,8 @@ public class Main {
         final int FUNCIONARIO_RESERVA = 2;
         final int FUNCIONARIO_CARDAPIO = 3;
         final int ADMIN_CADASTRO = 4;
+        final int REESTOQUE_INGREDIENTE = 5;
+        final int REESTOQUE_ITEM = 6;
         final int FUNCIONARIO_LOGOUT = 0;
         int opcao;
 
@@ -476,6 +478,8 @@ public class Main {
             System.out.println(FUNCIONARIO_RESERVA + " - Fazer reserva");
             System.out.println(FUNCIONARIO_CARDAPIO + " - Mudar cardapio");
             System.out.println(ADMIN_CADASTRO + " - Cadastrar funcionario");
+            System.out.println(REESTOQUE_INGREDIENTE + " - Fazer reestoque de um ingrediente");
+            System.out.println(REESTOQUE_ITEM + " - Fazer reestoque de um item");
             System.out.println(FUNCIONARIO_LOGOUT + " - Sair");
 
             opcao = scanner.nextInt();
@@ -491,6 +495,12 @@ public class Main {
                     break;
                 case ADMIN_CADASTRO:
                     menuCadastroFuncionario();
+                    break;
+                case REESTOQUE_INGREDIENTE:
+                    reestoqueIngrediente();
+                    break;
+                case REESTOQUE_ITEM:
+                    reestoqueItem();
                     break;
                 default:
             }
@@ -582,5 +592,44 @@ public class Main {
         }
 
         return ingredientes;
+    }
+    private static List<ItemPronto> mostraItensProntos() {
+        List<ItemPronto> itens = ITEM_PRONTO_DAO.listAll();
+        System.out.println("ITENS PRONTOS");
+        System.out.println("Nº |    NOME    |   CATEGORIA");
+        System.out.println("---------------------------");
+        for (int i = 1; i <= itens.size(); i++) {
+            ItemPronto item = itens.get(i - 1);
+            System.out.println(i + " | " + item.getNome() + " | " + 
+                    item.getCategoria());
+        }
+
+        return itens;
+    }
+
+    private static void reestoqueIngrediente() {
+        List<Ingrediente> ingredientes = mostraIngredientes();
+        
+        System.out.println("Digite o número do ingrediente que você deseja atualizar");
+        Long opcao = scanner.nextLong();
+        
+        System.out.println("Digite a quantidade a ser adicionada no estoque");
+        int quantidade = scanner.nextInt();
+        
+        INGREDIENTE_DAO.reestoque(INGREDIENTE_DAO.getById(opcao), quantidade);
+        
+    }
+
+    private static void reestoqueItem() {
+        List<ItemPronto> itens = mostraItensProntos();
+        
+        System.out.println("Digite o número do item que você deseja atualizar");
+        Long opcao = scanner.nextLong();
+        
+        System.out.println("Digite a quantidade a ser adicionada no estoque");
+        int quantidade = scanner.nextInt();
+        
+        ITEM_PRONTO_DAO.reestoque(ITEM_PRONTO_DAO.getById(opcao), quantidade);
+        
     }
 }

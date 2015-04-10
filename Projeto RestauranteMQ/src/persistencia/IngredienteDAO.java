@@ -135,5 +135,28 @@ public class IngredienteDAO implements Dao<Ingrediente, Long> {
 
         return ingrediente;
     }
+    
+    public void reestoque(Ingrediente entity, int quantidade){
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+            
+            String sql = "update ingrediente set quantidadeestoque = ? where id = ?";
+            
+            try(PreparedStatement ps = conn.getConnection().prepareStatement(sql)){
+                ps.setInt(1, entity.getQuantidadeEstoque() + quantidade);
+                ps.setLong(2, entity.getId());
+                
+                ps.execute();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(IngredienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+    }
+    
 
 }
