@@ -41,7 +41,7 @@ public class Main {
     private static final ClienteDAO CLIENTE_DAO = new ClienteDAO();
     private final static Scanner scanner = new Scanner(System.in);
     private final static FuncionarioDAO FUNCIONARIO_DAO = new FuncionarioDAO();
-    private static IngredienteDAO INGREDIENTE_DAO = new IngredienteDAO();
+    private static final IngredienteDAO INGREDIENTE_DAO = new IngredienteDAO();
 
     static {
         scanner.useDelimiter(Pattern.compile("\n|\r\n"));
