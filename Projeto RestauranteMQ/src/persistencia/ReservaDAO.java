@@ -95,7 +95,8 @@ public class ReservaDAO implements Dao<Reserva, Long>{
 
                     c.setId(rs.getLong("id"));
                     Calendar data = Calendar.getInstance(); 
-                    data.setTime(rs.getDate("data"));
+                    data.setTime(rs.getTimestamp("data"));
+                    System.out.println(rs.getDate("data"));
                     c.setDataEHora(data);
                     ClienteDAO clienteDao = new ClienteDAO();
                     c.setCliente(clienteDao.getById(rs.getLong("reserva_cliente_fk")));
