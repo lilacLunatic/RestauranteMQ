@@ -41,7 +41,7 @@ public class Main {
     private static final ClienteDAO CLIENTE_DAO = new ClienteDAO();
     private final static Scanner scanner = new Scanner(System.in);
     private final static FuncionarioDAO FUNCIONARIO_DAO = new FuncionarioDAO();
-    private static IngredienteDAO INGREDIENTE_DAO = new IngredienteDAO();
+    private static final IngredienteDAO INGREDIENTE_DAO = new IngredienteDAO();
 
     static {
         scanner.useDelimiter(Pattern.compile("\n|\r\n"));
@@ -89,7 +89,7 @@ public class Main {
         System.out.println(VER_CARDAPIO + " - Consultar cardapio");
         System.out.println(LOGIN_ADMINISTRADOR + " - Login como administrador");
         System.out.println(SAIR + " - Sair");
-        
+
         try {
             return scanner.nextInt();
         } catch (InputMismatchException e) {
@@ -165,6 +165,7 @@ public class Main {
         final int CLIENTE_RESERVA = 2;
         final int CLIENTE_CONSULTA_RESERVA = 3;
         final int CLIENTE_CONSULTA_PEDIDO = 4;
+        final int CLIENTE_CONTA = 5;
         final int CLIENTE_LOGOUT = 0;
         int opcao;
 
@@ -174,6 +175,9 @@ public class Main {
             System.out.println("Escolha sua opção:");
             System.out.println(CLIENTE_PEDIDO + " - Fazer pedido");
             System.out.println(CLIENTE_RESERVA + " - Fazer reserva");
+            System.out.println(CLIENTE_CONSULTA_RESERVA + " - Consultar reservas");
+            System.out.println(CLIENTE_CONSULTA_PEDIDO + " - Consultar pedidos");
+            System.out.println(CLIENTE_CONTA + " - Detalhes da conta");
             System.out.println(CLIENTE_LOGOUT + " - Sair");
 
             opcao = scanner.nextInt();
@@ -190,7 +194,10 @@ public class Main {
                 case CLIENTE_CONSULTA_PEDIDO:
                     clienteConsultaPedido(cliente);
                     break;
-
+                case CLIENTE_CONTA:
+                    clienteConta(cliente);
+                    break;
+                    
                 default:
             }
         } while (opcao != CLIENTE_LOGOUT);
@@ -259,8 +266,7 @@ public class Main {
                 itensDoPedido.add(opcao);
             }
         }
-        
-        
+
         for (int i = 0; i < itensDoPedido.size(); i++) {
             Item item = itens.get(itensDoPedido.get(i) - 1);
             PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
@@ -407,15 +413,15 @@ public class Main {
                     }
                 }
                 itemPreparavel.setReceita(receita);
-                
+
                 System.out.println("Insira um nome para o item");
                 itemPreparavel.setNome(scanner.next());
                 System.out.println("Insira a categoria do item");
                 itemPreparavel.setCategoria(scanner.next());
-                
+
                 System.out.println("Insira o preco do item:");
                 itemPreparavel.setPreco(scanner.nextDouble());
-                
+
                 ITEM_PREPARAVEL_DAO.save(itemPreparavel);
                 System.out.println("Item salvo");
                 break;
@@ -587,12 +593,13 @@ public class Main {
         System.out.println("---------------------------");
         for (int i = 1; i <= ingredientes.size(); i++) {
             Ingrediente ingrediente = ingredientes.get(i - 1);
-            System.out.println(i + " | " + ingrediente.getNome() + " | " + 
-                    ingrediente.getUnidade());
+            System.out.println(i + " | " + ingrediente.getNome() + " | "
+                    + ingrediente.getUnidade());
         }
 
         return ingredientes;
     }
+<<<<<<< HEAD
     private static List<ItemPronto> mostraItensProntos() {
         List<ItemPronto> itens = ITEM_PRONTO_DAO.listAll();
         System.out.println("ITENS PRONTOS");
@@ -631,5 +638,90 @@ public class Main {
         
         ITEM_PRONTO_DAO.reestoque(ITEM_PRONTO_DAO.getById(opcao), quantidade);
         
+=======
+
+    private static void clienteConta(Cliente cliente) {
+        final int CONSULTAR_DADOS = 1;
+        final int ALTERAR_NOME = 2;
+        final int ALTERAR_ENDERECO = 3;
+        final int ALTERAR_TELEFONE = 4;
+        final int ALTERAR_CPF = 5;
+        final int ALTERAR_SENHA = 6;
+        final int SAIR = 0;
+        int opcao;
+
+        do {
+            System.out.println("Escolha sua opção:");
+            System.out.println(CONSULTAR_DADOS + " - Consultar dados da conta");
+            System.out.println(ALTERAR_NOME + " - Alterar nome");
+            System.out.println(ALTERAR_ENDERECO + " - Alterar endereco");
+            System.out.println(ALTERAR_TELEFONE + " - Alterar telefone");
+            System.out.println(ALTERAR_CPF + " - Alterar CPF");
+            System.out.println(ALTERAR_SENHA + " - Alterar Senha");
+            System.out.println(SAIR + " - Sair");
+
+            opcao = scanner.nextInt();
+            switch (opcao) {
+                case CONSULTAR_DADOS:
+                    clienteMostraDados(cliente);
+                    break;
+                case ALTERAR_NOME:
+                    clienteAlteraNome(cliente);
+                    break;
+                case ALTERAR_ENDERECO:
+                    clienteAlteraEndereco(cliente);
+                    break;
+                case ALTERAR_TELEFONE:
+                    clienteAlteraTelefone(cliente);
+                    break;
+                case ALTERAR_CPF:
+                    clienteAlteraCPF(cliente);
+                    break;
+                case ALTERAR_SENHA:
+                    clienteAlteraSenha(cliente);
+                    break;
+                default:
+            }
+        } while (opcao != SAIR);
+    }
+
+    private static void clienteMostraDados(Cliente cliente) {
+        System.out.println("DADOS DO CLIENTE " + cliente.getLogin() + "\n");
+        System.out.println("NOME:");
+        System.out.println(cliente.getNome() + "\n");
+        System.out.println("ENDERECO:");
+        System.out.println(cliente.getEndereco()+ "\n");
+        System.out.println("TELEFONE:");
+        System.out.println(cliente.getTelefone()+ "\n");
+        System.out.println("CPF:");
+        System.out.println(cliente.getCpf()+ "\n");
+    }
+
+    private static void clienteAlteraNome(Cliente cliente) {
+        System.out.println("Insira o novo nome:");
+        String nome = scanner.next();
+        cliente.setNome(nome);
+        //TODO terminar clienteAlteraNome()
+    }
+
+    private static void clienteAlteraEndereco(Cliente cliente) {
+        //TODO: implementar clienteAlteraEndereco
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static void clienteAlteraTelefone(Cliente cliente) {
+        //TODO: implementar clienteAlteraTelefone
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static void clienteAlteraCPF(Cliente cliente) {
+        //TODO: implementar clienteAlteraCPF
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static void clienteAlteraSenha(Cliente cliente) {
+        //TODO: implementar clienteAlteraSenha
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+>>>>>>> origin/master
     }
 }
