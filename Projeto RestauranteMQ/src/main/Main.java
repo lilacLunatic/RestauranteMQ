@@ -117,7 +117,7 @@ public class Main {
 
         CLIENTE_DAO.save(cliente);
     }
-//TODO: testar se o funcionario ja foi demitido
+
     private static void loginFuncionario(boolean admin) {
         System.out.println("LOGIN DE FUNCIONARIO\n");
         System.out.print("Nome de usuario:");
@@ -139,7 +139,8 @@ public class Main {
                 }
             }
         } else {
-            System.out.println("Nome de usuario e/ou senha incorretos");
+            System.out.println("Nome de usuario e/ou senha incorretos ou "
+                    + "funcionario foi demitido");
         }
     }
 
@@ -486,6 +487,8 @@ public class Main {
         final int REESTOQUE_INGREDIENTE = 5;
         final int REESTOQUE_ITEM = 6;
         final int ADMIN_MESA = 7;
+        final int ADMIN_LISTA_FUNCIONARIOS = 8;
+        final int ADMIN_DEMISSAO = 9;
         final int FUNCIONARIO_LOGOUT = 0;
         int opcao;
 
@@ -500,6 +503,8 @@ public class Main {
             System.out.println(REESTOQUE_INGREDIENTE + " - Fazer reestoque de um ingrediente");
             System.out.println(REESTOQUE_ITEM + " - Fazer reestoque de um item");
             System.out.println(ADMIN_MESA + " - Registrar mesa");
+            System.out.println(ADMIN_LISTA_FUNCIONARIOS + " - Listar todos os funcionarios");
+            System.out.println(ADMIN_DEMISSAO + " - Demitir funcionario");
             System.out.println(FUNCIONARIO_LOGOUT + " - Sair");
 
             opcao = scanner.nextInt();
@@ -524,6 +529,12 @@ public class Main {
                     break;
                 case ADMIN_MESA: {
                     registrarMesa();
+                }
+                case ADMIN_LISTA_FUNCIONARIOS: {
+                    listarFuncionarios();
+                }
+                case ADMIN_DEMISSAO: {
+                    demitirFuncionarios();
                 }
 
                 default:
@@ -806,5 +817,15 @@ public class Main {
         mesa.setQuantidadeDeLugares(scanner.nextInt());
 
         MESA_DAO.save(mesa);
+    }
+
+    private static void listarFuncionarios() {
+        //TODO: implementar listarFuncionarios
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static void demitirFuncionarios() {
+        //TODO: implementar demitirFuncionarios
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
