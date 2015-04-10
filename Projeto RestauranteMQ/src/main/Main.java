@@ -637,12 +637,14 @@ public class Main {
         List<Ingrediente> ingredientes = mostraIngredientes();
 
         System.out.println("Digite o número do ingrediente que você deseja atualizar");
-        Long opcao = scanner.nextLong();
+        int opcao = scanner.nextInt();
 
         System.out.println("Digite a quantidade a ser adicionada no estoque");
         int quantidade = scanner.nextInt();
-
-        INGREDIENTE_DAO.reestoque(INGREDIENTE_DAO.getById(opcao), quantidade);
+        
+        Ingrediente ingrediente = ingredientes.get(opcao - 1);
+        
+        INGREDIENTE_DAO.reestoque(INGREDIENTE_DAO.getById(ingrediente.getId()), quantidade);
 
     }
 
