@@ -753,9 +753,20 @@ public class Main {
     }
 
     private static void clienteAlteraSenha(Cliente cliente) {
-        //TODO: implementar clienteAlteraSenha
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+        System.out.println("Insira novamente a sua senha atual");
+        String senhaAtual = scanner.next();
+        
+        if(!cliente.getSenha().equals(senhaAtual)){
+            System.out.println("Senha incorreta");
+            return;
+        }
+        
+        System.out.println("Insira a sua nova senha:");
+        String novaSenha = scanner.next();
+        cliente.setSenha(novaSenha);
+        
+        CLIENTE_DAO.updateSenha(cliente);
+        System.out.println("Senha alterada com sucesso\n");
     }
 
     private static void adicionarIngrediente() {
