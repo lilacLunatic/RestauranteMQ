@@ -185,13 +185,12 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "update itempossuiingrediente set quantidade = ? where item = ? and ingrediente = ?";
+            String sql = "update ingrediente set quantidadeestoque = ? where id = ?";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
-                for (Ingrediente ingrediente : entity.getReceita().keySet()){
-                    ps.setInt(1, entity.getReceita().get(ingrediente));
-                    ps.setInt(2, entity.getId().intValue());
-                    ps.setInt(3, ingrediente.getId().intValue());
+                for (Ingrediente ingrediente : entity.getReceita().keySet()){              
+                    ps.setInt(1, ingrediente.getQuantidadeEstoque());
+                    ps.setInt(2, ingrediente.getId().intValue());
                     ps.executeUpdate();
                 } 
                 
