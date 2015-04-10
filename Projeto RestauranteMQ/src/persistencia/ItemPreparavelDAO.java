@@ -263,6 +263,7 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
             "where itemdemenu.id = ?;";
             Map<Ingrediente, Integer> receita = new HashMap<>();
             try(PreparedStatement ps = conn.prepareStatement(sqlReceita)){
+                ps.setLong(1, itemPreparavel.getId());
                 ResultSet rs = ps.executeQuery();
                 while(rs.next()){
                     Ingrediente ingrediente = new Ingrediente();
