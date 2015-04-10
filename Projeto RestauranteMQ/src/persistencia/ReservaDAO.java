@@ -29,12 +29,12 @@ public class ReservaDAO implements Dao<Reserva, Long>{
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
             String sql = "insert into reserva (data, reserva_cliente, reserva_mesa)  "
-                    + "values(?,?,?)";
+                    + "values(TIMESTAMP '"+ new java.sql.Date(entity.getDataEHora().getTimeInMillis()) + " "+entity.getDataEHora().getTime().getHours() +":"+entity.getDataEHora().getTime().getMinutes() +"',?,?)";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
                 ps.setDate(1, new java.sql.Date(entity.getDataEHora().getTimeInMillis()));
-                ps.setLong(2, entity.getCliente().getId());
-                ps.setLong(3, entity.getMesa().getId());
+                ps.setLong(1, entity.getCliente().getId());
+                ps.setLong(2, entity.getMesa().getId());
                 
 
                 ps.execute();
@@ -170,12 +170,18 @@ public class ReservaDAO implements Dao<Reserva, Long>{
         try {
             
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+            
 
-            String sql = "select mesa.* from mesa "+
-                         "join reserva on reserva.reserva_mesa = mesa.id"
-                    +    "where reserva.data != "+new java.sql.Date(data.getTimeInMillis()) +"  and mesa.lugares = "+numeroDeLugares;
-
+            String sql = "select mesa.*, reserva.data from mesa "+
+                         "left join reserva on reserva.reserva_mesa = mesa.id"
+                    +    " where reserva.data is null or reserva.data <>  TIMESTAMP '"+ new java.sql.Date(data.getTimeInMillis()) + " "+data.getTime().getHours() +":"+data.getTime().getMinutes() +"'  and mesa.lugares = ?";
+            
+            
+            
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                
+                ps.setInt(1, numeroDeLugares);
+                
 
                 ResultSet rs = ps.executeQuery();
 

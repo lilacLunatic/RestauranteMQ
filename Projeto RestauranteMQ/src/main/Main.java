@@ -283,7 +283,7 @@ public class Main {
         String dataString = scanner.next();
         Calendar dataEHora = Calendar.getInstance();
         try {
-            dataEHora.setTime(formatData.parse(dataString));
+            dataEHora.setTime(formatData.parse(dataString));     
         } catch (ParseException ex) {
             System.out.println("formato de data invalido");
             return;
@@ -322,7 +322,6 @@ public class Main {
 
     private static List<Item> mostraCardapio() {
         List<Item> itens = new ArrayList<>();
-        itens.addAll(ITEM_PREPARAVEL_DAO.listAll());
         itens.addAll(ITEM_PRONTO_DAO.listAll());
         System.out.println("CARDAPIO");
         System.out.println("Nº | CATEGORIA        |        NOME");
@@ -485,6 +484,7 @@ public class Main {
         final int ADMIN_CADASTRO = 4;
         final int REESTOQUE_INGREDIENTE = 5;
         final int REESTOQUE_ITEM = 6;
+        final int ADMIN_MESA = 7;
         final int FUNCIONARIO_LOGOUT = 0;
         int opcao;
 
@@ -498,6 +498,7 @@ public class Main {
             System.out.println(ADMIN_CADASTRO + " - Cadastrar funcionario");
             System.out.println(REESTOQUE_INGREDIENTE + " - Fazer reestoque de um ingrediente");
             System.out.println(REESTOQUE_ITEM + " - Fazer reestoque de um item");
+            System.out.println(ADMIN_MESA + " - Registrar mesa");
             System.out.println(FUNCIONARIO_LOGOUT + " - Sair");
 
             opcao = scanner.nextInt();
@@ -520,6 +521,10 @@ public class Main {
                 case REESTOQUE_ITEM:
                     reestoqueItem();
                     break;
+                case ADMIN_MESA:{
+                    registrarMesa();
+                }   
+                 
                 default:
             }
         } while (opcao != FUNCIONARIO_LOGOUT);
@@ -757,5 +762,15 @@ public class Main {
     private static void removerIngrediente() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
       
+    }
+
+    private static void registrarMesa() {
+        Mesa mesa = new Mesa();
+        System.out.println("Digite o numero da mesa");
+        mesa.setNumero(scanner.nextInt());
+        System.out.println("Digite a quantidade de lugares da mesa");
+        mesa.setQuantidadeDeLugares(scanner.nextInt());
+        
+        MESA_DAO.save(mesa);
     }
 }
