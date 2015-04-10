@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import persistencia.IngredienteDAO;
+import persistencia.ItemPreparavelDAO;
 
 /**
  *
@@ -49,6 +50,8 @@ public class ItemPreparavel extends Item{
             ingrediente.setQuantidadeEstoque
                 (quantidadeEstoque - quantidadeDeduzida);
         }
+        new ItemPreparavelDAO().updateQuantidade(this);
+
     }
     
 }
