@@ -530,12 +530,15 @@ public class Main {
                     break;
                 case ADMIN_MESA: {
                     registrarMesa();
+                    break;
                 }
                 case ADMIN_LISTA_FUNCIONARIOS: {
                     listarFuncionarios();
+                    break;
                 }
                 case ADMIN_DEMISSAO: {
                     demitirFuncionario();
+                    break;
                 }
 
                 default:
