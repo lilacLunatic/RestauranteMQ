@@ -119,8 +119,6 @@ public class Main {
         CLIENTE_DAO.save(cliente);
     }
 
-    
-
     private static void loginFuncionario(boolean admin) {
         System.out.println("LOGIN DE FUNCIONARIO\n");
         System.out.print("Nome de usuario:");
@@ -199,7 +197,7 @@ public class Main {
                 case CLIENTE_CONTA:
                     clienteConta(cliente);
                     break;
-                    
+
                 default:
             }
         } while (opcao != CLIENTE_LOGOUT);
@@ -286,7 +284,7 @@ public class Main {
         String dataString = scanner.next();
         Calendar dataEHora = Calendar.getInstance();
         try {
-            dataEHora.setTime(formatData.parse(dataString));     
+            dataEHora.setTime(formatData.parse(dataString));
         } catch (ParseException ex) {
             System.out.println("formato de data invalido");
             return;
@@ -525,10 +523,10 @@ public class Main {
                 case REESTOQUE_ITEM:
                     reestoqueItem();
                     break;
-                case ADMIN_MESA:{
+                case ADMIN_MESA: {
                     registrarMesa();
-                }   
-                 
+                }
+
                 default:
             }
         } while (opcao != FUNCIONARIO_LOGOUT);
@@ -628,8 +626,8 @@ public class Main {
         System.out.println("---------------------------");
         for (int i = 1; i <= itens.size(); i++) {
             ItemPronto item = itens.get(i - 1);
-            System.out.println(i + " | " + item.getNome() + " | " + 
-                    item.getCategoria());
+            System.out.println(i + " | " + item.getNome() + " | "
+                    + item.getCategoria());
         }
 
         return itens;
@@ -637,30 +635,30 @@ public class Main {
 
     private static void reestoqueIngrediente() {
         List<Ingrediente> ingredientes = mostraIngredientes();
-        
+
         System.out.println("Digite o número do ingrediente que você deseja atualizar");
         Long opcao = scanner.nextLong();
-        
+
         System.out.println("Digite a quantidade a ser adicionada no estoque");
         int quantidade = scanner.nextInt();
-        
+
         INGREDIENTE_DAO.reestoque(INGREDIENTE_DAO.getById(opcao), quantidade);
-        
+
     }
 
     private static void reestoqueItem() {
         List<ItemPronto> itens = mostraItensProntos();
-        
+
         System.out.println("Digite o número do item que você deseja atualizar");
         Long opcao = scanner.nextLong();
-        
+
         System.out.println("Digite a quantidade a ser adicionada no estoque");
         int quantidade = scanner.nextInt();
-        
+
         ITEM_PRONTO_DAO.reestoque(ITEM_PRONTO_DAO.getById(opcao), quantidade);
-        
+
     }
-    
+
     private static void clienteConta(Cliente cliente) {
         final int CONSULTAR_DADOS = 1;
         final int ALTERAR_NOME = 2;
@@ -711,18 +709,18 @@ public class Main {
         System.out.println("NOME:");
         System.out.println(cliente.getNome() + "\n");
         System.out.println("ENDERECO:");
-        System.out.println(cliente.getEndereco()+ "\n");
+        System.out.println(cliente.getEndereco() + "\n");
         System.out.println("TELEFONE:");
-        System.out.println(cliente.getTelefone()+ "\n");
+        System.out.println(cliente.getTelefone() + "\n");
         System.out.println("CPF:");
-        System.out.println(cliente.getCpf()+ "\n");
+        System.out.println(cliente.getCpf() + "\n");
     }
 
     private static void clienteAlteraNome(Cliente cliente) {
         System.out.println("Insira o novo nome:");
         String nome = scanner.next();
         cliente.setNome(nome);
-        
+
         CLIENTE_DAO.updateNome(cliente);
         System.out.println("Nome alterado com sucesso\n");
     }
@@ -731,19 +729,27 @@ public class Main {
         System.out.println("Insira o novo endereco:");
         String endereco = scanner.next();
         cliente.setEndereco(endereco);
-        
+
         CLIENTE_DAO.updateEndereco(cliente);
         System.out.println("Endereco alterado com sucesso\n");
     }
 
     private static void clienteAlteraTelefone(Cliente cliente) {
-        //TODO: implementar clienteAlteraTelefone
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Insira o novo telefone:");
+        String telefone = scanner.next();
+        cliente.setNome(telefone);
+
+        CLIENTE_DAO.updateTelefone(cliente);
+        System.out.println("Telefone alterado com sucesso\n");
     }
 
     private static void clienteAlteraCPF(Cliente cliente) {
-        //TODO: implementar clienteAlteraCPF
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Insira o novo CPF:");
+        String cpf = scanner.next();
+        cliente.setCpf(cpf);
+        
+        CLIENTE_DAO.updateCpf(cliente);
+        System.out.println("CPF alterado com sucesso\n");
     }
 
     private static void clienteAlteraSenha(Cliente cliente) {
@@ -754,32 +760,29 @@ public class Main {
 
     private static void adicionarIngrediente() {
         Ingrediente ingrediente = new Ingrediente();
-        
+
         System.out.println("Insira um nome para o ingrediente");
         ingrediente.setNome(scanner.next());
         String escolha;
-        
+
         System.out.println("Insira a unidade do ingrediente (QUILOGRAMA, GRAMA, LITRO, MILILITRO, ADMENSIONAL, METRO ou CENTIMETRO ou 0 para sair)");
-        escolha = scanner.next(); 
+        escolha = scanner.next();
         Unidade unidade = Unidade.valueOf(escolha);
         ingrediente.setUnidade(unidade);
-        
+
         INGREDIENTE_DAO.save(ingrediente);
-      
-        
+
     }
 
     private static void removerIngrediente() {
         List<Ingrediente> ingredientes = mostraIngredientes();
-        
+
         System.out.println("Digite o numero do ingrediente para ser removido");
         int numero = scanner.nextInt();
         Ingrediente ingrediente = ingredientes.get(numero - 1);
-        
+
         INGREDIENTE_DAO.delete(ingrediente.getId());
-        
-        
-        
+
     }
 
     private static void registrarMesa() {
@@ -788,7 +791,7 @@ public class Main {
         mesa.setNumero(scanner.nextInt());
         System.out.println("Digite a quantidade de lugares da mesa");
         mesa.setQuantidadeDeLugares(scanner.nextInt());
-        
+
         MESA_DAO.save(mesa);
     }
 }
