@@ -191,8 +191,8 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
 
                 if (rs.next()) {
                     Funcionario c = new Funcionario();
-                    Calendar demissao = null;
-                    Calendar entrada = null;
+                    Calendar demissao = Calendar.getInstance();
+                    Calendar entrada = Calendar.getInstance();
                     try{
                        
                         demissao.setTime(rs.getDate("data_de_demissao"));

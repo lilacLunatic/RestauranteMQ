@@ -825,7 +825,8 @@ public class Main {
     }
 
     private static void demitirFuncionarios() {
-        //TODO: implementar demitirFuncionarios
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Insira o nome de usuario do funcionario");
+        String login = scanner.next();
+        Funcionario funcionario = FUNCIONARIO_DAO.getByLogin(login);
     }
 }
