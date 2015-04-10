@@ -510,6 +510,7 @@ public class Main {
         final int ADMIN_MESA = 7;
         final int ADMIN_LISTA_FUNCIONARIOS = 8;
         final int ADMIN_DEMISSAO = 9;
+        final int FUNCIONARIO_VER_MEDIA_POR_CATEGORIA = 10;
         final int FUNCIONARIO_LOGOUT = 0;
         int opcao;
 
@@ -526,7 +527,9 @@ public class Main {
             System.out.println(ADMIN_MESA + " - Registrar mesa");
             System.out.println(ADMIN_LISTA_FUNCIONARIOS + " - Listar todos os funcionarios");
             System.out.println(ADMIN_DEMISSAO + " - Demitir funcionario");
+            System.out.println(FUNCIONARIO_VER_MEDIA_POR_CATEGORIA + " - Media de preco de cada categoria");
             System.out.println(FUNCIONARIO_LOGOUT + " - Sair");
+            
 
             opcao = scanner.nextInt();
             switch (opcao) {
@@ -560,7 +563,9 @@ public class Main {
                     demitirFuncionario();
                     break;
                 }
-
+                case FUNCIONARIO_VER_MEDIA_POR_CATEGORIA:
+                    mostraMedia();
+                    break;
                 default:
             }
         } while (opcao != FUNCIONARIO_LOGOUT);
