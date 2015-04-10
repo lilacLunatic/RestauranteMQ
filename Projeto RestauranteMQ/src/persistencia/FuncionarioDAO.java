@@ -230,4 +230,25 @@ public class FuncionarioDAO implements Dao<Funcionario, Long> {
         }
 
     }
+
+    public void updateDataDemissao(Funcionario funcionario) {
+        try {
+            ConexaoPostgreSQL conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "update funcionario set data_de_demissao = ? where id = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                Date dateDemissao = new Date(funcionario.getDataDeDemissao().getTimeInMillis());
+                ps.setDate(1, dateDemissao);
+                ps.setLong(2, funcionario.getId());
+                ps.execute();
+
+            } finally {
+                conn.fechar();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
