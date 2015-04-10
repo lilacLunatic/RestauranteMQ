@@ -534,7 +534,7 @@ public class Main {
                     listarFuncionarios();
                 }
                 case ADMIN_DEMISSAO: {
-                    demitirFuncionarios();
+                    demitirFuncionario();
                 }
 
                 default:
@@ -824,9 +824,23 @@ public class Main {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private static void demitirFuncionarios() {
+    private static void demitirFuncionario() {
         System.out.println("Insira o nome de usuario do funcionario");
         String login = scanner.next();
         Funcionario funcionario = FUNCIONARIO_DAO.getByLogin(login);
+        if(funcionario.getDataDeDemissao() != null){
+            System.out.println("Este funcionario ja foi demitido\n"
+                    + "(" + funcionario.getNome() + ", cpf: " + 
+                    funcionario.getCpf() + ")");
+            return;
+        }
+        
+        System.out.println("Tem certeza de que deseja demitir " 
+                + funcionario.getNome() + "?(Y/N)");
+        String resposta = scanner.next();
+        if ("Y".equalsIgnoreCase(resposta)){
+            funcionario.setDataDeDemissao(Calendar.getInstance());
+            FUNCIONARIO_DAO.updateDataDemissao(funcionario);
+        }
     }
 }
