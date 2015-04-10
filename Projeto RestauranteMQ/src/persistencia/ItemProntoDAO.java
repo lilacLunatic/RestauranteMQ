@@ -198,7 +198,7 @@ public class ItemProntoDAO implements Dao<ItemPronto, Long>{
         }
     }
     
-    List<String> getValorMedioPorCategoria(){
+    public List<String> getValorMedioPorCategoria(){
         List<String> retorno = new ArrayList<>();
         String sql = "select categoria, max(preco) from itemdemenu group by categoria";
         ConexaoPostgreSQL conn = null;

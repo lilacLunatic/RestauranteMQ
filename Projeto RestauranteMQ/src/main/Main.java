@@ -208,6 +208,7 @@ public class Main {
         final int FUNCIONARIO_PEDIDO = 1;
         final int FUNCIONARIO_RESERVA = 2;
         final int FUNCIONARIO_CARDAPIO = 3;
+        final int FUNCIONARIO_VER_MEDIA_POR_CATEGORIA = 4;
         final int FUNCIONARIO_LOGOUT = 0;
         int opcao;
 
@@ -230,6 +231,10 @@ public class Main {
                     break;
                 case FUNCIONARIO_CARDAPIO:
                     menuCardapio();
+                    break;
+                case FUNCIONARIO_VER_MEDIA_POR_CATEGORIA:
+                    mostraMedia();
+                    break;
 
                 default:
             }
@@ -882,6 +887,13 @@ public class Main {
         if ("Y".equalsIgnoreCase(resposta)){
             funcionario.setDataDeDemissao(Calendar.getInstance());
             FUNCIONARIO_DAO.updateDataDemissao(funcionario);
+        }
+    }
+
+    private static void mostraMedia() {
+        List<String> valores = ITEM_PRONTO_DAO.getValorMedioPorCategoria();
+        for (String s : valores){
+            System.out.println(s);
         }
     }
 }
