@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cliente;
+import model.Item;
+import model.ItemPreparavel;
 import model.Pedido;
 
 /**
@@ -226,6 +228,38 @@ public class PedidoDAO implements Dao<Pedido, Long>{
         }
         return c;
         
+    }
+    
+    public List<Long> getItensByPedido(Pedido pedido){
+        List<Long> lista = new ArrayList();
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "select itemdemenu.* from itemdemenu join pedidopossuiitem on pedidopossuiitem.item = itemdemenu.id where pedidopossuiitem.pedido = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                
+                ps.setLong(1, pedido.getId());
+   
+                ResultSet rs = ps.executeQuery();
+                
+                while (rs.next()) {         
+                    lista.add(rs.getLong("id"));
+                }
+
+                conn.fechar();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+        return lista;
     }
     
 }

@@ -31,9 +31,8 @@ import persistencia.MesaDAO;
 import persistencia.PedidoDAO;
 import persistencia.ReservaDAO;
 
-//TODO: milhares de verificacoes de entrada e tratamento de erros
-//TODO: verificaçoes
-//TODO: mais testes pra ver se o sistema continua rodando amanha.
+
+
 public class Main {
 
     private final static MesaDAO MESA_DAO = new MesaDAO();
@@ -83,7 +82,7 @@ public class Main {
 
     }
 
-    //TODO: ver se nao faltam funcionalidades pro cliente ou pro funcionario
+    
     private static int menuInicial() {
         System.out.println("Escolha sua opção:");
         System.out.println(CADASTRO_CLIENTE + " - Cadastrar cliente");
@@ -628,13 +627,17 @@ public class Main {
                 possui = true;
                 Calendar dataCalendar = pedido.getDataEHora();
                 String data = new SimpleDateFormat("dd/MM/yyyy").format(dataCalendar.getTime());
-                String hora = new SimpleDateFormat("HH:mm").format(dataCalendar.getTime());
-                List<Item> itens = pedido.getItens();
+                
+                List<Long> idItens = PEDIDO_DAO.getItensByPedido(pedido);
 
                 System.out.println("Data: " + data);
-                System.out.println("Hora: " + hora);
-                for (Item item : itens) {
-                    System.out.println("Item: " + item.getNome());
+                
+                for (Long id : idItens) {
+                    if(ITEM_PRONTO_DAO.getById(id) instanceof ItemPronto){
+                        System.out.println("Item: " + ITEM_PRONTO_DAO.getById(id).getNome());
+                    }else{
+                        System.out.println("Item: " + ITEM_PREPARAVEL_DAO.getById(id).getNome());
+                    }
                 }
             }
         }
