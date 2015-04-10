@@ -277,10 +277,16 @@ public class Main {
         PEDIDO_DAO.save(pedido);
         
         for (int i = 0; i < itensDoPedido.size(); i++) {
-            Item item = itens.get(i);
+            Item item = itensDoPedido.get(i);
+            try {
+                item.deduzQuantidade();
+            } catch (IllegalStateException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
             PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
             //PEDIDO_DAO.adicionaItem(item.getId().intValue(), pedido.getId().intValue());
-            item.deduzQuantidade();
+            
         }
 
     }
