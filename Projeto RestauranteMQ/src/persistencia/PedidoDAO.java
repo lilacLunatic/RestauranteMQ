@@ -98,7 +98,7 @@ public class PedidoDAO implements Dao<Pedido, Long>{
 
                     c.setId(rs.getLong("id"));
                     Calendar data = Calendar.getInstance(); 
-                    data.setTime(rs.getDate("data"));
+                    data.setTime(rs.getTimestamp("data"));
                     c.setDataEHora(data);
                     c.setEndereco(rs.getString("endereco"));
                     c.setObservações(rs.getString("observacoes"));

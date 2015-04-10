@@ -627,11 +627,11 @@ public class Main {
                 possui = true;
                 Calendar dataCalendar = pedido.getDataEHora();
                 String data = new SimpleDateFormat("dd/MM/yyyy").format(dataCalendar.getTime());
-                
+                String hora = new SimpleDateFormat("HH:mm").format(dataCalendar.getTime());
                 List<Long> idItens = PEDIDO_DAO.getItensByPedido(pedido);
 
                 System.out.println("Data: " + data);
-                
+                System.out.println("Hora: " + hora);
                 for (Long id : idItens) {
                     if(ITEM_PRONTO_DAO.getById(id) instanceof ItemPronto){
                         System.out.println("Item: " + ITEM_PRONTO_DAO.getById(id).getNome());
