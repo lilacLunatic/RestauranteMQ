@@ -728,8 +728,12 @@ public class Main {
     }
 
     private static void clienteAlteraEndereco(Cliente cliente) {
-        //TODO: implementar clienteAlteraEndereco
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Insira o novo endereco:");
+        String endereco = scanner.next();
+        cliente.setEndereco(endereco);
+        
+        CLIENTE_DAO.updateEndereco(cliente);
+        System.out.println("Endereco alterado com sucesso\n");
     }
 
     private static void clienteAlteraTelefone(Cliente cliente) {
