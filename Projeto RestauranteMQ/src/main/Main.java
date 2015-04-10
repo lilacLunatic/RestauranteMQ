@@ -652,12 +652,13 @@ public class Main {
         List<ItemPronto> itens = mostraItensProntos();
 
         System.out.println("Digite o número do item que você deseja atualizar");
-        Long opcao = scanner.nextLong();
+        int opcao = scanner.nextInt();
 
         System.out.println("Digite a quantidade a ser adicionada no estoque");
         int quantidade = scanner.nextInt();
-
-        ITEM_PRONTO_DAO.reestoque(ITEM_PRONTO_DAO.getById(opcao), quantidade);
+        
+        ItemPronto item = itens.get(opcao - 1);
+        ITEM_PRONTO_DAO.reestoque(ITEM_PRONTO_DAO.getById(item.getId()), quantidade);
 
     }
 
