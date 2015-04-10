@@ -4,8 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -21,6 +23,7 @@ import model.Reserva;
 import model.Usuario;
 import persistencia.ClienteDAO;
 import persistencia.FuncionarioDAO;
+import persistencia.IngredienteDAO;
 import persistencia.ItemPreparavelDAO;
 import persistencia.ItemProntoDAO;
 import persistencia.MesaDAO;
@@ -38,6 +41,7 @@ public class Main {
     private static final ClienteDAO CLIENTE_DAO = new ClienteDAO();
     private final static Scanner scanner = new Scanner(System.in);
     private final static FuncionarioDAO FUNCIONARIO_DAO = new FuncionarioDAO();
+    private static IngredienteDAO INGREDIENTE_DAO = new IngredienteDAO();
 
     static {
         scanner.useDelimiter(Pattern.compile("\n|\r\n"));
@@ -75,6 +79,7 @@ public class Main {
         }
 
     }
+
     //TODO: ver se nao faltam funcionalidades pro cliente ou pro funcionario
     private static int menuInicial() {
         System.out.println("Escolha sua opção:");
@@ -229,10 +234,9 @@ public class Main {
         pedido.setCliente(cliente);
         System.out.println("Seu endereco (deixe em branco para usar o endereco da sua conta:)");
         String endereco = scanner.next();
-        if("".equals(endereco)){
+        if ("".equals(endereco)) {
             pedido.setEndereco(cliente.getEndereco());
-        }
-        else{
+        } else {
             pedido.setEndereco(endereco);
         }
         pedido.setDataEHora(Calendar.getInstance());
@@ -379,30 +383,59 @@ public class Main {
         System.out.println(TIPO_ITEM_PREPARAVEL + " - Item preparavel");
         System.out.println(TIPO_ITEM_PRONTO + " - Item pronto");
         System.out.println(TIPO_ITEM_SAIR + " - Sair");
-        
+
         tipoItem = scanner.nextInt();
         switch (tipoItem) {
-                case TIPO_ITEM_PREPARAVEL:
-                    //ItemPreparavel itemPreparavel = new ItemPreparavel();
-                    
-                    break;
-                case TIPO_ITEM_PRONTO:
-                    ItemPronto itemPronto = new ItemPronto();
-                    System.out.println("Insira o nome do item: ");
-                    itemPronto.setNome(scanner.next());
-                    System.out.println("Insira o preco do item:");
-                    itemPronto.setPreco(scanner.nextDouble());
-                    System.out.println("Insira a qtd inicial do item:");
-                    itemPronto.setQuantidadeEstoque(scanner.nextInt());
-                    System.out.println("Insira a categoria");
-                    itemPronto.setCategoria(scanner.next());
-                    
-                    ITEM_PRONTO_DAO.save(itemPronto);
-                    System.out.println("Item salvo");
-                    break;
+            case TIPO_ITEM_PREPARAVEL:
+                ItemPreparavel itemPreparavel = new ItemPreparavel();
+                List<Ingrediente> ingredientes = mostraIngredientes();
+                Map<Ingrediente, Integer> receita = new HashMap<>();
+                int opcaoIngrediente;
+                while (true) {
+                    System.out.println("Digite o numero de um ingrediente "
+                            + "para adicionar ao item (0 para terminar):");
+
+                    if ((opcaoIngrediente = scanner.nextInt()) == 0) {
+                        break;
+                    } else {
+                        Ingrediente ingrediente = ingredientes.get(opcaoIngrediente - 1);
+                        int quantidade;
+                        System.out.println("Digite a quantidade presente do "
+                                + "ingrediente no item");
+                        quantidade = scanner.nextInt();
+                        receita.put(ingrediente, quantidade);
+                    }
+                }
+                itemPreparavel.setReceita(receita);
                 
-                default:
-            }
+                System.out.println("Insira um nome para o item");
+                itemPreparavel.setNome(scanner.next());
+                System.out.println("Insira a categoria do item");
+                itemPreparavel.setCategoria(scanner.next());
+                
+                System.out.println("Insira o preco do item:");
+                itemPreparavel.setPreco(scanner.nextDouble());
+                
+                ITEM_PREPARAVEL_DAO.save(itemPreparavel);
+                System.out.println("Item salvo");
+                break;
+            case TIPO_ITEM_PRONTO:
+                ItemPronto itemPronto = new ItemPronto();
+                System.out.println("Insira o nome do item: ");
+                itemPronto.setNome(scanner.next());
+                System.out.println("Insira o preco do item:");
+                itemPronto.setPreco(scanner.nextDouble());
+                System.out.println("Insira a qtd inicial do item:");
+                itemPronto.setQuantidadeEstoque(scanner.nextInt());
+                System.out.println("Insira a categoria");
+                itemPronto.setCategoria(scanner.next());
+
+                ITEM_PRONTO_DAO.save(itemPronto);
+                System.out.println("Item salvo");
+                break;
+
+            default:
+        }
     }
 
     private static void removerItem() {
@@ -412,20 +445,17 @@ public class Main {
         Item item = todosItens.get(numeroItem - 1);
         System.out.println("Voce tem certeza de que deseja excluir o item " + item.getNome() + "?(S/N)");
         String resposta = scanner.next();
-        if ("S".equals(resposta) || "s".equals(resposta)){
-            if (item instanceof ItemPreparavel){
+        if ("S".equals(resposta) || "s".equals(resposta)) {
+            if (item instanceof ItemPreparavel) {
                 ITEM_PREPARAVEL_DAO.delete(item.getId());
                 System.out.println("Item removido");
-            }
-            else if (item instanceof ItemPronto){
+            } else if (item instanceof ItemPronto) {
                 ITEM_PRONTO_DAO.delete(item.getId());
                 System.out.println("Item removido");
-            }
-            else {
+            } else {
                 System.out.println("Erro inesperado");
             }
-        }
-        else{
+        } else {
             System.out.println("Nenhuma remocao realizada");
         }
     }
@@ -538,5 +568,19 @@ public class Main {
         if (!possui) {
             System.out.println("Nenhum pedido feito");
         }
+    }
+
+    private static List<Ingrediente> mostraIngredientes() {
+        List<Ingrediente> ingredientes = INGREDIENTE_DAO.listAll();
+        System.out.println("INGREDIENTES");
+        System.out.println("Nº |    NOME    |   UNIDADE");
+        System.out.println("---------------------------");
+        for (int i = 1; i <= ingredientes.size(); i++) {
+            Ingrediente ingrediente = ingredientes.get(i - 1);
+            System.out.println(i + " | " + ingrediente.getNome() + " | " + 
+                    ingrediente.getUnidade());
+        }
+
+        return ingredientes;
     }
 }
