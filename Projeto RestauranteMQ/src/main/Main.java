@@ -249,9 +249,7 @@ public class Main {
         }
         pedido.setDataEHora(Calendar.getInstance());
         System.out.println("Observações:  ");
-        String observacao = scanner.next();
-        pedido.setObservações(observacao);
-        PEDIDO_DAO.save(pedido);
+        
 
         List<Item> itens = mostraCardapio();
         List<Integer> itensDoPedido = new ArrayList<>();
@@ -267,7 +265,11 @@ public class Main {
                 itensDoPedido.add(opcao);
             }
         }
-
+        
+        String observacao = scanner.next();
+        pedido.setObservações(observacao);
+        PEDIDO_DAO.save(pedido);
+        
         for (int i = 0; i < itensDoPedido.size(); i++) {
             Item item = itens.get(itensDoPedido.get(i) - 1);
             PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
