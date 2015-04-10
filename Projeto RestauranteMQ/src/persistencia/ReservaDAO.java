@@ -7,7 +7,6 @@ package persistencia;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -175,15 +174,13 @@ public class ReservaDAO implements Dao<Reserva, Long>{
 
             String sql = "select mesa.*, reserva.data from mesa "+
                          "left join reserva on reserva.reserva_mesa_fk = mesa.id"
-                    +    " where reserva.data is null or reserva.data <> ? and mesa.lugares = ?";
+                    +    " where (reserva.data is null or reserva.data <>  TIMESTAMP '"+ new java.sql.Date(data.getTimeInMillis()) + " "+data.getTime().getHours() +":"+data.getTime().getMinutes() +"')  and mesa.lugares = ?";
             
             
             
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
-                Timestamp timestamp = new Timestamp(data.getTimeInMillis());
                 
-                ps.setTimestamp(1, timestamp, data);
-                ps.setInt(2, numeroDeLugares);
+                ps.setInt(1, numeroDeLugares);
                 
 
                 ResultSet rs = ps.executeQuery();
