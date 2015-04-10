@@ -89,7 +89,7 @@ public class Main {
         System.out.println(VER_CARDAPIO + " - Consultar cardapio");
         System.out.println(LOGIN_ADMINISTRADOR + " - Login como administrador");
         System.out.println(SAIR + " - Sair");
-
+        
         try {
             return scanner.nextInt();
         } catch (InputMismatchException e) {
@@ -259,13 +259,26 @@ public class Main {
                 itensDoPedido.add(opcao);
             }
         }
-
+        
+        
         for (int i = 0; i < itensDoPedido.size(); i++) {
             Item item = itens.get(itensDoPedido.get(i) - 1);
             PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
             //PEDIDO_DAO.adicionaItem(item.getId().intValue(), pedido.getId().intValue());
             item.deduzQuantidade();
-            //TODO: salvar nova quantidade do item
+            String classe = String.valueOf(item.getClass());
+            
+            switch(classe){
+                case "class model.ItemPreparavel":{
+                    ITEM_PREPARAVEL_DAO.updateQuantidade((ItemPreparavel) item);
+                    break;
+                }
+                case "class model.ItemPronto":{
+                    ITEM_PRONTO_DAO.updateQuantidade((ItemPronto) item);
+                    break;
+                }
+            }                  
+            
         }
 
     }

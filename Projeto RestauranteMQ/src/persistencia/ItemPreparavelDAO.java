@@ -180,4 +180,33 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
         }
     }
     
+    public void updateQuantidade(ItemPreparavel entity){
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "update itempossuiingrediente set quantidade = ? where item = ? and ingrediente = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                for (Ingrediente ingrediente : entity.getReceita().keySet()){
+                    ps.setInt(1, entity.getReceita().get(ingrediente));
+                    ps.setInt(2, entity.getId().intValue());
+                    ps.setInt(3, ingrediente.getId().intValue());
+                    ps.executeUpdate();
+                } 
+                
+
+                conn.fechar();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
+    }
+    
 }

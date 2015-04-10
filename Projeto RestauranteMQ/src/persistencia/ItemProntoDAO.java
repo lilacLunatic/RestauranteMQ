@@ -23,7 +23,7 @@ public class ItemProntoDAO implements Dao<ItemPronto, Long>{
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "insert into itemdemenu (nome, preco, categoria, quantidadeestoque)  "
+            String sql = "insert into itemdemenu (nome, preco, categoria, quantidaestoque)  "
                     + "values(?,?,?,?)";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
@@ -92,7 +92,7 @@ public class ItemProntoDAO implements Dao<ItemPronto, Long>{
                     c.setNome(rs.getString("nome"));
                     c.setPreco(rs.getDouble("preco"));
                     c.setCategoria(rs.getString("categoria"));
-                    c.setQuantidadeEstoque(rs.getInt("quantidadedeestoque"));
+                    c.setQuantidadeEstoque(rs.getInt("quantidadeestoque"));
                     lista.add(c);
 
                 }
@@ -131,7 +131,7 @@ public class ItemProntoDAO implements Dao<ItemPronto, Long>{
                     c.setNome(rs.getString("nome"));
                     c.setPreco(rs.getDouble("preco"));
                     c.setCategoria(rs.getString("categoria"));
-                    c.setQuantidadeEstoque(rs.getInt("quantidadedeestoque"));
+                    c.setQuantidadeEstoque(rs.getInt("quantidadeestoque"));
                     
                 } else {
                     throw new Exception("Não há item com o id " + pk);
@@ -148,6 +148,31 @@ public class ItemProntoDAO implements Dao<ItemPronto, Long>{
         }
 
         return c;
+    }
+    
+    public void updateQuantidade(ItemPronto entity){
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "update itemdemenu set quantidadeestoque = ? where id = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+                ps.setLong(1, entity.getQuantidadeEstoque());
+                ps.setLong(2, entity.getId());
+                ps.executeUpdate();
+
+                conn.fechar();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
     }
     
 }
