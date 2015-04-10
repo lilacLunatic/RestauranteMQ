@@ -85,7 +85,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long> {
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "select * from cliente";
+            String sql = "select * from funcionario";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
 
