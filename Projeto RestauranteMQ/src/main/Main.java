@@ -648,8 +648,10 @@ public class Main {
     }
 
     private static void clienteAlteraNome(Cliente cliente) {
-        //TODO: implementar clienteAlteraNome
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Insira o novo nome:");
+        String nome = scanner.next();
+        cliente.setNome(nome);
+        //TODO terminar clienteAlteraNome()
     }
 
     private static void clienteAlteraEndereco(Cliente cliente) {
