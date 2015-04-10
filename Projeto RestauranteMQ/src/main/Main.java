@@ -636,8 +636,15 @@ public class Main {
     }
 
     private static void clienteMostraDados(Cliente cliente) {
-        //TODO: implementar clienteMostraDados
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("DADOS DO CLIENTE " + cliente.getLogin() + "\n");
+        System.out.println("NOME:");
+        System.out.println(cliente.getNome() + "\n");
+        System.out.println("ENDERECO:");
+        System.out.println(cliente.getEndereco()+ "\n");
+        System.out.println("TELEFONE:");
+        System.out.println(cliente.getTelefone()+ "\n");
+        System.out.println("CPF:");
+        System.out.println(cliente.getCpf()+ "\n");
     }
 
     private static void clienteAlteraNome(Cliente cliente) {
