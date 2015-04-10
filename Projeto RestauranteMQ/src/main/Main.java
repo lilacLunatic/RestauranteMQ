@@ -850,14 +850,9 @@ public class Main {
 
     private static void listarFuncionarios() {
         List<Funcionario> todosFuncionarios = FUNCIONARIO_DAO.listAll();
-        todosFuncionarios.sort(new Comparator<Funcionario>() {
+        
 
-            @Override
-            //Ordem alfabetica
-            public int compare(Funcionario o1, Funcionario o2) {
-                return o1.getNome().compareTo(o2.getNome());
-            }
-        });
+            
         System.out.println("LISTA DE FUNCIONARIOS\n");
         System.out.println("CPF         |    NOME    |   USERNAME   | SALARIO | ENTRADA"
                 + "| DEMISSAO");

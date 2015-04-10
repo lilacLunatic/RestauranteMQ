@@ -172,9 +172,9 @@ public class ReservaDAO implements Dao<Reserva, Long>{
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
             
 
-            String sql = "select mesa.*, reserva.data from mesa "+
+            String sql = "select distinct on (mesa.id) mesa.* from mesa "+
                          "left join reserva on reserva.reserva_mesa_fk = mesa.id"
-                    +    " where (reserva.data is null or reserva.data <>  TIMESTAMP '"+ new java.sql.Date(data.getTimeInMillis()) + " "+data.getTime().getHours() +":"+data.getTime().getMinutes() +"')  and mesa.lugares = ?";
+                    +    " where (reserva.data is null or TIMESTAMP '"+ new java.sql.Date(data.getTimeInMillis()) + " "+data.getTime().getHours() +":"+data.getTime().getMinutes() +"' not in (select reserva.data from reserva join mesa on reserva.reserva_mesa_fk = mesa.id))  and mesa.lugares = ?";
             
             
             
