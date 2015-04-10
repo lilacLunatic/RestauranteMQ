@@ -137,6 +137,9 @@ public class IngredienteDAO implements Dao<Ingrediente, Long> {
     }
     
     public void reestoque(Ingrediente entity, int quantidade){
+        if(entity.getQuantidadeEstoque() + quantidade < 0){
+            throw new IllegalArgumentException("Reestoque negativo acima do estoque");
+        }
         ConexaoPostgreSQL conn = null;
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
