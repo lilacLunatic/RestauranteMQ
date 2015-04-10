@@ -4,14 +4,18 @@
  */
 package persistencia;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Ingrediente;
 import model.ItemPreparavel;
+import model.Unidade;
 
 /**
  *
@@ -78,7 +82,7 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
     @Override
     public List<ItemPreparavel> listAll() {
         List<ItemPreparavel> lista = new ArrayList<>();
-
+        
         ConexaoPostgreSQL conn = null;
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
@@ -90,16 +94,22 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
                 ResultSet rs = ps.executeQuery();
 
                 while (rs.next()) {
-                    ItemPreparavel c = new ItemPreparavel();
-                    c.setId(rs.getLong("id"));
-                    c.setNome(rs.getString("nome"));
-                    c.setPreco(rs.getDouble("preco"));
-                    c.setCategoria(rs.getString("categoria"));           
-                    lista.add(c);
+                    ItemPreparavel itemPreparavel = new ItemPreparavel();
+                    itemPreparavel.setId(rs.getLong("id"));
+                    itemPreparavel.setNome(rs.getString("nome"));
+                    itemPreparavel.setPreco(rs.getDouble("preco"));
+                    itemPreparavel.setCategoria(rs.getString("categoria"));           
+                    
+                    itemPreparavel.setReceita(getReceita(itemPreparavel, conn.getConnection()));
+                    
+                    lista.add(itemPreparavel);
 
                 }
 
             }
+            
+            
+            
             conn.fechar();
 
         } catch (Exception ex) {
@@ -116,7 +126,7 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
 
     @Override
     public ItemPreparavel getById(Long pk) {
-        ItemPreparavel c = new ItemPreparavel();
+        ItemPreparavel item = new ItemPreparavel();
         ConexaoPostgreSQL conn = null;
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
@@ -129,12 +139,12 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
 
                 ResultSet rs = ps.executeQuery();
                 if(rs.next()){
-                    c.setId(rs.getLong("id"));
-                    c.setNome(rs.getString("nome"));
-                    c.setPreco(rs.getDouble("preco"));
-                    c.setCategoria(rs.getString("categoria"));
+                    item.setId(rs.getLong("id"));
+                    item.setNome(rs.getString("nome"));
+                    item.setPreco(rs.getDouble("preco"));
+                    item.setCategoria(rs.getString("categoria"));
                     
-                    
+                    item.setReceita(getReceita(item, conn.getConnection()));
                 } else {
                     throw new Exception("Não há item com o id " + pk);
                 }
@@ -148,7 +158,7 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
                 conn.fechar();
             }
         }
-        return c;
+        return item;
     }
     
     public void adicionarIngredientes(ItemPreparavel entity){
@@ -223,7 +233,7 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
                     item.setNome(rs.getString("nome"));
                     item.setPreco(rs.getDouble("preco"));
                     item.setCategoria(rs.getString("categoria"));
-                       
+                    item.setReceita(getReceita(item, conn.getConnection()));
                 }
 
                 conn.fechar();
@@ -239,6 +249,36 @@ public class ItemPreparavelDAO implements Dao<ItemPreparavel, Long>{
         }
         return item;
         
+    }
+
+    private Map<Ingrediente, Integer> getReceita(ItemPreparavel itemPreparavel, Connection conn) {
+        //lista todos os ingredientes do item
+            String sqlReceita = "select ingrediente.id, ingrediente.quantidadeestoque, "
+                    + "ingrediente.nome, ingrediente.unidade, "
+                    + "itempossuiingrediente.quantidade from ingrediente\n" +
+            "join itempossuiingrediente\n" +
+            "on ingrediente.id = itempossuiingrediente.ingrediente\n" +
+            "join itemdemenu\n" +
+            "on itemdemenu.id = itempossuiingrediente.item\n" +
+            "where itemdemenu.id = ?;";
+            Map<Ingrediente, Integer> receita = new HashMap<>();
+            try(PreparedStatement ps = conn.prepareStatement(sqlReceita)){
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()){
+                    Ingrediente ingrediente = new Ingrediente();
+                    ingrediente.setId(rs.getLong("id"));
+                    ingrediente.setNome(rs.getString("nome"));
+                    ingrediente.setQuantidadeEstoque(rs.getInt("quantidadeestoque"));
+                    ingrediente.setUnidade(Unidade.valueOf(rs.getString("unidade")));
+                    
+                    int quantidade = rs.getInt("quantidade");
+                    receita.put(ingrediente, quantidade);
+                }
+                return receita;
+            }
+            catch (Exception e){
+                return null;
+            }
     }
     
 }
