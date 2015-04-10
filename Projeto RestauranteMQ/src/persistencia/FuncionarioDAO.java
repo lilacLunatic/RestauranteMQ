@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package persistencia;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import model.Cliente;
 import model.Funcionario;
 
-public class FuncionarioDAO implements Dao<Funcionario, Long>{
+public class FuncionarioDAO implements Dao<Funcionario, Long> {
 
     @Override
     public void save(Funcionario entity) {
@@ -33,7 +33,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
                 ps.setString(3, entity.getNome());
                 ps.setString(4, entity.getEndereco());
                 ps.setString(5, entity.getTelefone());
-                ps.setDate(6, new java.sql.Date(entity.getDataDeEntrada().getTimeInMillis()));                
+                ps.setDate(6, new java.sql.Date(entity.getDataDeEntrada().getTimeInMillis()));
                 ps.setString(7, entity.getLogin());
                 ps.setString(8, entity.getSenha());
                 ps.setBoolean(9, entity.isAdministrador());
@@ -43,7 +43,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
 
         } catch (Exception ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }  finally {
+        } finally {
             if (conn != null) {
                 conn.fechar();
             }
@@ -52,7 +52,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
 
     @Override
     public void delete(Long id) {
-        
+
         ConexaoPostgreSQL conn = null;
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
@@ -78,8 +78,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
 
     @Override
     public List<Funcionario> listAll() {
-        
-        
+
         List<Funcionario> lista = new ArrayList<>();
 
         ConexaoPostgreSQL conn = null;
@@ -126,9 +125,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
         }
 
         return lista;
-        
-        
-        
+
     }
 
     @Override
@@ -145,7 +142,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
                 ps.setLong(1, pk);
 
                 ResultSet rs = ps.executeQuery();
-                if(rs.next()){
+                if (rs.next()) {
                     Calendar demissao = null;
                     demissao.setTime(rs.getDate("data_de_demissao"));
                     Calendar entrada = null;
@@ -178,7 +175,7 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
         return c;
 
     }
-    
+
     public Funcionario getByLogin(String login) {
         try {
             ConexaoPostgreSQL conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
@@ -191,16 +188,20 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
 
                 if (rs.next()) {
                     Funcionario c = new Funcionario();
-                    Calendar demissao = Calendar.getInstance();
-                    Calendar entrada = Calendar.getInstance();
-                    try{
-                       
-                        demissao.setTime(rs.getDate("data_de_demissao"));
-                        
-                        entrada.setTime(rs.getDate("data_de_entrada"));
-                    }catch(NullPointerException ex){
-                        
+                    Calendar demissao = null;
+                    Calendar entrada = null;
+
+                    Date dateDemissao = rs.getDate("data_de_demissao");
+                    if(dateDemissao != null){
+                        demissao = Calendar.getInstance();
+                        demissao.setTime(dateDemissao);
                     }
+                    Date dateEntrada = rs.getDate("data_de_entrada");
+                    if(dateEntrada != null){
+                        entrada = Calendar.getInstance();
+                        entrada.setTime(dateEntrada);
+                    }
+
                     c.setSalario(rs.getDouble("salario"));
                     c.setDataDeDemissao(demissao);
                     c.setDataDeEntrada(entrada);
@@ -227,8 +228,6 @@ public class FuncionarioDAO implements Dao<Funcionario, Long>{
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-            
-        
 
     }
 }
