@@ -722,7 +722,9 @@ public class Main {
         System.out.println("Insira o novo nome:");
         String nome = scanner.next();
         cliente.setNome(nome);
-        //TODO terminar clienteAlteraNome()
+        
+        CLIENTE_DAO.updateNome(cliente);
+        System.out.println("Nome alterado com sucesso\n");
     }
 
     private static void clienteAlteraEndereco(Cliente cliente) {
