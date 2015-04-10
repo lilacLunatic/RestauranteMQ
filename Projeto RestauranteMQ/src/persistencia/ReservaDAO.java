@@ -28,7 +28,7 @@ public class ReservaDAO implements Dao<Reserva, Long>{
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
 
-            String sql = "insert into reserva (data, reserva_cliente, reserva_mesa)  "
+            String sql = "insert into reserva (data, reserva_cliente_fk, reserva_mesa_fk)  "
                     + "values(TIMESTAMP '"+ new java.sql.Date(entity.getDataEHora().getTimeInMillis()) + " "+entity.getDataEHora().getTime().getHours() +":"+entity.getDataEHora().getTime().getMinutes() +"',?,?)";
 
             try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
@@ -98,9 +98,9 @@ public class ReservaDAO implements Dao<Reserva, Long>{
                     data.setTime(rs.getDate("data"));
                     c.setDataEHora(data);
                     ClienteDAO clienteDao = new ClienteDAO();
-                    c.setCliente(clienteDao.getById(rs.getLong("reserva_cliente")));
+                    c.setCliente(clienteDao.getById(rs.getLong("reserva_cliente_fk")));
                     MesaDAO mesaDao = new MesaDAO();
-                    c.setMesa(mesaDao.getById(rs.getLong("reserva_mesa")));
+                    c.setMesa(mesaDao.getById(rs.getLong("reserva_mesa_fk")));
                     lista.add(c);
 
                 }
@@ -143,9 +143,9 @@ public class ReservaDAO implements Dao<Reserva, Long>{
                     data.setTime(rs.getDate("data"));
                     c.setDataEHora(data);
                     ClienteDAO clienteDao = new ClienteDAO();
-                    c.setCliente(clienteDao.getById(rs.getLong("reserva_cliente")));
+                    c.setCliente(clienteDao.getById(rs.getLong("reserva_cliente_fk")));
                     MesaDAO mesaDao = new MesaDAO();
-                    c.setMesa(mesaDao.getById(rs.getLong("reserva_mesa")));
+                    c.setMesa(mesaDao.getById(rs.getLong("reserva_mesa_fk")));
                     
                 } else {
                     throw new Exception("Não há reserva com o id " + pk);
@@ -173,7 +173,7 @@ public class ReservaDAO implements Dao<Reserva, Long>{
             
 
             String sql = "select mesa.*, reserva.data from mesa "+
-                         "left join reserva on reserva.reserva_mesa = mesa.id"
+                         "left join reserva on reserva.reserva_mesa_fk = mesa.id"
                     +    " where reserva.data is null or reserva.data <>  TIMESTAMP '"+ new java.sql.Date(data.getTimeInMillis()) + " "+data.getTime().getHours() +":"+data.getTime().getMinutes() +"'  and mesa.lugares = ?";
             
             
