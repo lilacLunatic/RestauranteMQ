@@ -64,6 +64,12 @@ public class Funcionario extends Usuario {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         Funcionario funcionario = funcionarioDAO.getByLogin(username);
         if (funcionario.getSenha().equals(senha)) {
+            Calendar hoje =  Calendar.getInstance();
+            if (funcionario.getDataDeDemissao() != null && 
+                    hoje.compareTo(funcionario.getDataDeDemissao()) > 0){
+                return false; //funcionario foi demitido
+            }
+            
             this.setId(funcionario.id);
             this.setEndereco(funcionario.endereco);
             this.setLogin(funcionario.login);
