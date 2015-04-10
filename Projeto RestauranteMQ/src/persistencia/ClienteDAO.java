@@ -244,12 +244,72 @@ public class ClienteDAO implements Dao<Cliente, Long> {
         }
     }
     public void updateTelefone(Cliente cliente){
-        
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "update cliente set telefone = ? where id = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+
+                ps.setString(1, cliente.getTelefone());
+                ps.setLong(2, cliente.getId());
+                ps.execute();
+
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
     }
     public void updateCpf(Cliente cliente){
-        
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "update cliente set cpf = ? where id = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+
+                ps.setString(1, cliente.getCpf());
+                ps.setLong(2, cliente.getId());
+                ps.execute();
+
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
     }
     public void updateSenha(Cliente cliente){
-        
+        ConexaoPostgreSQL conn = null;
+        try {
+            conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
+
+            String sql = "update cliente set senha = ? where id = ?";
+
+            try (PreparedStatement ps = conn.getConnection().prepareStatement(sql)) {
+
+                ps.setString(1, cliente.getSenha());
+                ps.setLong(2, cliente.getId());
+                ps.execute();
+
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conn != null) {
+                conn.fechar();
+            }
+        }
     }
 }
