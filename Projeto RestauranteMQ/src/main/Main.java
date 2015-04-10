@@ -252,7 +252,7 @@ public class Main {
         
 
         List<Item> itens = mostraCardapio();
-        List<Integer> itensDoPedido = new ArrayList<>();
+        List<Item> itensDoPedido = new ArrayList<>();
 
         int opcao;
         while (true) {
@@ -262,7 +262,13 @@ public class Main {
             if ((opcao = scanner.nextInt()) == 0) {
                 break;
             } else {
-                itensDoPedido.add(opcao);
+                Item item = itens.get(opcao - 1);
+                if(!item.isDisponivel()){
+                    System.out.println("Sinto muito, item indisponivel");
+                }
+                else
+                    itensDoPedido.add(item);
+                
             }
         }
         System.out.println("Observações:  ");
@@ -271,7 +277,7 @@ public class Main {
         PEDIDO_DAO.save(pedido);
         
         for (int i = 0; i < itensDoPedido.size(); i++) {
-            Item item = itens.get(itensDoPedido.get(i) - 1);
+            Item item = itens.get(i);
             PEDIDO_DAO.adicionaItem(item.getId().intValue(), PEDIDO_DAO.getLastPedido().getId().intValue());
             //PEDIDO_DAO.adicionaItem(item.getId().intValue(), pedido.getId().intValue());
             item.deduzQuantidade();
