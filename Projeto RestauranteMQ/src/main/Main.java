@@ -248,7 +248,7 @@ public class Main {
             pedido.setEndereco(endereco);
         }
         pedido.setDataEHora(Calendar.getInstance());
-        System.out.println("Observações:  ");
+        
         
 
         List<Item> itens = mostraCardapio();
@@ -265,7 +265,7 @@ public class Main {
                 itensDoPedido.add(opcao);
             }
         }
-        
+        System.out.println("Observações:  ");
         String observacao = scanner.next();
         pedido.setObservações(observacao);
         PEDIDO_DAO.save(pedido);
