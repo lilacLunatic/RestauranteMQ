@@ -219,6 +219,7 @@ public class Main {
             System.out.println(FUNCIONARIO_PEDIDO + " - Fazer pedido");
             System.out.println(FUNCIONARIO_RESERVA + " - Fazer reserva");
             System.out.println(FUNCIONARIO_CARDAPIO + " - Mudar cardapio");
+            System.out.println(FUNCIONARIO_VER_MEDIA_POR_CATEGORIA + " - Media de preco por categoria");
             System.out.println(FUNCIONARIO_LOGOUT + " - Sair");
 
             opcao = scanner.nextInt();

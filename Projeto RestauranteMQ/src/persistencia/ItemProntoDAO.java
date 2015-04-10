@@ -200,7 +200,7 @@ public class ItemProntoDAO implements Dao<ItemPronto, Long>{
     
     public List<String> getValorMedioPorCategoria(){
         List<String> retorno = new ArrayList<>();
-        String sql = "select categoria, max(preco) from itemdemenu group by categoria";
+        String sql = "select categoria, avg(preco) from itemdemenu group by categoria";
         ConexaoPostgreSQL conn = null;
         try {
             conn = new ConexaoPostgreSQL("localhost", "postgres", "postgres", "postgres");
@@ -209,7 +209,7 @@ public class ItemProntoDAO implements Dao<ItemPronto, Long>{
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()){
                     retorno.add("Categoria: " + rs.getString("categoria") + "\n"
-                            + "Media: " + rs.getDouble("avg"));
+                            + "Media: " + rs.getDouble(2));
                 }
                 
                 return retorno;
